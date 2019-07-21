@@ -1,0 +1,26 @@
+
+itemGroup.tmc.equipment=Terra Metal Craft-Equipment
+itemGroup.tmc.item=Terra Metal Craft-Item
+
+item.coin.name=TMC Coin
+item.mould.description=Moulds for Ingots
+
+item.heatable.warming=Warming
+item.heatable.hot=Hot
+item.heatable.veryHot=Very Hot
+item.heatable.faintRed=Faint Red
+item.heatable.darkRed=Dark Red
+item.heatable.brightRed=Bright Red
+item.heatable.orange=Orange
+item.heatable.yellow=Yellow
+item.heatable.yellowWhite=Yellow White
+item.heatable.white=White
+item.heatable.brilliantWhite=Brilliant White
+item.heatable.danger=**Danger**
+item.heatable.weldable=Can Weld
+item.heatable.workable=Can Work
+item.heatable.temperature=Temperature: %d℃
+item.heatable.meltUnit=%d/%d Melted
+
+tile.originalForge.name=Original Forge
+tile.mould.name=Mould

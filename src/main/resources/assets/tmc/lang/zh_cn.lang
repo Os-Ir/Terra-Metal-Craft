@@ -1,0 +1,26 @@
+
+itemGroup.tmc.equipment=群峦金属工艺-设备
+itemGroup.tmc.item=群峦金属工艺-物品
+
+item.coin.name=TMC纪念币
+item.mould.description=用于制造锭的模具
+
+item.heatable.warming=暖
+item.heatable.hot=烫
+item.heatable.veryHot=灼热
+item.heatable.faintRed=淡红
+item.heatable.darkRed=暗红
+item.heatable.brightRed=亮红
+item.heatable.orange=橙
+item.heatable.yellow=黄
+item.heatable.yellowWhite=黄白
+item.heatable.white=白
+item.heatable.brilliantWhite=炽白
+item.heatable.danger=**危险**
+item.heatable.weldable=可焊接
+item.heatable.workable=可加工
+item.heatable.temperature=温度: %d℃
+item.heatable.meltUnit=%d/%d 已融化
+
+tile.originalForge.name=原始锻造炉
+tile.mould.name=模具
