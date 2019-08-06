@@ -2,53 +2,30 @@ package com.osir.tmc.container;
 
 import com.osir.tmc.te.TEOriginalForge;
 
-import api.osir.tmc.heat.HeatRegistry;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.Packet;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class ContainerOriginalForge extends Container {
-	private TEOriginalForge te;
-	private ItemStackHandler items;
+public class ContainerOriginalForge extends ContainerTEInventory<TEOriginalForge> {
 	private int temp, burnTime;
 
 	public ContainerOriginalForge(TEOriginalForge te, EntityPlayer player) {
-		this.te = te;
-		items = te.getInventory();
-		int i, j;
-		for (i = 0; i < 3; i++) {
-			this.addSlotToContainer(new SlotFuel(items, i, 8, 21 + i * 21));
-		}
-		for (i = 0; i < 3; i++) {
-			this.addSlotToContainer(new SlotHeat(items, i + 3, 50 + i * 34, 21));
-		}
-		for (i = 0; i < 3; i++) {
-			this.addSlotToContainer(new SlotItemHandler(items, i + 6, 152, 21 + i * 21));
-		}
-		for (i = 0; i < 3; i++) {
-			for (j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(player.inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-			}
-		}
-		for (i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(player.inventory, i, 8 + i * 18, 142));
-		}
+		super(player.inventory, te, 8, 84);
 	}
 
 	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
-		this.temp = te.getTemp();
-		this.burnTime = te.getBurnTime();
+		this.detectAndSendAllChanges();
+		this.temp = this.te.getTemp();
+		this.burnTime = this.te.getBurnTime();
 		for (IContainerListener listener : listeners) {
 			listener.sendWindowProperty(this, 0, this.temp);
 			listener.sendWindowProperty(this, 1, this.burnTime);
@@ -125,5 +102,20 @@ public class ContainerOriginalForge extends Container {
 	@Override
 	public boolean canInteractWith(EntityPlayer playerIn) {
 		return true;
+	}
+
+	@Override
+	protected void addSlot() {
+		IItemHandler cap = this.te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+		int i, j;
+		for (i = 0; i < 3; i++) {
+			this.addSlotToContainer(new SlotFuel(cap, i, 8, 21 + i * 21));
+		}
+		for (i = 0; i < 3; i++) {
+			this.addSlotToContainer(new SlotHeat(cap, i + 3, 50 + i * 34, 21));
+		}
+		for (i = 0; i < 3; i++) {
+			this.addSlotToContainer(new SlotItemHandler(cap, i + 6, 152, 21 + i * 21));
+		}
 	}
 }

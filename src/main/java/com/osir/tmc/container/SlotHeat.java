@@ -12,6 +12,6 @@ public class SlotHeat extends SlotItemHandler {
 
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-		return stack != null && HeatRegistry.findIndex(stack) != null && super.isItemValid(stack);
+		return stack != null && HeatRegistry.findRecipe(stack) != null && super.isItemValid(stack);
 	}
 }

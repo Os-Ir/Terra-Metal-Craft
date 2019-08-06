@@ -4,9 +4,29 @@ import api.osir.tmc.heat.HeatMaterial;
 import net.minecraft.item.ItemStack;
 
 public interface IHeatable {
-	HeatMaterial getMaterial(ItemStack stack);
+	int getMeltTemp();
 
-	int getUnit(ItemStack stack);
+	int getSpecificHeat();
 
-	boolean isSmeltable(ItemStack is);
+	int getTemp();
+
+	String getColor();
+
+	int getUnit();
+
+	int getCompleteUnit();
+
+	void setUnit(int unit);
+
+	boolean hasEnergy();
+
+	float getEnergy();
+
+	float getOverEnergy();
+
+	float getMaxEnergy();
+
+	int setEnergy(float energy);
+
+	void setIncreaseEnergy(float energy);
 }

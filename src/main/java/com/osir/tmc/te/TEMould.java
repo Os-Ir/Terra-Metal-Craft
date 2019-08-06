@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class TEMould extends TEBase implements ITickable, IBag {
+public class TEMould extends TEInventory implements ITickable, IBag {
 	public TEMould() {
 		this.inventory = new ItemStackHandler(1);
 	}
@@ -17,9 +17,9 @@ public class TEMould extends TEBase implements ITickable, IBag {
 		if (stack == null || stack.isEmpty()) {
 			return false;
 		}
-		if (stack.getItem() instanceof ItemMelted && HeatTool.isMelt(stack)) {
-			return true;
-		}
+		// if (stack.getItem() instanceof ItemMelted && HeatTool.isMelt(stack)) {
+		// return true;
+		// }
 		return false;
 	}
 

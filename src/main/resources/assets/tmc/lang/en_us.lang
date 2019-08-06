@@ -5,22 +5,32 @@ itemGroup.tmc.item=Terra Metal Craft-Item
 item.coin.name=TMC Coin
 item.mould.description=Moulds for Ingots
 
-item.heatable.warming=Warming
-item.heatable.hot=Hot
-item.heatable.veryHot=Very Hot
-item.heatable.faintRed=Faint Red
-item.heatable.darkRed=Dark Red
-item.heatable.brightRed=Bright Red
-item.heatable.orange=Orange
-item.heatable.yellow=Yellow
-item.heatable.yellowWhite=Yellow White
-item.heatable.white=White
-item.heatable.brilliantWhite=Brilliant White
-item.heatable.danger=**Danger**
-item.heatable.weldable=Can Weld
-item.heatable.workable=Can Work
-item.heatable.temperature=Temperature: %d℃
-item.heatable.meltUnit=%d/%d Melted
+item.heatable.color.warming=Warming
+item.heatable.color.hot=Hot
+item.heatable.color.veryHot=Very Hot
+item.heatable.color.faintRed=Faint Red
+item.heatable.color.darkRed=Dark Red
+item.heatable.color.brightRed=Bright Red
+item.heatable.color.orange=Orange
+item.heatable.color.yellow=Yellow
+item.heatable.color.yellowWhite=Yellow White
+item.heatable.color.white=White
+item.heatable.color.brilliantWhite=Brilliant White
+
+item.heatable.tip.title=The Following can be done in forge
+item.heatable.tip.heating=Heating
+item.heatable.tip.melting=Melting
+item.heatable.tip.making=Making
+
+item.heatable.state.danger=**Danger**
+item.heatable.state.weldable=Can Weld
+item.heatable.state.workable=Can Work
+item.heatable.state.temperature=Temperature: %d℃
+item.heatable.state.meltUnit=%d/%d Melted
+
+item.heatable.material.containing=Containing Material
+item.heatable.material.meltPoint=Melt Point
+item.heatable.material.specificHeat=Specific Heat
 
 tile.originalForge.name=Original Forge
 tile.mould.name=Mould

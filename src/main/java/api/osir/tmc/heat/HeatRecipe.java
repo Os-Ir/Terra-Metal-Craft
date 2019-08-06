@@ -5,14 +5,13 @@ import net.minecraft.item.ItemStack;
 
 public class HeatRecipe {
 	private int unit;
-	private float specificHeat, meltTemp;
+	private HeatMaterial material;
 	private ItemStack input, output;
 
 	public HeatRecipe(int unit, ItemStack input, HeatMaterial material) {
 		this.unit = unit;
 		this.input = input;
-		this.specificHeat = material.getSpecificHeat();
-		this.meltTemp = material.getMeltTemp();
+		this.material = material;
 	}
 
 	public HeatRecipe(int unit, ItemStack input, ItemStack output, HeatMaterial material) {
@@ -34,16 +33,20 @@ public class HeatRecipe {
 		return true;
 	}
 
+	public HeatMaterial getMaterial() {
+		return this.material;
+	}
+
 	public int getUnit() {
 		return this.unit;
 	}
 
 	public float getSpecificHeat() {
-		return this.specificHeat;
+		return this.material.getSpecificHeat();
 	}
 
 	public float getMeltTemp() {
-		return this.meltTemp;
+		return this.material.getMeltTemp();
 	}
 
 	public ItemStack getInput() {

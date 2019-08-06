@@ -13,12 +13,12 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
-public abstract class TEHeatBlock extends TEBase implements ITickable {
-	protected float temp = 20, energy;
-	protected int burnTime;
+public abstract class TEHeatBlock extends TEInventory implements ITickable {
+	protected int temp = 20, burnTime;
+	protected float energy;
 
 	public int getTemp() {
-		return (int) this.temp;
+		return this.temp;
 	}
 
 	public int getBurnTime() {

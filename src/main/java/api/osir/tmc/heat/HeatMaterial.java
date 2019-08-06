@@ -1,18 +1,18 @@
 package api.osir.tmc.heat;
 
 public class HeatMaterial {
-	private float specificHeat, meltTemp;
+	private int specificHeat, meltTemp;
 
-	public HeatMaterial(float specificHeat, float meltTemp) {
+	public HeatMaterial(int specificHeat, int meltTemp) {
 		this.specificHeat = specificHeat;
 		this.meltTemp = meltTemp;
 	}
 
-	public float getSpecificHeat() {
+	public int getSpecificHeat() {
 		return this.specificHeat;
 	}
 
-	public float getMeltTemp() {
+	public int getMeltTemp() {
 		return this.meltTemp;
 	}
 }

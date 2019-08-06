@@ -12,7 +12,7 @@ public class HeatRegistry {
 		recipeList.add(recipe);
 	}
 
-	public static HeatRecipe findIndex(ItemStack stack) {
+	public static HeatRecipe findRecipe(ItemStack stack) {
 		int i;
 		HeatRecipe recipe;
 		for (i = 0; i < recipeList.size(); i++) {

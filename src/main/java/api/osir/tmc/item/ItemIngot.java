@@ -12,7 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ItemIngot extends Item implements IHeatable {
+public class ItemIngot extends Item {
 	private static final int UNIT = 144;
 	private static final boolean SMELTABLE = true;
 	private String metal;
@@ -31,27 +31,12 @@ public class ItemIngot extends Item implements IHeatable {
 	}
 
 	@Override
-	public HeatMaterial getMaterial(ItemStack stack) {
-		return this.getMetal(stack).getMaterial();
-	}
-
-	@Override
-	public int getUnit(ItemStack stack) {
-		return UNIT;
-	}
-
-	@Override
-	public boolean isSmeltable(ItemStack stack) {
-		return SMELTABLE;
-	}
-
-	@Override
 	public int getItemStackLimit(ItemStack stack) {
 		if (stack.hasTagCompound()) {
 			NBTTagCompound nbt = stack.getTagCompound();
-			if (HeatTool.hasEnergy(stack)) {
-				return 1;
-			}
+//			if (HeatTool.hasEnergy(stack)) {
+//				return 1;
+//			}
 		}
 		return super.getItemStackLimit(stack);
 	}
