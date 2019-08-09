@@ -2,6 +2,8 @@ package com.osir.tmc.te;
 
 import com.osir.tmc.handler.CapabilityHandler;
 
+import api.osir.tmc.heat.HeatRecipe;
+import api.osir.tmc.heat.HeatRegistry;
 import api.osir.tmc.inter.IHeatable;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
@@ -50,13 +52,25 @@ public class TEOriginalForge extends TEHeatBlock {
 		this.energy = Math.min(Math.max(this.energy, 0), 809600);
 		this.temp = (int) (this.energy / 920) + 20;
 		for (i = 3; i < 6; i++) {
-			IHeatable cap = this.inventory.getStackInSlot(i).getCapability(CapabilityHandler.heatable, null);
+			ItemStack stack = this.inventory.getStackInSlot(i);
+			IHeatable cap = stack.getCapability(CapabilityHandler.heatable, null);
 			if (cap == null) {
 				continue;
 			}
 			float delta = Math.max((this.temp - cap.getTemp()) * RATE, 1);
 			cap.setIncreaseEnergy(delta);
 			this.energy -= delta;
+			if (cap.getUnit() == 0) {
+				HeatRecipe recipe = HeatRegistry.findRecipe(stack);
+				if (recipe != null) {
+					ItemStack output = recipe.getOutput();
+					if (output != null && !output.isEmpty()) {
+						this.inventory.setStackInSlot(i, output.copy());
+					} else {
+						this.inventory.setStackInSlot(i, ItemStack.EMPTY);
+					}
+				}
+			}
 		}
 		if (this.world != null) {
 			this.world.markChunkDirty(this.pos, this);

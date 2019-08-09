@@ -9,14 +9,14 @@ public class HeatRecipe {
 	private ItemStack input, output;
 
 	public HeatRecipe(int unit, ItemStack input, HeatMaterial material) {
-		this.unit = unit;
-		this.input = input;
-		this.material = material;
+		this(unit, input, ItemStack.EMPTY, material);
 	}
 
 	public HeatRecipe(int unit, ItemStack input, ItemStack output, HeatMaterial material) {
-		this(unit, input, material);
+		this.unit = unit;
+		this.input = input;
 		this.output = output;
+		this.material = material;
 	}
 
 	public boolean match(ItemStack stack) {

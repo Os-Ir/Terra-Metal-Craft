@@ -25,8 +25,8 @@ item.heatable.tip.making=制造
 item.heatable.state.danger=**危险**
 item.heatable.state.weldable=可焊接
 item.heatable.state.workable=可加工
-item.heatable.state.temperature=温度: %d℃
-item.heatable.state.meltUnit=%d/%d 已融化
+item.heatable.state.temperature=温度
+item.heatable.state.unit=单位
 
 item.heatable.material.containing=包含材料
 item.heatable.material.meltPoint=熔点

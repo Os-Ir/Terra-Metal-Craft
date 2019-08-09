@@ -25,8 +25,8 @@ item.heatable.tip.making=Making
 item.heatable.state.danger=**Danger**
 item.heatable.state.weldable=Can Weld
 item.heatable.state.workable=Can Work
-item.heatable.state.temperature=Temperature: %d℃
-item.heatable.state.meltUnit=%d/%d Melted
+item.heatable.state.temperature=Temperature
+item.heatable.state.unit=Unit
 
 item.heatable.material.containing=Containing Material
 item.heatable.material.meltPoint=Melt Point

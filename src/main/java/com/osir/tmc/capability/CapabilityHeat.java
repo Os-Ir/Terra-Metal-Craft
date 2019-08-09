@@ -154,24 +154,34 @@ public class CapabilityHeat {
 		}
 
 		@Override
-		public int setEnergy(float energy) {
-			if (energy <= this.maxEnergy) {
-				this.energy = energy;
-				return 0;
-			} else {
-				float over = energy - this.maxEnergy;
-				float delta = this.maxEnergy / this.unit / 10;
-				int melt = Math.min((int) (over / delta), this.unit);
-				this.unit -= melt;
-				this.energy = this.maxEnergy = this.specificHeat * (this.meltTemp - 20) * (this.unit / 144);
-				this.overEnergy = over - melt * delta;
-				return melt;
-			}
+		public void setEnergy(float energy) {
+			// if (energy <= this.maxEnergy) {
+			// this.energy = energy;
+			// return 0;
+			// } else {
+			// float over = energy - this.maxEnergy;
+			// float delta = this.maxEnergy / this.unit / 10;
+			// int melt = Math.min((int) (over / delta), this.unit);
+			// this.unit -= melt;
+			// this.energy = this.maxEnergy = this.specificHeat * (this.meltTemp - 20) *
+			// (this.unit / 144);
+			// this.overEnergy = over - melt * delta;
+			// return melt;
+			// }
+			this.energy = Math.max(Math.min(energy, this.maxEnergy), 0);
 		}
 
 		@Override
 		public void setIncreaseEnergy(float energy) {
-			this.setEnergy(energy + this.energy + this.overEnergy);
+			// this.setEnergy(energy + this.energy + this.overEnergy);
+			if (energy + this.energy > this.maxEnergy) {
+				this.overEnergy += energy + this.energy - this.maxEnergy;
+				this.energy = this.maxEnergy;
+				this.unit = Math.max((int) ((1 - this.overEnergy / this.maxEnergy * 10) * this.compUnit), 0);
+			} else {
+				this.energy += energy;
+			}
+			this.energy = Math.max(this.energy, 0);
 		}
 
 		@Override

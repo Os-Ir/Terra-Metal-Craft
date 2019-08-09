@@ -50,7 +50,7 @@ public class EventHandler {
 			tooltip.add(TextFormatting.AQUA + "--" + I18n.format("item.heatable.tip.heating"));
 			HeatRecipe recipe = HeatRegistry.findRecipe(stack);
 			ItemStack output = recipe.getOutput();
-			if (output == null) {
+			if (output == null || output.isEmpty()) {
 				tooltip.add(TextFormatting.AQUA + "--" + I18n.format("item.heatable.tip.melting"));
 			} else {
 				tooltip.add(TextFormatting.AQUA + "--" + I18n.format("item.heatable.tip.making") + " "
@@ -60,11 +60,10 @@ public class EventHandler {
 					+ TextFormatting.GOLD + cap.getMeltTemp() + TextFormatting.GREEN + "℃");
 			tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.material.specificHeat") + ": "
 					+ TextFormatting.GOLD + cap.getSpecificHeat() + TextFormatting.GREEN + "HU/(144mB*℃)");
-			int temp = cap.getTemp();
-			if (temp > 20) {
-				tooltip.add(I18n.format("item.heatable.state.temperature", temp));
-			}
-			tooltip.add(cap.getUnit() + "");
+			tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.state.unit") + ": " + TextFormatting.GOLD
+					+ cap.getUnit() + TextFormatting.GREEN + "mB");
+			tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.state.temperature") + ": "
+					+ TextFormatting.GOLD + cap.getTemp() + TextFormatting.GREEN + "℃");
 		}
 	}
 

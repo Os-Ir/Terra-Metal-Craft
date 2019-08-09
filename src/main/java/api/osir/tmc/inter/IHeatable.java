@@ -26,7 +26,7 @@ public interface IHeatable {
 
 	float getMaxEnergy();
 
-	int setEnergy(float energy);
+	void setEnergy(float energy);
 
 	void setIncreaseEnergy(float energy);
 }
