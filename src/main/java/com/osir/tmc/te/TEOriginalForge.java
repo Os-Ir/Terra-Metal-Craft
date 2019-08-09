@@ -57,7 +57,12 @@ public class TEOriginalForge extends TEHeatBlock {
 			if (cap == null) {
 				continue;
 			}
-			float delta = Math.max((this.temp - cap.getTemp()) * RATE, 1);
+			float delta = (this.temp - cap.getTemp()) * RATE;
+			if (delta > 0) {
+				delta = Math.max(delta, 1);
+			} else {
+				delta = Math.min(delta, -1);
+			}
 			cap.setIncreaseEnergy(delta);
 			this.energy -= delta;
 			if (cap.getUnit() == 0) {

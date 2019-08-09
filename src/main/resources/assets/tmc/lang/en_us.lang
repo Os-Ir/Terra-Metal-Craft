@@ -25,12 +25,16 @@ item.heatable.tip.making=Making
 item.heatable.state.danger=**Danger**
 item.heatable.state.weldable=Can Weld
 item.heatable.state.workable=Can Work
-item.heatable.state.temperature=Temperature
-item.heatable.state.unit=Unit
+item.heatable.state.temperature=Temperature:
+item.heatable.state.volume=Volume:
 
 item.heatable.material.containing=Containing Material
-item.heatable.material.meltPoint=Melt Point
-item.heatable.material.specificHeat=Specific Heat
+item.heatable.material.meltPoint=Melt Point:
+item.heatable.material.specificHeat=Specific Heat:
+
+item.unit.temperature=℃
+item.unit.volume=mB
+item.unit.specificHeat=HU/(144mB*℃)
 
 tile.originalForge.name=Original Forge
 tile.mould.name=Mould

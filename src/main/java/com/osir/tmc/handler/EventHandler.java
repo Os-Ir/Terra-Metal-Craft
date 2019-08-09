@@ -56,14 +56,16 @@ public class EventHandler {
 				tooltip.add(TextFormatting.AQUA + "--" + I18n.format("item.heatable.tip.making") + " "
 						+ TextFormatting.YELLOW + I18n.format(output.getItem().getUnlocalizedName() + ".name"));
 			}
-			tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.material.meltPoint") + ": "
-					+ TextFormatting.GOLD + cap.getMeltTemp() + TextFormatting.GREEN + "℃");
-			tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.material.specificHeat") + ": "
-					+ TextFormatting.GOLD + cap.getSpecificHeat() + TextFormatting.GREEN + "HU/(144mB*℃)");
-			tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.state.unit") + ": " + TextFormatting.GOLD
-					+ cap.getUnit() + TextFormatting.GREEN + "mB");
-			tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.state.temperature") + ": "
-					+ TextFormatting.GOLD + cap.getTemp() + TextFormatting.GREEN + "℃");
+			tooltip.add(
+					TextFormatting.BLUE + I18n.format("item.heatable.material.meltPoint") + " " + TextFormatting.GOLD
+							+ cap.getMeltTemp() + TextFormatting.GREEN + I18n.format("item.unit.temperature"));
+			tooltip.add(
+					TextFormatting.BLUE + I18n.format("item.heatable.material.specificHeat") + " " + TextFormatting.GOLD
+							+ cap.getSpecificHeat() + TextFormatting.GREEN + I18n.format("item.unit.specificHeat"));
+			tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.state.volume") + " " + TextFormatting.GOLD
+					+ cap.getUnit() + TextFormatting.GREEN + I18n.format("item.unit.volume"));
+			tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.state.temperature") + " " + TextFormatting.GOLD
+					+ cap.getTemp() + TextFormatting.GREEN + I18n.format("item.unit.temperature"));
 		}
 	}
 
