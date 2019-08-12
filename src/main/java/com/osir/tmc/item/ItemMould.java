@@ -1,12 +1,7 @@
 package com.osir.tmc.item;
 
-import java.util.List;
-
 import com.osir.tmc.Main;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -18,11 +13,6 @@ import net.minecraft.world.World;
 public class ItemMould extends Item {
 	public ItemMould() {
 		this.setRegistryName("mould");
-	}
-
-	@Override
-	public void addInformation(ItemStack stack, World world, List tooltip, ITooltipFlag flag) {
-		tooltip.add(I18n.format("item.mould.description"));
 	}
 
 	@Override

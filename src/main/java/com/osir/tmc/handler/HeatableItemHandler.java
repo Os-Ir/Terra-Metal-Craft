@@ -3,7 +3,6 @@ package com.osir.tmc.handler;
 import api.osir.tmc.heat.HeatRecipe;
 import api.osir.tmc.heat.HeatRegistry;
 import api.osir.tmc.heat.MaterialList;
-import api.osir.tmc.item.ItemIngot;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;

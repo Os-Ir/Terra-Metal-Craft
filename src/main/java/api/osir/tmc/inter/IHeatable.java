@@ -1,8 +1,5 @@
 package api.osir.tmc.inter;
 
-import api.osir.tmc.heat.HeatMaterial;
-import net.minecraft.item.ItemStack;
-
 public interface IHeatable {
 	int getMeltTemp();
 

@@ -9,8 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class TEOriginalForge extends TEHeatBlock {
-	// public static final float RATE = 0.5F;
-	public static final float RATE = 5;
+	public static final float RATE = 1;
 
 	public TEOriginalForge() {
 		this.inventory = new ItemStackHandler(9) {
@@ -43,12 +42,10 @@ public class TEOriginalForge extends TEHeatBlock {
 			this.burnTime = 1600;
 		}
 		if (this.burnTime > 0) {
-			// this.energy += 200;
-			this.energy += 2000;
+			this.energy += 400;
 			this.burnTime--;
-		} else {
-			this.energy -= Math.max((this.temp - 20) * 0.05F, 1);
 		}
+		this.energy -= Math.max((this.temp - 20) * 0.05F, 1);
 		this.energy = Math.min(Math.max(this.energy, 0), 809600);
 		this.temp = (int) (this.energy / 920) + 20;
 		for (i = 3; i < 6; i++) {

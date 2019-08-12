@@ -1,25 +1,28 @@
 package com.osir.tmc.block;
 
-import com.osir.tmc.CreativeTabList;
-import com.osir.tmc.handler.ItemHandler;
+import java.util.List;
 
-import api.osir.tmc.inter.IBag;
+import com.osir.tmc.CreativeTabList;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class BlockMould extends Block {
+	public static final AxisAlignedBB MOULD_AABB = new AxisAlignedBB(0.125, 0, 0.125, 0.875, 0.25, 0.875);
+
 	private ItemStackHandler item = new ItemStackHandler(1);
 
 	public BlockMould() {
@@ -39,5 +42,25 @@ public class BlockMould extends Block {
 			return true;
 		}
 		return true;
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, World world, List tooltip, ITooltipFlag flag) {
+		tooltip.add(I18n.format("item.mould.description"));
+	}
+
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return MOULD_AABB;
+	}
+
+	@Override
+	public boolean isOpaqueCube(IBlockState state) {
+		return false;
+	}
+
+	@Override
+	public boolean isFullCube(IBlockState state) {
+		return false;
 	}
 }

@@ -1,11 +1,5 @@
 package api.osir.tmc.item;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import api.osir.tmc.heat.HeatMaterial;
-import api.osir.tmc.heat.HeatTool;
-import api.osir.tmc.inter.IHeatable;
 import api.osir.tmc.metal.Metal;
 import api.osir.tmc.metal.MetalRegistry;
 import net.minecraft.item.Item;
@@ -34,9 +28,9 @@ public class ItemIngot extends Item {
 	public int getItemStackLimit(ItemStack stack) {
 		if (stack.hasTagCompound()) {
 			NBTTagCompound nbt = stack.getTagCompound();
-//			if (HeatTool.hasEnergy(stack)) {
-//				return 1;
-//			}
+			// if (HeatTool.hasEnergy(stack)) {
+			// return 1;
+			// }
 		}
 		return super.getItemStackLimit(stack);
 	}

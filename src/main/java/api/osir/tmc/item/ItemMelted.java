@@ -1,7 +1,5 @@
 package api.osir.tmc.item;
 
-import api.osir.tmc.heat.HeatMaterial;
-import api.osir.tmc.inter.IHeatable;
 import api.osir.tmc.metal.Metal;
 import api.osir.tmc.metal.MetalRegistry;
 import net.minecraft.item.Item;

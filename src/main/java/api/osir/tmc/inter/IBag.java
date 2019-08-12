@@ -1,7 +1,5 @@
 package api.osir.tmc.inter;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.ItemStackHandler;
 
 public interface IBag {

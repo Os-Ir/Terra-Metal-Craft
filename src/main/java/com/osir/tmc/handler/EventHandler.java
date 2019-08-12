@@ -4,14 +4,12 @@ import java.util.List;
 
 import com.osir.tmc.Main;
 import com.osir.tmc.capability.CapabilityHeat;
-import com.osir.tmc.container.CapabilityContainerListener;
 
 import api.osir.tmc.heat.HeatRecipe;
 import api.osir.tmc.heat.HeatRegistry;
 import api.osir.tmc.inter.IHeatable;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
@@ -20,7 +18,6 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 

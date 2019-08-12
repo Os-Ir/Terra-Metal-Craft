@@ -1,8 +1,6 @@
 package com.osir.tmc.te;
 
-import api.osir.tmc.heat.HeatTool;
 import api.osir.tmc.inter.IBag;
-import api.osir.tmc.item.ItemMelted;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.items.ItemStackHandler;
@@ -17,9 +15,6 @@ public class TEMould extends TEInventory implements ITickable, IBag {
 		if (stack == null || stack.isEmpty()) {
 			return false;
 		}
-		// if (stack.getItem() instanceof ItemMelted && HeatTool.isMelt(stack)) {
-		// return true;
-		// }
 		return false;
 	}
 
