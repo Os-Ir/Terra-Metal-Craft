@@ -75,3 +75,14 @@ processResources {
         exclude 'mcmod.info'
     }
 }
+
+task apiJar(type: Jar) {
+    classifier = 'api'
+    from sourceSets.main.output
+    from sourceSets.main.allSource
+    include 'com/osir/tmc/api/**'
+}
+
+artifacts {
+    archives apiJar
+}

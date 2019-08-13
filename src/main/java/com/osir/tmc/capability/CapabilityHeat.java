@@ -1,12 +1,12 @@
 package com.osir.tmc.capability;
 
 import com.osir.tmc.Main;
+import com.osir.tmc.api.osir.tmc.heat.HeatMaterial;
+import com.osir.tmc.api.osir.tmc.heat.MaterialList;
+import com.osir.tmc.api.osir.tmc.heat.TempList;
+import com.osir.tmc.api.osir.tmc.inter.IHeatable;
 import com.osir.tmc.handler.CapabilityHandler;
 
-import api.osir.tmc.heat.HeatMaterial;
-import api.osir.tmc.heat.MaterialList;
-import api.osir.tmc.heat.TempList;
-import api.osir.tmc.inter.IHeatable;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;

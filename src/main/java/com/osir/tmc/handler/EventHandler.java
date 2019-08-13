@@ -3,11 +3,11 @@ package com.osir.tmc.handler;
 import java.util.List;
 
 import com.osir.tmc.Main;
+import com.osir.tmc.api.osir.tmc.heat.HeatRecipe;
+import com.osir.tmc.api.osir.tmc.heat.HeatRegistry;
+import com.osir.tmc.api.osir.tmc.inter.IHeatable;
 import com.osir.tmc.capability.CapabilityHeat;
 
-import api.osir.tmc.heat.HeatRecipe;
-import api.osir.tmc.heat.HeatRegistry;
-import api.osir.tmc.inter.IHeatable;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

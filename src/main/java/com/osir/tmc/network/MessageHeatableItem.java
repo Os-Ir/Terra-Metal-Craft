@@ -1,8 +1,8 @@
 package com.osir.tmc.network;
 
+import com.osir.tmc.api.osir.tmc.inter.IHeatable;
 import com.osir.tmc.handler.CapabilityHandler;
 
-import api.osir.tmc.inter.IHeatable;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import io.netty.buffer.ByteBuf;

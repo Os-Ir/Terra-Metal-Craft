@@ -1,10 +1,10 @@
 package com.osir.tmc.te;
 
+import com.osir.tmc.api.osir.tmc.heat.HeatRecipe;
+import com.osir.tmc.api.osir.tmc.heat.HeatRegistry;
+import com.osir.tmc.api.osir.tmc.inter.IHeatable;
 import com.osir.tmc.handler.CapabilityHandler;
 
-import api.osir.tmc.heat.HeatRecipe;
-import api.osir.tmc.heat.HeatRegistry;
-import api.osir.tmc.inter.IHeatable;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 
