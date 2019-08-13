@@ -7,6 +7,7 @@ import api.osir.tmc.item.ItemMelted;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -27,13 +28,13 @@ public class ItemHandler {
 	public static final Item IRON_MELTED = new ItemMelted("iron_melted", "iron");
 	public static final Item GOLD_MELTED = new ItemMelted("gold_melted", "gold");
 
-	@SideOnly(Side.CLIENT)
-	public static void registerRender() {
+	@SubscribeEvent
+	public static void onModelRegister(ModelRegistryEvent e) {
 		render(COIN);
 	}
 
 	@SideOnly(Side.CLIENT)
-	private static void render(Item item) {
+	public static void render(Item item) {
 		ModelResourceLocation model = new ModelResourceLocation(item.getRegistryName(), "inventory");
 		ModelLoader.setCustomModelResourceLocation(item, 0, model);
 	}

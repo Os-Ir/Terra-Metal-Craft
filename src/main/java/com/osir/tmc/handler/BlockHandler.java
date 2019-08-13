@@ -5,8 +5,10 @@ import com.osir.tmc.block.BlockMould;
 import com.osir.tmc.block.BlockOriginalForge;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -20,16 +22,13 @@ public class BlockHandler {
 	public static final Block ORIGINAL_FORGE = new BlockOriginalForge();
 	public static final Block MOULD = new BlockMould();
 
-	@SideOnly(Side.CLIENT)
-	public static void registerRender() {
-		render(ORIGINAL_FORGE);
+	@SubscribeEvent
+	public static void onModelRegister(ModelRegistryEvent e) {
+		render(MOULD);
 	}
 
-	@SideOnly(Side.CLIENT)
 	public static void render(Block block) {
-		Item item = Item.getItemFromBlock(block);
-		ModelResourceLocation model = new ModelResourceLocation(item.getRegistryName(), "inventory");
-		ModelLoader.setCustomModelResourceLocation(item, 0, model);
+		ItemHandler.render(Item.getItemFromBlock(block));
 	}
 
 	@SubscribeEvent
