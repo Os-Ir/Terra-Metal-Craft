@@ -1,6 +1,6 @@
 package com.osir.tmc.handler;
 
-import com.osir.tmc.api.osir.tmc.inter.IHeatable;
+import com.osir.tmc.api.inter.IHeatable;
 import com.osir.tmc.capability.CapabilityHeat;
 
 import net.minecraftforge.common.capabilities.Capability;

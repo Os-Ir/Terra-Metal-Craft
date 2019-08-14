@@ -1,6 +1,6 @@
 package com.osir.tmc.container;
 
-import com.osir.tmc.api.osir.tmc.heat.HeatRegistry;
+import com.osir.tmc.api.heat.HeatRegistry;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;

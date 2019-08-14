@@ -1,10 +1,10 @@
-package com.osir.tmc.api.osir.tmc.metal;
+package com.osir.tmc.api.metal;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import com.osir.tmc.api.osir.tmc.heat.HeatMaterial;
+import com.osir.tmc.api.heat.HeatMaterial;
 
 import net.minecraft.item.Item;
 

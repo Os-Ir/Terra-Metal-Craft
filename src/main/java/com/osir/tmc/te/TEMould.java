@@ -1,6 +1,6 @@
 package com.osir.tmc.te;
 
-import com.osir.tmc.api.osir.tmc.inter.IBag;
+import com.osir.tmc.api.inter.IBag;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ITickable;

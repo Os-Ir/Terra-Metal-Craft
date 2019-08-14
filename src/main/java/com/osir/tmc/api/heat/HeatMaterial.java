@@ -1,4 +1,4 @@
-package com.osir.tmc.api.osir.tmc.heat;
+package com.osir.tmc.api.heat;
 
 public class HeatMaterial {
 	private int specificHeat, meltTemp;

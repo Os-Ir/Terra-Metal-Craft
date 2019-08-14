@@ -1,4 +1,4 @@
-package com.osir.tmc.api.osir.tmc.heat;
+package com.osir.tmc.api.heat;
 
 public class MaterialList {
 	public static final HeatMaterial IRON = new HeatMaterial(460, 1535);

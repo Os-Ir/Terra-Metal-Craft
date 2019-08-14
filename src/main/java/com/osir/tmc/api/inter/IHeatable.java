@@ -1,4 +1,4 @@
-package com.osir.tmc.api.osir.tmc.inter;
+package com.osir.tmc.api.inter;
 
 public interface IHeatable {
 	int getMeltTemp();

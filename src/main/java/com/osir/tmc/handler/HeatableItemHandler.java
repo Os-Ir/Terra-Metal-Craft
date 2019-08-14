@@ -1,8 +1,8 @@
 package com.osir.tmc.handler;
 
-import com.osir.tmc.api.osir.tmc.heat.HeatRecipe;
-import com.osir.tmc.api.osir.tmc.heat.HeatRegistry;
-import com.osir.tmc.api.osir.tmc.heat.MaterialList;
+import com.osir.tmc.api.heat.HeatRecipe;
+import com.osir.tmc.api.heat.HeatRegistry;
+import com.osir.tmc.api.heat.MaterialList;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;

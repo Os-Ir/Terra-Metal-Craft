@@ -2,7 +2,7 @@ package com.osir.tmc.handler;
 
 import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
-import com.osir.tmc.api.osir.tmc.item.ItemMelted;
+import com.osir.tmc.api.item.ItemMelted;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;

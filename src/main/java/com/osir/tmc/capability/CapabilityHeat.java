@@ -1,10 +1,10 @@
 package com.osir.tmc.capability;
 
 import com.osir.tmc.Main;
-import com.osir.tmc.api.osir.tmc.heat.HeatMaterial;
-import com.osir.tmc.api.osir.tmc.heat.MaterialList;
-import com.osir.tmc.api.osir.tmc.heat.TempList;
-import com.osir.tmc.api.osir.tmc.inter.IHeatable;
+import com.osir.tmc.api.heat.HeatMaterial;
+import com.osir.tmc.api.heat.MaterialList;
+import com.osir.tmc.api.heat.TempList;
+import com.osir.tmc.api.inter.IHeatable;
 import com.osir.tmc.handler.CapabilityHandler;
 
 import net.minecraft.client.resources.I18n;

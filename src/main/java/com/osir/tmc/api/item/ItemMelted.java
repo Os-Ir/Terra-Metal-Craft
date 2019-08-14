@@ -1,7 +1,7 @@
-package com.osir.tmc.api.osir.tmc.item;
+package com.osir.tmc.api.item;
 
-import com.osir.tmc.api.osir.tmc.metal.Metal;
-import com.osir.tmc.api.osir.tmc.metal.MetalRegistry;
+import com.osir.tmc.api.metal.Metal;
+import com.osir.tmc.api.metal.MetalRegistry;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

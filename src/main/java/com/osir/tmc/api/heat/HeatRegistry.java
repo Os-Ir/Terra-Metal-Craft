@@ -1,4 +1,4 @@
-package com.osir.tmc.api.osir.tmc.heat;
+package com.osir.tmc.api.heat;
 
 import java.util.ArrayList;
 import java.util.List;
