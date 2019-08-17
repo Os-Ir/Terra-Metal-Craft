@@ -32,6 +32,8 @@ item.heatable.material.containing=包含材料
 item.heatable.material.meltPoint=熔点:
 item.heatable.material.specificHeat=比热容:
 
+item.liquidContainer.state.capacity=容量:
+
 item.unit.temperature=℃
 item.unit.volume=mB
 item.unit.specificHeat=HU/(144mB*℃)

@@ -7,17 +7,16 @@ import net.minecraft.item.Item;
 public class Metal {
 	private HeatMaterial material;
 	private String name;
-	private Item ingot, melted;
+	private Item ingot;
 
 	public Metal(String name, HeatMaterial material) {
 		this.name = name;
 		this.material = material;
 	}
 
-	public Metal(String name, Item ingot, Item melted, HeatMaterial material) {
+	public Metal(String name, Item ingot, HeatMaterial material) {
 		this(name, material);
 		this.ingot = ingot;
-		this.melted = melted;
 	}
 
 	public HeatMaterial getMaterial() {
@@ -30,9 +29,5 @@ public class Metal {
 
 	public Item getIngot() {
 		return this.ingot;
-	}
-
-	public Item getMelted() {
-		return this.melted;
 	}
 }

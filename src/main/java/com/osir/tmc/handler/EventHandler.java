@@ -6,7 +6,9 @@ import com.osir.tmc.Main;
 import com.osir.tmc.api.heat.HeatRecipe;
 import com.osir.tmc.api.heat.HeatRegistry;
 import com.osir.tmc.api.inter.IHeatable;
+import com.osir.tmc.api.inter.ILiquidContainer;
 import com.osir.tmc.capability.CapabilityHeat;
+import com.osir.tmc.capability.CapabilityLiquidContainer;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,7 +28,7 @@ public class EventHandler {
 	@SubscribeEvent
 	public static void onAttachCapabilitiesItem(AttachCapabilitiesEvent<ItemStack> e) {
 		ItemStack stack = e.getObject();
-		if (stack.hasCapability(CapabilityHandler.heatable, null)) {
+		if (stack.hasCapability(CapabilityHandler.HEATABLE, null)) {
 			return;
 		}
 		HeatRecipe recipe = HeatRegistry.findRecipe(stack);
@@ -34,16 +36,19 @@ public class EventHandler {
 			e.addCapability(CapabilityHeat.KEY,
 					new CapabilityHeat.Implementation(recipe.getMaterial(), recipe.getUnit()));
 		}
+		if (stack.getItem() == ItemHandler.ITEM_MOULD) {
+			e.addCapability(CapabilityLiquidContainer.KEY, new CapabilityLiquidContainer.Implementation(144));
+		}
 	}
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public static void onHeatableItemTooltip(ItemTooltipEvent e) {
 		ItemStack stack = e.getItemStack();
-		IHeatable cap = stack.getCapability(CapabilityHandler.heatable, null);
-		if (cap == null) {
+		if (!stack.hasCapability(CapabilityHandler.HEATABLE, null)) {
 			return;
 		}
+		IHeatable cap = stack.getCapability(CapabilityHandler.HEATABLE, null);
 		List tooltip = e.getToolTip();
 		tooltip.add(TextFormatting.AQUA + I18n.format("item.heatable.tip.title"));
 		tooltip.add(TextFormatting.AQUA + "--" + I18n.format("item.heatable.tip.heating"));
@@ -72,17 +77,31 @@ public class EventHandler {
 						: TextFormatting.WHITE) + I18n.format("item.heatable.state.danger") + TextFormatting.WHITE
 						+ " | ";
 			}
-			if (t >= 0.8) {
-				info += TextFormatting.WHITE + I18n.format("item.heatable.state.weldable") + " | ";
-			}
-			if (t >= 0.6) {
-				info += TextFormatting.WHITE + I18n.format("item.heatable.state.workable");
+			if (output != null && !output.isEmpty()) {
+				if (t >= 0.8) {
+					info += TextFormatting.WHITE + I18n.format("item.heatable.state.weldable") + " | ";
+				}
+				if (t >= 0.6) {
+					info += TextFormatting.WHITE + I18n.format("item.heatable.state.workable");
+				}
 			}
 			if (!info.equals("")) {
 				tooltip.add(info);
 			}
 			tooltip.add(cap.getColor());
 		}
+	}
+
+	@SubscribeEvent
+	public static void onLiquidContainerTooltip(ItemTooltipEvent e) {
+		ItemStack stack = e.getItemStack();
+		if (!stack.hasCapability(CapabilityHandler.LIQUID_CONTAINER, null)) {
+			return;
+		}
+		ILiquidContainer cap = stack.getCapability(CapabilityHandler.LIQUID_CONTAINER, null);
+		List tooltip = e.getToolTip();
+		tooltip.add(TextFormatting.BLUE + I18n.format("item.liquidContainer.state.capacity") + " " + TextFormatting.GOLD
+				+ cap.getCapacity() + TextFormatting.GREEN + I18n.format("item.unit.volume"));
 	}
 
 	@SubscribeEvent
@@ -93,10 +112,10 @@ public class EventHandler {
 			int i;
 			for (i = 0; i < inv.getSizeInventory(); i++) {
 				ItemStack stack = inv.getStackInSlot(i);
-				if (!stack.hasCapability(CapabilityHandler.heatable, null)) {
+				if (!stack.hasCapability(CapabilityHandler.HEATABLE, null)) {
 					continue;
 				}
-				IHeatable cap = stack.getCapability(CapabilityHandler.heatable, null);
+				IHeatable cap = stack.getCapability(CapabilityHandler.HEATABLE, null);
 				float delta = Math.min((20 - cap.getTemp()) * 0.05F, -4);
 				cap.setIncreaseEnergy(delta);
 			}

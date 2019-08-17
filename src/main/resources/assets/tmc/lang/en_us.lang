@@ -28,6 +28,8 @@ item.heatable.state.workable=Can Work
 item.heatable.state.temperature=Temperature:
 item.heatable.state.volume=Volume:
 
+item.liquidContainer.state.capacity=Capacity:
+
 item.heatable.material.containing=Containing Material
 item.heatable.material.meltPoint=Melt Point:
 item.heatable.material.specificHeat=Specific Heat:

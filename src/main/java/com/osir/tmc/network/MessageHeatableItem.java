@@ -18,8 +18,9 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+@Deprecated
 public class MessageHeatableItem implements IMessage {
-	private static final Capability<IHeatable> CAPABILITY = CapabilityHandler.heatable;
+	private static final Capability<IHeatable> CAPABILITY = CapabilityHandler.HEATABLE;
 	private static final IStorage<IHeatable> STORAGE = CAPABILITY.getStorage();
 	public TIntObjectMap<NBTTagCompound> data = new TIntObjectHashMap<NBTTagCompound>();
 	public int window;
@@ -92,10 +93,10 @@ public class MessageHeatableItem implements IMessage {
 					}
 					message.data.forEachEntry((idx, nbt) -> {
 						ItemStack stack = container.getSlot(idx).getStack();
-						IHeatable cap = stack.getCapability(CapabilityHandler.heatable, null);
+						IHeatable cap = stack.getCapability(CapabilityHandler.HEATABLE, null);
 						if (cap != null) {
-							IStorage<IHeatable> storage = CapabilityHandler.heatable.getStorage();
-							storage.readNBT(CapabilityHandler.heatable, cap, null, nbt);
+							IStorage<IHeatable> storage = CapabilityHandler.HEATABLE.getStorage();
+							storage.readNBT(CapabilityHandler.HEATABLE, cap, null, nbt);
 						}
 						return true;
 					});

@@ -69,14 +69,14 @@ public class TEOriginalForge extends TEHeatBlock {
 		this.temp = (int) (this.energy / 920) + 20;
 		for (i = 3; i < 6; i++) {
 			ItemStack stack = this.inventory.getStackInSlot(i);
-			IHeatable cap = stack.getCapability(CapabilityHandler.heatable, null);
+			IHeatable cap = stack.getCapability(CapabilityHandler.HEATABLE, null);
 			if (cap == null) {
 				continue;
 			}
 			float delta = (this.temp - cap.getTemp()) * RATE;
 			if (delta > 0) {
 				delta = Math.max(delta, 1);
-			} else {
+			} else if (delta < 0) {
 				delta = Math.min(delta, -1);
 			}
 			cap.setIncreaseEnergy(delta);

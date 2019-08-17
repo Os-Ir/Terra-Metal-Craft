@@ -173,7 +173,7 @@ public class CapabilityHeat {
 
 		@Override
 		public boolean hasCapability(Capability capability, EnumFacing facing) {
-			return capability == CapabilityHandler.heatable;
+			return capability == CapabilityHandler.HEATABLE;
 		}
 
 		@Override

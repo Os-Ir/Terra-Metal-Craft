@@ -24,7 +24,7 @@ public class MetalRegistry {
 		Metal metal;
 		while (iterator.hasNext()) {
 			metal = iterator.next();
-			if (metal.getIngot() == item || metal.getMelted() == item) {
+			if (metal.getIngot() == item) {
 				return metal;
 			}
 		}
