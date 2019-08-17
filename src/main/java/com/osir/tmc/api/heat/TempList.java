@@ -15,14 +15,18 @@ public enum TempList {
 	         WHITE(         "white", TextFormatting.WHITE   , 1400),
 	BRILLIANTWHITE("brilliantWhite", TextFormatting.WHITE   , 1500);
 
-	private String name;
+	private String id;
 	private TextFormatting color;
 	private int temp;
 
-	private TempList(String name, TextFormatting color, int temp) {
-		this.name = name;
+	private TempList(String id, TextFormatting color, int temp) {
+		this.id = id;
 		this.color = color;
 		this.temp = temp;
+	}
+
+	public String getId() {
+		return this.id;
 	}
 
 	public int getTemp() {

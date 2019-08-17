@@ -107,13 +107,14 @@ public class CapabilityHeat {
 					if (temp >= list[i + 1].getTemp()) {
 						continue;
 					}
-					str = list[i].getColor() + I18n.format("item.heatable." + list[i].name()) + " "
+					str = list[i].getColor() + I18n.format("item.heatable.color." + list[i].getId()) + " "
 							+ NUMBER[(int) ((temp - list[i].getTemp()) / (list[i + 1].getTemp() - list[i].getTemp())
 									* 5)];
 					break;
 				}
 			} else {
-				str = list[list.length - 1].getColor() + I18n.format("item.heatable." + list[list.length - 1].name());
+				str = list[list.length - 1].getColor()
+						+ I18n.format("item.heatable.color." + list[list.length - 1].getId());
 			}
 			return str;
 		}
@@ -155,25 +156,11 @@ public class CapabilityHeat {
 
 		@Override
 		public void setEnergy(float energy) {
-			// if (energy <= this.maxEnergy) {
-			// this.energy = energy;
-			// return 0;
-			// } else {
-			// float over = energy - this.maxEnergy;
-			// float delta = this.maxEnergy / this.unit / 10;
-			// int melt = Math.min((int) (over / delta), this.unit);
-			// this.unit -= melt;
-			// this.energy = this.maxEnergy = this.specificHeat * (this.meltTemp - 20) *
-			// (this.unit / 144);
-			// this.overEnergy = over - melt * delta;
-			// return melt;
-			// }
 			this.energy = Math.max(Math.min(energy, this.maxEnergy), 0);
 		}
 
 		@Override
 		public void setIncreaseEnergy(float energy) {
-			// this.setEnergy(energy + this.energy + this.overEnergy);
 			if (energy + this.energy > this.maxEnergy) {
 				this.overEnergy += energy + this.energy - this.maxEnergy;
 				this.energy = this.maxEnergy;

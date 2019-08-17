@@ -38,36 +38,55 @@ public class EventHandler {
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
-	public static void heatableItemTooltip(ItemTooltipEvent e) {
+	public static void onHeatableItemTooltip(ItemTooltipEvent e) {
 		ItemStack stack = e.getItemStack();
 		IHeatable cap = stack.getCapability(CapabilityHandler.heatable, null);
-		if (cap != null) {
-			List tooltip = e.getToolTip();
-			tooltip.add(TextFormatting.AQUA + I18n.format("item.heatable.tip.title"));
-			tooltip.add(TextFormatting.AQUA + "--" + I18n.format("item.heatable.tip.heating"));
-			HeatRecipe recipe = HeatRegistry.findRecipe(stack);
-			ItemStack output = recipe.getOutput();
-			if (output == null || output.isEmpty()) {
-				tooltip.add(TextFormatting.AQUA + "--" + I18n.format("item.heatable.tip.melting"));
-			} else {
-				tooltip.add(TextFormatting.AQUA + "--" + I18n.format("item.heatable.tip.making") + " "
-						+ TextFormatting.YELLOW + I18n.format(output.getItem().getUnlocalizedName() + ".name"));
+		if (cap == null) {
+			return;
+		}
+		List tooltip = e.getToolTip();
+		tooltip.add(TextFormatting.AQUA + I18n.format("item.heatable.tip.title"));
+		tooltip.add(TextFormatting.AQUA + "--" + I18n.format("item.heatable.tip.heating"));
+		HeatRecipe recipe = HeatRegistry.findRecipe(stack);
+		ItemStack output = recipe.getOutput();
+		if (output == null || output.isEmpty()) {
+			tooltip.add(TextFormatting.AQUA + "--" + I18n.format("item.heatable.tip.melting"));
+		} else {
+			tooltip.add(TextFormatting.AQUA + "--" + I18n.format("item.heatable.tip.making") + " "
+					+ TextFormatting.YELLOW + I18n.format(output.getItem().getUnlocalizedName() + ".name"));
+		}
+		tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.material.meltPoint") + " " + TextFormatting.GOLD
+				+ cap.getMeltTemp() + TextFormatting.GREEN + I18n.format("item.unit.temperature"));
+		tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.material.specificHeat") + " " + TextFormatting.GOLD
+				+ cap.getSpecificHeat() + TextFormatting.GREEN + I18n.format("item.unit.specificHeat"));
+		tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.state.volume") + " " + TextFormatting.GOLD
+				+ cap.getUnit() + TextFormatting.GREEN + I18n.format("item.unit.volume"));
+		int temp = cap.getTemp();
+		tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.state.temperature") + " " + TextFormatting.GOLD
+				+ temp + TextFormatting.GREEN + I18n.format("item.unit.temperature"));
+		if (temp != 20) {
+			float t = (float) (temp - 20) / (cap.getMeltTemp() - 20);
+			String info = "";
+			if (t >= 0.9) {
+				info += (e.getEntityPlayer().getEntityWorld().getTotalWorldTime() % 2 == 0 ? TextFormatting.RED
+						: TextFormatting.WHITE) + I18n.format("item.heatable.state.danger") + TextFormatting.WHITE
+						+ " | ";
 			}
-			tooltip.add(
-					TextFormatting.BLUE + I18n.format("item.heatable.material.meltPoint") + " " + TextFormatting.GOLD
-							+ cap.getMeltTemp() + TextFormatting.GREEN + I18n.format("item.unit.temperature"));
-			tooltip.add(
-					TextFormatting.BLUE + I18n.format("item.heatable.material.specificHeat") + " " + TextFormatting.GOLD
-							+ cap.getSpecificHeat() + TextFormatting.GREEN + I18n.format("item.unit.specificHeat"));
-			tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.state.volume") + " " + TextFormatting.GOLD
-					+ cap.getUnit() + TextFormatting.GREEN + I18n.format("item.unit.volume"));
-			tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.state.temperature") + " " + TextFormatting.GOLD
-					+ cap.getTemp() + TextFormatting.GREEN + I18n.format("item.unit.temperature"));
+			if (t >= 0.8) {
+				info += TextFormatting.WHITE + I18n.format("item.heatable.state.weldable") + " | ";
+			}
+			if (t >= 0.6) {
+				info += TextFormatting.WHITE + I18n.format("item.heatable.state.workable");
+			}
+			if (!info.equals("")) {
+				tooltip.add(info);
+			}
+			tooltip.add(cap.getColor());
 		}
 	}
 
 	@SubscribeEvent
-	public static void updateTemp(LivingUpdateEvent e) {
+	public static void onTempUpdate(LivingUpdateEvent e) {
 		if (e.getEntityLiving() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) e.getEntityLiving();
 			InventoryPlayer inv = player.inventory;
@@ -83,59 +102,4 @@ public class EventHandler {
 			}
 		}
 	}
-
-	// @SubscribeEvent
-	// public static void tooltip(ItemTooltipEvent e) {
-	// ItemStack stack = e.getItemStack();
-	// EntityPlayer player = e.getEntityPlayer();
-	// List tooltip = e.getToolTip();
-	// if (HeatTool.hasEnergy(stack)) {
-	// String str = "";
-	// ItemStack output = HeatRegistry.findIndex(stack).getOutput();
-	// if (HeatTool.isMelt(stack)) {
-	// str += TextFormatting.WHITE + I18n.format("item.heatable.meltUnit",
-	// HeatTool.getMeltedUnit(stack),
-	// HeatTool.getCompleteUnit(stack));
-	// } else {
-	// if (HeatTool.isDanger(stack)) {
-	// if (player.getEntityWorld().getTotalWorldTime() % 20 < 10) {
-	// str += TextFormatting.WHITE;
-	// } else {
-	// str += TextFormatting.RED;
-	// }
-	// str += I18n.format("item.heatable.danger") + TextFormatting.WHITE + " | ";
-	// }
-	// if (HeatTool.isWeldable(stack)) {
-	// str += TextFormatting.WHITE + I18n.format("item.heatable.weldable") + " | ";
-	// }
-	// if (HeatTool.isWorkable(stack)) {
-	// str += TextFormatting.WHITE + I18n.format("item.heatable.workable");
-	// }
-	// }
-	// if (!str.equals("")) {
-	// tooltip.add(str);
-	// }
-	// tooltip.add(I18n.format("item.heatable.temperature", (int)
-	// HeatTool.getTemp(stack)) + " | "
-	// + HeatTool.getHeatColor(stack));
-	// }
-	// }
-	//
-	// @SubscribeEvent
-	// public static void tempUpdate(LivingUpdateEvent e) {
-	// EntityLivingBase living = e.getEntityLiving();
-	// if (!(living instanceof EntityPlayer)) {
-	// return;
-	// }
-	// EntityPlayer player = (EntityPlayer) living;
-	// InventoryPlayer inventory = player.inventory;
-	// int i;
-	// for (i = 0; i < inventory.getSizeInventory(); i++) {
-	// ItemStack stack = inventory.getStackInSlot(i);
-	// if (HeatTool.hasEnergy(stack)) {
-	// float delta = HeatTool.update(stack, 20, 0.1F);
-	// inventory.setInventorySlotContents(i, HeatTool.setEnergy(stack, delta));
-	// }
-	// }
-	// }
 }
