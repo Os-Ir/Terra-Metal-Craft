@@ -3,9 +3,13 @@ package com.osir.tmc.te;
 import com.osir.tmc.api.heat.HeatRecipe;
 import com.osir.tmc.api.heat.HeatRegistry;
 import com.osir.tmc.api.inter.IHeatable;
+import com.osir.tmc.block.BlockOriginalForge;
+import com.osir.tmc.handler.BlockHandler;
 import com.osir.tmc.handler.CapabilityHandler;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class TEOriginalForge extends TEHeatBlock {
@@ -41,9 +45,24 @@ public class TEOriginalForge extends TEHeatBlock {
 			this.inventory.setStackInSlot(2, ItemStack.EMPTY);
 			this.burnTime = 1600;
 		}
+		IBlockState state = this.world.getBlockState(this.pos);
+		TileEntity te = this.world.getTileEntity(this.pos);
 		if (this.burnTime > 0) {
 			this.energy += 400;
 			this.burnTime--;
+			this.world.setBlockState(this.pos,
+					BlockHandler.ORIGINAL_FORGE.getDefaultState()
+							.withProperty(BlockOriginalForge.FACING, state.getValue(BlockOriginalForge.FACING))
+							.withProperty(BlockOriginalForge.BURN, true));
+		} else {
+			this.world.setBlockState(this.pos,
+					BlockHandler.ORIGINAL_FORGE.getDefaultState()
+							.withProperty(BlockOriginalForge.FACING, state.getValue(BlockOriginalForge.FACING))
+							.withProperty(BlockOriginalForge.BURN, false));
+		}
+		if (te != null) {
+			te.validate();
+			this.world.setTileEntity(this.pos, te);
 		}
 		this.energy -= Math.max((this.temp - 20) * 0.05F, 1);
 		this.energy = Math.min(Math.max(this.energy, 0), 809600);

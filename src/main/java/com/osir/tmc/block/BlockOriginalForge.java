@@ -7,8 +7,13 @@ import com.osir.tmc.te.TEOriginalForge;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -17,6 +22,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockOriginalForge extends BlockContainer {
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+	public static final PropertyBool BURN = PropertyBool.create("burn");
+
 	public BlockOriginalForge() {
 		super(Material.ROCK);
 		this.setUnlocalizedName("originalForge");
@@ -25,6 +33,8 @@ public class BlockOriginalForge extends BlockContainer {
 		this.setSoundType(SoundType.STONE);
 		this.setHarvestLevel("pickaxe", 1);
 		this.setCreativeTab(CreativeTabList.tabEquipment);
+		this.setDefaultState(
+				this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(BURN, false));
 	}
 
 	@Override
@@ -35,6 +45,31 @@ public class BlockOriginalForge extends BlockContainer {
 		}
 		player.openGui(Main.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
 		return true;
+	}
+
+	@Override
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer,
+			ItemStack stack) {
+		world.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()));
+	}
+
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		EnumFacing facing = EnumFacing.getHorizontal(meta & 3);
+		boolean burn = (meta & 4) != 0;
+		return this.getDefaultState().withProperty(FACING, facing).withProperty(BURN, burn);
+	}
+
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		EnumFacing facing = state.getValue(FACING);
+		boolean burn = state.getValue(BURN);
+		return facing.getHorizontalIndex() | (burn ? 1 : 0);
+	}
+
+	@Override
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, FACING, BURN);
 	}
 
 	@Override

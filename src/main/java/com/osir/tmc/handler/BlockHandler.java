@@ -25,8 +25,15 @@ public class BlockHandler {
 	@SubscribeEvent
 	public static void onModelRegister(ModelRegistryEvent e) {
 		render(MOULD);
+		render(ORIGINAL_FORGE);
 	}
 
+	@SideOnly(Side.CLIENT)
+	public static void render(Block block, int meta, String name, String type) {
+		ItemHandler.render(Item.getItemFromBlock(block), meta, name, type);
+	}
+
+	@SideOnly(Side.CLIENT)
 	public static void render(Block block) {
 		ItemHandler.render(Item.getItemFromBlock(block));
 	}

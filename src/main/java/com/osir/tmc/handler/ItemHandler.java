@@ -31,12 +31,19 @@ public class ItemHandler {
 	@SubscribeEvent
 	public static void onModelRegister(ModelRegistryEvent e) {
 		render(COIN);
+		render(ITEM_MOULD);
+		render(ITEM_ORIGINAL_FORGE);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public static void render(Item item, int meta, String name, String type) {
+		ModelResourceLocation model = new ModelResourceLocation(name, type);
+		ModelLoader.setCustomModelResourceLocation(item, 0, model);
 	}
 
 	@SideOnly(Side.CLIENT)
 	public static void render(Item item) {
-		ModelResourceLocation model = new ModelResourceLocation(item.getRegistryName(), "inventory");
-		ModelLoader.setCustomModelResourceLocation(item, 0, model);
+		render(item, 0, item.getRegistryName().toString(), "inventory");
 	}
 
 	@SubscribeEvent
