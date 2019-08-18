@@ -2,6 +2,7 @@ package com.osir.tmc.handler;
 
 import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
+import com.osir.tmc.item.ItemMould;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -21,8 +22,7 @@ public class ItemHandler {
 			.setRegistryName("coin");
 	public static final Item ITEM_ORIGINAL_FORGE = new ItemBlock(BlockHandler.ORIGINAL_FORGE)
 			.setRegistryName(BlockHandler.ORIGINAL_FORGE.getRegistryName());
-	public static final Item ITEM_MOULD = new ItemBlock(BlockHandler.MOULD)
-			.setRegistryName(BlockHandler.MOULD.getRegistryName());
+	public static final Item ITEM_MOULD = new ItemMould();
 
 	@SubscribeEvent
 	public static void onModelRegister(ModelRegistryEvent e) {

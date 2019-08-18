@@ -1,7 +1,5 @@
 package com.osir.tmc.api.inter;
 
-import com.osir.tmc.api.metal.Metal;
-
 public interface ILiquidContainer {
 	int getCapacity();
 

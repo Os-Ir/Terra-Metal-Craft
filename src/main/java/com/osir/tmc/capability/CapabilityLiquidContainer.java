@@ -2,7 +2,6 @@ package com.osir.tmc.capability;
 
 import com.osir.tmc.Main;
 import com.osir.tmc.api.inter.ILiquidContainer;
-import com.osir.tmc.api.metal.Metal;
 import com.osir.tmc.handler.CapabilityHandler;
 
 import net.minecraft.nbt.NBTBase;
@@ -20,8 +19,12 @@ public class CapabilityLiquidContainer {
 		@Override
 		public NBTBase writeNBT(Capability<ILiquidContainer> capability, ILiquidContainer instance, EnumFacing side) {
 			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setString("metal", instance.getMetal());
-			nbt.setInteger("unit", instance.getUnit());
+			if (instance.getMetal() != null && instance.getMetal() != "") {
+				nbt.setString("metal", instance.getMetal());
+			}
+			if (instance.getUnit() != 0) {
+				nbt.setInteger("unit", instance.getUnit());
+			}
 			return nbt;
 		}
 
@@ -29,8 +32,12 @@ public class CapabilityLiquidContainer {
 		public void readNBT(Capability<ILiquidContainer> capability, ILiquidContainer instance, EnumFacing side,
 				NBTBase base) {
 			NBTTagCompound nbt = (NBTTagCompound) base;
-			instance.setMetal(nbt.getString("metal"));
-			instance.setUnit(nbt.getInteger("unit"));
+			if (nbt.hasKey("metal")) {
+				instance.setMetal(nbt.getString("metal"));
+			}
+			if (nbt.hasKey("unit")) {
+				instance.setUnit(nbt.getInteger("unit"));
+			}
 		}
 	}
 
@@ -92,7 +99,7 @@ public class CapabilityLiquidContainer {
 		@Override
 		public NBTTagCompound serializeNBT() {
 			NBTTagCompound nbt = new NBTTagCompound();
-			if (this.metal != null) {
+			if (this.metal != null && this.metal != "") {
 				nbt.setString("metal", this.metal);
 			}
 			if (this.unit != 0) {

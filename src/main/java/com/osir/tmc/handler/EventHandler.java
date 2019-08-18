@@ -9,6 +9,7 @@ import com.osir.tmc.api.inter.IHeatable;
 import com.osir.tmc.api.inter.ILiquidContainer;
 import com.osir.tmc.capability.CapabilityHeat;
 import com.osir.tmc.capability.CapabilityLiquidContainer;
+import com.osir.tmc.capability.ItemStackInventory;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,6 +23,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.ItemStackHandler;
 
 @EventBusSubscriber(modid = Main.MODID)
 public class EventHandler {
@@ -38,6 +40,7 @@ public class EventHandler {
 		}
 		if (stack.getItem() == ItemHandler.ITEM_MOULD) {
 			e.addCapability(CapabilityLiquidContainer.KEY, new CapabilityLiquidContainer.Implementation(144));
+			e.addCapability(ItemStackInventory.KEY, new ItemStackInventory(1));
 		}
 	}
 

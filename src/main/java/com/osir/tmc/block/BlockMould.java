@@ -26,8 +26,6 @@ import net.minecraftforge.items.ItemStackHandler;
 public class BlockMould extends Block {
 	public static final AxisAlignedBB MOULD_AABB = new AxisAlignedBB(0.125, 0, 0.125, 0.875, 0.25, 0.875);
 
-	private ItemStackHandler item = new ItemStackHandler(1);
-
 	public BlockMould() {
 		super(Material.ROCK);
 		this.setUnlocalizedName("mould");
