@@ -42,15 +42,28 @@ public class CapabilityLiquidContainer {
 	}
 
 	public static class Implementation implements ILiquidContainer, ICapabilitySerializable<NBTTagCompound> {
+		public float rate;
 		private String metal;
-		private int unit, capacity;
+		private int unit, capacity, specificHeat;
 
 		public Implementation() {
-			this(144);
+			this(1, 144, 100);
 		}
 
-		public Implementation(int capacity) {
+		public Implementation(float rate, int capacity, int specificHeat) {
+			this.rate = rate;
 			this.capacity = capacity;
+			this.specificHeat = specificHeat;
+		}
+
+		@Override
+		public void setRate(float rate) {
+			this.rate = rate;
+		}
+
+		@Override
+		public float getRate() {
+			return this.rate;
 		}
 
 		@Override
@@ -99,7 +112,7 @@ public class CapabilityLiquidContainer {
 		@Override
 		public NBTTagCompound serializeNBT() {
 			NBTTagCompound nbt = new NBTTagCompound();
-			if (this.metal != null && this.metal != "") {
+			if (this.metal != null && !this.metal.isEmpty()) {
 				nbt.setString("metal", this.metal);
 			}
 			if (this.unit != 0) {

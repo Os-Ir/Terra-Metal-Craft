@@ -21,7 +21,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockOriginalForge extends BlockContainer {
+public class BlockOriginalForge extends TEBlock {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	public static final PropertyBool BURN = PropertyBool.create("burn");
 

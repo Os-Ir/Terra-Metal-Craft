@@ -9,11 +9,15 @@ import com.osir.tmc.handler.CapabilityHandler;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class TEOriginalForge extends TEHeatBlock {
-	public static final float RATE = 1;
+	public static final float RATE = 50;
+	public static final int MAX_TEMP = 900;
+	public static final int SPECIFIC_HEAT = 46000;
+	protected int burnTime;
 
 	public TEOriginalForge() {
 		this.inventory = new ItemStackHandler(9) {
@@ -48,7 +52,7 @@ public class TEOriginalForge extends TEHeatBlock {
 		IBlockState state = this.world.getBlockState(this.pos);
 		TileEntity te = this.world.getTileEntity(this.pos);
 		if (this.burnTime > 0) {
-			this.energy += 400;
+			this.energy += 20000;
 			this.burnTime--;
 			this.world.setBlockState(this.pos,
 					BlockHandler.ORIGINAL_FORGE.getDefaultState()
@@ -64,9 +68,9 @@ public class TEOriginalForge extends TEHeatBlock {
 			te.validate();
 			this.world.setTileEntity(this.pos, te);
 		}
-		this.energy -= Math.max((this.temp - 20) * 0.05F, 1);
-		this.energy = Math.min(Math.max(this.energy, 0), 809600);
-		this.temp = (int) (this.energy / 920) + 20;
+		this.energy -= Math.max((this.temp - 20) * 5F, 50);
+		this.energy = Math.min(Math.max(this.energy, 0), SPECIFIC_HEAT * (MAX_TEMP - 20));
+		this.temp = (int) (this.energy / SPECIFIC_HEAT) + 20;
 		for (i = 3; i < 6; i++) {
 			ItemStack stack = this.inventory.getStackInSlot(i);
 			IHeatable cap = stack.getCapability(CapabilityHandler.HEATABLE, null);
@@ -75,9 +79,9 @@ public class TEOriginalForge extends TEHeatBlock {
 			}
 			float delta = (this.temp - cap.getTemp()) * RATE;
 			if (delta > 0) {
-				delta = Math.max(delta, 1);
+				delta = Math.max(delta, RATE);
 			} else if (delta < 0) {
-				delta = Math.min(delta, -1);
+				delta = Math.min(delta, -RATE);
 			}
 			cap.setIncreaseEnergy(delta);
 			this.energy -= delta;
@@ -96,5 +100,21 @@ public class TEOriginalForge extends TEHeatBlock {
 		if (this.world != null) {
 			this.world.markChunkDirty(this.pos, this);
 		}
+	}
+
+	public int getBurnTime() {
+		return this.burnTime;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		this.burnTime = nbt.getInteger("burnTime");
+		super.readFromNBT(nbt);
+	}
+
+	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+		nbt.setFloat("burnTime", this.burnTime);
+		return super.writeToNBT(nbt);
 	}
 }

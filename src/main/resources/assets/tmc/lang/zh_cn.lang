@@ -22,21 +22,22 @@ item.heatable.tip.heating=加热
 item.heatable.tip.melting=熔化
 item.heatable.tip.making=制造
 
+item.heatable.state.melted=已熔化
 item.heatable.state.danger=**危险**
 item.heatable.state.weldable=可焊接
 item.heatable.state.workable=可加工
 item.heatable.state.temperature=温度:
 item.heatable.state.volume=体积:
 
+item.liquidContainer.state.capacity=容量:
+
 item.heatable.material.containing=包含材料
 item.heatable.material.meltPoint=熔点:
 item.heatable.material.specificHeat=比热容:
 
-item.liquidContainer.state.capacity=容量:
-
 item.unit.temperature=℃
-item.unit.volume=mB
-item.unit.specificHeat=HU/(144mB*℃)
+item.unit.volume=L
+item.unit.specificHeat=J/(L*℃)
 
 tile.originalForge.name=原始锻造炉
 tile.mould.name=模具

@@ -22,6 +22,9 @@ public class ItemMould extends ItemBlock {
 	@Override
 	public ActionResult onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack mould = player.getHeldItem(hand);
+		if (mould.getCount() != 1) {
+			return new ActionResult<ItemStack>(EnumActionResult.FAIL, player.getHeldItem(hand));
+		}
 		if (mould.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
 			IItemHandlerModifiable cap = (IItemHandlerModifiable) mould
 					.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);

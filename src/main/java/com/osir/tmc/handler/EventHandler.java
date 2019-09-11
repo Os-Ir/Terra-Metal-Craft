@@ -19,14 +19,16 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.ItemStackHandler;
 
 @EventBusSubscriber(modid = Main.MODID)
 public class EventHandler {
+	// private static int tipIdx;
+
 	@SubscribeEvent
 	public static void onAttachCapabilitiesItem(AttachCapabilitiesEvent<ItemStack> e) {
 		ItemStack stack = e.getObject();
@@ -39,7 +41,7 @@ public class EventHandler {
 					new CapabilityHeat.Implementation(recipe.getMaterial(), recipe.getUnit()));
 		}
 		if (stack.getItem() == ItemHandler.ITEM_MOULD) {
-			e.addCapability(CapabilityLiquidContainer.KEY, new CapabilityLiquidContainer.Implementation(144));
+			e.addCapability(CapabilityLiquidContainer.KEY, new CapabilityLiquidContainer.Implementation(1, 144, 230));
 			e.addCapability(ItemStackInventory.KEY, new ItemStackInventory(1));
 		}
 	}
@@ -53,6 +55,14 @@ public class EventHandler {
 		}
 		IHeatable cap = stack.getCapability(CapabilityHandler.HEATABLE, null);
 		List tooltip = e.getToolTip();
+		long time = 0;
+		if (e.getEntityPlayer() != null && e.getEntityPlayer().getEntityWorld() != null) {
+			time = e.getEntityPlayer().getEntityWorld().getTotalWorldTime();
+			// if (time % 200 == 0) {
+			// tipIdx++;
+			// }
+		}
+		// tooltip.add(tipIdx + "");
 		tooltip.add(TextFormatting.AQUA + I18n.format("item.heatable.tip.title"));
 		tooltip.add(TextFormatting.AQUA + "--" + I18n.format("item.heatable.tip.heating"));
 		HeatRecipe recipe = HeatRegistry.findRecipe(stack);
@@ -72,13 +82,14 @@ public class EventHandler {
 		int temp = cap.getTemp();
 		tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.state.temperature") + " " + TextFormatting.GOLD
 				+ temp + TextFormatting.GREEN + I18n.format("item.unit.temperature"));
-		if (temp != 20) {
+		if (cap.getUnit() != cap.getCompleteUnit()) {
+			tooltip.add(I18n.format("item.heatable.state.melted"));
+		} else {
 			float t = (float) (temp - 20) / (cap.getMeltTemp() - 20);
 			String info = "";
 			if (t >= 0.9) {
-				info += (e.getEntityPlayer().getEntityWorld().getTotalWorldTime() % 2 == 0 ? TextFormatting.RED
-						: TextFormatting.WHITE) + I18n.format("item.heatable.state.danger") + TextFormatting.WHITE
-						+ " | ";
+				info += (time % 10 < 5 ? TextFormatting.RED : TextFormatting.WHITE)
+						+ I18n.format("item.heatable.state.danger") + TextFormatting.WHITE + " | ";
 			}
 			if (output != null && !output.isEmpty()) {
 				if (t >= 0.8) {
@@ -91,6 +102,8 @@ public class EventHandler {
 			if (!info.equals("")) {
 				tooltip.add(info);
 			}
+		}
+		if (cap.getTemp() != 20) {
 			tooltip.add(cap.getColor());
 		}
 	}
@@ -119,7 +132,7 @@ public class EventHandler {
 					continue;
 				}
 				IHeatable cap = stack.getCapability(CapabilityHandler.HEATABLE, null);
-				float delta = Math.min((20 - cap.getTemp()) * 0.05F, -4);
+				float delta = Math.min((20 - cap.getTemp()) * 5, -200);
 				cap.setIncreaseEnergy(delta);
 			}
 		}

@@ -67,23 +67,25 @@ public class ContainerOriginalForge extends ContainerTEInventory<TEOriginalForge
 				return null;
 			}
 		} else {
-			if (stack.getItem() == Items.COAL) {
-				Slot[] slotFuel = { (Slot) inventorySlots.get(0), (Slot) inventorySlots.get(1),
-						(Slot) inventorySlots.get(2) };
-				for (i = 0; i < 3; i++) {
-					if (slotFuel[i].getHasStack()) {
-						continue;
-					} else {
-						ItemStack fuel = stack.copy();
-						fuel.setCount(1);
-						slotFuel[i].putStack(fuel);
-						stack.setCount(stack.getCount() - 1);
+			if (stack != null && !stack.isEmpty()) {
+				if (stack.getItem() == Items.COAL) {
+					Slot[] slotFuel = { (Slot) inventorySlots.get(0), (Slot) inventorySlots.get(1),
+							(Slot) inventorySlots.get(2) };
+					for (i = 0; i < 3; i++) {
+						if (slotFuel[i].getHasStack()) {
+							continue;
+						} else {
+							ItemStack fuel = stack.copy();
+							fuel.setCount(1);
+							slotFuel[i].putStack(fuel);
+							stack.setCount(stack.getCount() - 1);
+						}
 					}
 				}
-			}
-			if (stack.getCount() != 0) {
-				if (!this.mergeItemStack(stack, 6, 9, true)) {
-					return null;
+				if (!stack.isEmpty()) {
+					if (!this.mergeItemStack(stack, 6, 9, true)) {
+						return ItemStack.EMPTY;
+					}
 				}
 			}
 		}
@@ -93,7 +95,7 @@ public class ContainerOriginalForge extends ContainerTEInventory<TEOriginalForge
 			slot.onSlotChanged();
 		}
 		if (stack.getCount() == previous.getCount()) {
-			return null;
+			return ItemStack.EMPTY;
 		}
 		slot.onTake(player, stack);
 		return previous;

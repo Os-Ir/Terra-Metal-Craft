@@ -75,7 +75,7 @@ public class CapabilityHeat {
 			this.compUnit = this.unit = unit;
 			this.specificHeat = material.getSpecificHeat();
 			this.meltTemp = material.getMeltTemp();
-			this.maxEnergy = this.specificHeat * (this.meltTemp - 20) * (unit / 144);
+			this.maxEnergy = this.specificHeat * (this.meltTemp - 20) * unit;
 		}
 
 		@Override

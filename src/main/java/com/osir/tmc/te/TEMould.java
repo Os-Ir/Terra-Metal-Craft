@@ -9,35 +9,8 @@ public class TEMould extends TEInventory implements ITickable {
 		this.inventory = new ItemStackHandler(1);
 	}
 
-	public boolean isSolidified() {
-		ItemStack stack = this.inventory.getStackInSlot(0);
-		if (stack == null || stack.isEmpty()) {
-			return false;
-		}
-		return false;
-	}
-
 	@Override
 	public void update() {
 
 	}
-	//
-	// @Override
-	// public void setItems(ItemStackHandler items) {
-	// this.inventory = items;
-	// }
-	//
-	// @Override
-	// public ItemStackHandler getItems() {
-	// return this.inventory;
-	// }
-	//
-	// @Override
-	// public boolean isEmpty() {
-	// ItemStack stack = this.inventory.getStackInSlot(0);
-	// if (stack == null || stack.isEmpty()) {
-	// return true;
-	// }
-	// return false;
-	// }
 }
