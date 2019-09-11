@@ -3,7 +3,6 @@ package com.osir.tmc.item;
 import com.osir.tmc.handler.BlockHandler;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;

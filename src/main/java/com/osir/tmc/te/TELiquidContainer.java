@@ -4,11 +4,7 @@ import com.osir.tmc.api.inter.ILiquidContainer;
 import com.osir.tmc.capability.CapabilityLiquidContainer;
 import com.osir.tmc.handler.CapabilityHandler;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.ItemStackHandler;
 

@@ -4,7 +4,6 @@ import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
 import com.osir.tmc.te.TEOriginalForge;
 
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;

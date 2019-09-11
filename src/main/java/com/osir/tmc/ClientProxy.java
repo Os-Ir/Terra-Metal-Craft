@@ -1,8 +1,5 @@
 package com.osir.tmc;
 
-import com.osir.tmc.handler.BlockHandler;
-import com.osir.tmc.handler.ItemHandler;
-
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;

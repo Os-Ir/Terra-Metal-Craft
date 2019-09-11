@@ -1,6 +1,5 @@
 package com.osir.tmc.te;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.items.ItemStackHandler;
 

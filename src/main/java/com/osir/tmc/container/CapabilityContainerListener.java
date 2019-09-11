@@ -1,7 +1,6 @@
 package com.osir.tmc.container;
 
 import com.osir.tmc.handler.CapabilityHandler;
-
 import com.osir.tmc.handler.NetworkHandler;
 import com.osir.tmc.network.MessageHeatableItem;
 
