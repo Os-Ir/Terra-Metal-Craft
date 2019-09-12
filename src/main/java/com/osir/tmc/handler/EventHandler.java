@@ -82,7 +82,7 @@ public class EventHandler {
 		tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.state.temperature") + " " + TextFormatting.GOLD
 				+ temp + TextFormatting.GREEN + I18n.format("item.unit.temperature"));
 		if (cap.getUnit() != cap.getCompleteUnit()) {
-			tooltip.add(I18n.format("item.heatable.state.melted"));
+			tooltip.add(TextFormatting.WHITE + I18n.format("item.heatable.state.melting"));
 		} else {
 			float t = (float) (temp - 20) / (cap.getMeltTemp() - 20);
 			String info = "";

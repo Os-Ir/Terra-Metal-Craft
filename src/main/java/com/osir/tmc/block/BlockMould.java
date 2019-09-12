@@ -124,10 +124,7 @@ public class BlockMould extends TEBlock {
 	@Override
 	public void addInformation(ItemStack stack, World world, List tooltip, ITooltipFlag flag) {
 		tooltip.add(I18n.format("item.mould.description"));
-		if (stack.hasCapability(CapabilityHandler.LIQUID_CONTAINER, null)) {
-			ILiquidContainer liquid = stack.getCapability(CapabilityHandler.LIQUID_CONTAINER, null);
-
-		}
+		tooltip.add(I18n.format("item.mould.developing"));
 	}
 
 	@Override

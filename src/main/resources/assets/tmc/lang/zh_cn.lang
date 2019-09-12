@@ -4,6 +4,7 @@ itemGroup.tmc.item=群峦金属工艺-物品
 
 item.coin.name=TMC纪念币
 item.mould.description=用于制造锭的模具
+item.mould.developing=仍在开发中
 
 item.heatable.color.warming=暖
 item.heatable.color.hot=烫
@@ -22,7 +23,7 @@ item.heatable.tip.heating=加热
 item.heatable.tip.melting=熔化
 item.heatable.tip.making=制造
 
-item.heatable.state.melted=已熔化
+item.heatable.state.melting=熔化中
 item.heatable.state.danger=**危险**
 item.heatable.state.weldable=可焊接
 item.heatable.state.workable=可加工

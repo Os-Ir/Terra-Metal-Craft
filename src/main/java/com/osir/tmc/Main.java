@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class Main {
 	public static final String MODID = "tmc";
 	public static final String NAME = "Terra Metal Craft";
-	public static final String VERSION = "1.2.4";
+	public static final String VERSION = "1.2.5";
 
 	@Instance
 	public static Main instance = new Main();
