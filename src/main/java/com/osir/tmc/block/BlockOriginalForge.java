@@ -32,9 +32,9 @@ public class BlockOriginalForge extends TEBlock {
 
 	public BlockOriginalForge() {
 		super(Material.ROCK);
-		this.setUnlocalizedName("originalForge");
+		this.setUnlocalizedName("original_forge");
 		this.setRegistryName("original_forge");
-		this.setHardness(2.0F);
+		this.setHardness(2);
 		this.setSoundType(SoundType.STONE);
 		this.setHarvestLevel("pickaxe", 1);
 		this.setCreativeTab(CreativeTabList.tabEquipment);

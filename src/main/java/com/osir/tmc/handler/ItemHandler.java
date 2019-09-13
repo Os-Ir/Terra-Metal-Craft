@@ -22,6 +22,8 @@ public class ItemHandler {
 			.setRegistryName("coin");
 	public static final Item ITEM_ORIGINAL_FORGE = new ItemBlock(BlockHandler.ORIGINAL_FORGE)
 			.setRegistryName(BlockHandler.ORIGINAL_FORGE.getRegistryName());
+	public static final Item ITEM_ANVIL_STEEL = new ItemBlock(BlockHandler.ANVIL_STEEL)
+			.setRegistryName(BlockHandler.ANVIL_STEEL.getRegistryName());
 	public static final Item ITEM_MOULD = new ItemMould();
 
 	@SubscribeEvent
@@ -29,6 +31,7 @@ public class ItemHandler {
 		render(COIN);
 		render(ITEM_MOULD);
 		render(ITEM_ORIGINAL_FORGE);
+		render(ITEM_ANVIL_STEEL);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -48,5 +51,6 @@ public class ItemHandler {
 		registry.register(COIN);
 		registry.register(ITEM_ORIGINAL_FORGE);
 		registry.register(ITEM_MOULD);
+		registry.register(ITEM_ANVIL_STEEL);
 	}
 }

@@ -40,5 +40,6 @@ item.unit.temperature=℃
 item.unit.volume=L
 item.unit.specificHeat=J/(L*℃)
 
-tile.originalForge.name=Original Forge
+tile.original_forge.name=Original Forge
 tile.mould.name=Mould
+tile.anvil_steel.name=Steel Anvil

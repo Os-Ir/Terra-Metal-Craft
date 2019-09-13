@@ -1,6 +1,8 @@
 package com.osir.tmc.handler;
 
 import com.osir.tmc.Main;
+import com.osir.tmc.api.util.AnvilMaterialList;
+import com.osir.tmc.block.BlockAnvil;
 import com.osir.tmc.block.BlockMould;
 import com.osir.tmc.block.BlockOriginalForge;
 
@@ -18,11 +20,13 @@ import net.minecraftforge.registries.IForgeRegistry;
 public class BlockHandler {
 	public static final Block ORIGINAL_FORGE = new BlockOriginalForge();
 	public static final Block MOULD = new BlockMould();
+	public static final Block ANVIL_STEEL = new BlockAnvil(AnvilMaterialList.STEEL);
 
 	@SubscribeEvent
 	public static void onModelRegister(ModelRegistryEvent e) {
 		render(MOULD);
 		render(ORIGINAL_FORGE);
+		render(ANVIL_STEEL);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -40,5 +44,6 @@ public class BlockHandler {
 		IForgeRegistry<Block> registry = e.getRegistry();
 		registry.register(ORIGINAL_FORGE);
 		registry.register(MOULD);
+		registry.register(ANVIL_STEEL);
 	}
 }
