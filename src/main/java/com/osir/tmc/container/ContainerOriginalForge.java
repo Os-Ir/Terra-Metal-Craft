@@ -1,5 +1,7 @@
 package com.osir.tmc.container;
 
+import com.osir.tmc.container.slot.SlotFuel;
+import com.osir.tmc.container.slot.SlotHeat;
 import com.osir.tmc.te.TEOriginalForge;
 
 import net.minecraft.entity.player.EntityPlayer;
