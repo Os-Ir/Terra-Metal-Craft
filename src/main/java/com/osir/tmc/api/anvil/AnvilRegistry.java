@@ -1,27 +1,27 @@
-package com.osir.tmc.api.heat;
+package com.osir.tmc.api.anvil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
 
-public class HeatRegistry {
-	private static final List<HeatRecipe> REGISTRY = new ArrayList<HeatRecipe>();
+public class AnvilRegistry {
+	private static final List<AnvilRecipe> REGISTRY = new ArrayList<AnvilRecipe>();
 
-	public static void addRecipe(HeatRecipe recipe) {
-		if (hasRecipe(recipe.getInput())) {
+	public static void addRecipe(AnvilRecipe recipe) {
+		if (REGISTRY.contains(recipe)) {
 			return;
 		}
 		REGISTRY.add(recipe);
 	}
 
-	public static boolean hasRecipe(ItemStack stack) {
+	public static boolean hasRecipe(List<ItemStack> stack) {
 		return findRecipe(stack) == null;
 	}
 
-	public static void deleteRecipe(ItemStack stack) {
+	public static void deleteRecipe(List<ItemStack> stack) {
 		int i;
-		HeatRecipe recipe;
+		AnvilRecipe recipe;
 		for (i = 0; i < REGISTRY.size(); i++) {
 			recipe = REGISTRY.get(i);
 			if (recipe.match(stack)) {
@@ -31,9 +31,9 @@ public class HeatRegistry {
 		}
 	}
 
-	public static HeatRecipe findRecipe(ItemStack stack) {
+	public static AnvilRecipe findRecipe(List<ItemStack> stack) {
 		int i;
-		HeatRecipe recipe;
+		AnvilRecipe recipe;
 		for (i = 0; i < REGISTRY.size(); i++) {
 			recipe = REGISTRY.get(i);
 			if (recipe.match(stack)) {

@@ -4,9 +4,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class HeatRecipe {
-	private int unit;
-	private HeatMaterial material;
-	private ItemStack input, output;
+	protected int unit;
+	protected HeatMaterial material;
+	protected ItemStack input, output;
 
 	public HeatRecipe(int unit, ItemStack input, HeatMaterial material) {
 		this(unit, input, ItemStack.EMPTY, material);
@@ -23,14 +23,10 @@ public class HeatRecipe {
 		if (stack == null) {
 			return false;
 		}
-		Item item = stack.getItem();
-		if (item != input.getItem()) {
-			return false;
+		if (ItemStack.areItemStacksEqual(stack, this.input)) {
+			return true;
 		}
-		if (item.getHasSubtypes() && stack.getItemDamage() != input.getItemDamage()) {
-			return false;
-		}
-		return true;
+		return false;
 	}
 
 	public HeatMaterial getMaterial() {

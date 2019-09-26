@@ -59,14 +59,14 @@ public class ContainerOriginalForge extends ContainerTEInventory<TEOriginalForge
 	public ItemStack transferStackInSlot(EntityPlayer player, int idx) {
 		Slot slot = (Slot) this.inventorySlots.get(idx);
 		if (slot == null || !slot.getHasStack()) {
-			return null;
+			return ItemStack.EMPTY;
 		}
 		ItemStack stack = slot.getStack();
 		ItemStack previous = stack.copy();
 		int i;
 		if (idx < 9) {
 			if (!this.mergeItemStack(stack, 9, this.inventorySlots.size(), true)) {
-				return null;
+				return ItemStack.EMPTY;
 			}
 		} else {
 			if (stack != null && !stack.isEmpty()) {
