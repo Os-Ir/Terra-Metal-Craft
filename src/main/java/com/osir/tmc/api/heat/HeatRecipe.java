@@ -23,7 +23,7 @@ public class HeatRecipe {
 		if (stack == null) {
 			return false;
 		}
-		if (ItemStack.areItemStacksEqual(stack, this.input)) {
+		if (ItemStack.areItemsEqual(stack, this.input)) {
 			return true;
 		}
 		return false;

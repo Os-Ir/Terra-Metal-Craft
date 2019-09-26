@@ -16,7 +16,7 @@ public class HeatRegistry {
 	}
 
 	public static boolean hasRecipe(ItemStack stack) {
-		return findRecipe(stack) == null;
+		return findRecipe(stack) != null;
 	}
 
 	public static void deleteRecipe(ItemStack stack) {

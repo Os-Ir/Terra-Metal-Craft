@@ -1,5 +1,6 @@
 package com.osir.tmc;
 
+import com.osir.tmc.handler.AnvilRecipeHandler;
 import com.osir.tmc.handler.CapabilityHandler;
 import com.osir.tmc.handler.GuiHandler;
 import com.osir.tmc.handler.HeatableItemHandler;
@@ -17,7 +18,7 @@ public class CommonProxy {
 		CapabilityHandler.register();
 		NetworkHandler.register();
 		HeatableItemHandler.setup();
-		HeatableItemHandler.setupMetal();
+		AnvilRecipeHandler.setup();
 	}
 
 	public void init(FMLInitializationEvent e) {

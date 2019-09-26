@@ -9,14 +9,14 @@ public class AnvilRegistry {
 	private static final List<AnvilRecipe> REGISTRY = new ArrayList<AnvilRecipe>();
 
 	public static void addRecipe(AnvilRecipe recipe) {
-		if (REGISTRY.contains(recipe)) {
-			return;
+		if (hasRecipe(recipe.getInput())) {
+			throw new RuntimeException("This Anvil Recipe Has Been Registered");
 		}
 		REGISTRY.add(recipe);
 	}
 
 	public static boolean hasRecipe(List<ItemStack> stack) {
-		return findRecipe(stack) == null;
+		return findRecipe(stack) != null;
 	}
 
 	public static void deleteRecipe(List<ItemStack> stack) {

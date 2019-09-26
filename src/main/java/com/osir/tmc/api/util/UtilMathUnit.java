@@ -1,8 +1,8 @@
 package com.osir.tmc.api.util;
 
 public class UtilMathUnit {
-	public static final String[] HIGH = { "k", "M", "G", "T", "P", "E", "Z", "Y", "B", "N", "D" };
-	public static final String[] LOW = { "m", "μ", "n", "p", "f", "a", "z", "y" };
+	public static final String[] HIGH = { "k", "M", "G", "T", "P", "E" };
+	public static final String[] LOW = { "m", "μ", "n", "p", "f", "a" };
 
 	public static String format(double num) {
 		if (num == 0) {

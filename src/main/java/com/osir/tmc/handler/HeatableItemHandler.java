@@ -15,8 +15,4 @@ public class HeatableItemHandler {
 		HeatRegistry.addRecipe(
 				new HeatRecipe(144, new ItemStack(Blocks.SAND), new ItemStack(Blocks.GLASS), MaterialList.SAND));
 	}
-
-	public static void setupMetal() {
-
-	}
 }
