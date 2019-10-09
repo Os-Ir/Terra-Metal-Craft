@@ -10,7 +10,7 @@ public class AnvilRegistry {
 
 	public static void addRecipe(AnvilRecipe recipe) {
 		if (hasRecipe(recipe.getInput())) {
-			throw new RuntimeException("This Anvil Recipe Has Been Registered");
+			throw new IllegalArgumentException("This anvil recipe has been registered");
 		}
 		REGISTRY.add(recipe);
 	}

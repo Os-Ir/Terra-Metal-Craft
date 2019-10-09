@@ -1,5 +1,7 @@
 package com.osir.tmc.handler;
 
+import javax.annotation.Nonnull;
+
 import com.osir.tmc.Main;
 import com.osir.tmc.api.util.AnvilMaterialList;
 import com.osir.tmc.block.BlockAnvil;
@@ -7,8 +9,12 @@ import com.osir.tmc.block.BlockMould;
 import com.osir.tmc.block.BlockOriginalForge;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -26,7 +32,13 @@ public class BlockHandler {
 	public static void onModelRegister(ModelRegistryEvent e) {
 		render(MOULD);
 		render(ORIGINAL_FORGE);
-		render(ANVIL_STEEL);
+		render(ANVIL_STEEL, 0, "tmc:anvil", "inventory");
+		ModelLoader.setCustomStateMapper(ANVIL_STEEL, new StateMapperBase() {
+			@Override
+			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
+				return new ModelResourceLocation(Main.MODID + ":anvil", getPropertyString(state.getProperties()));
+			}
+		});
 	}
 
 	@SideOnly(Side.CLIENT)

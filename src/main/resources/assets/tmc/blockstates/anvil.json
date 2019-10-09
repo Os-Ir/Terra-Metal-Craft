@@ -1,0 +1,8 @@
+{
+  "variants": {
+	"facing=north": { "model": "tmc:anvil" },
+	"facing=east": { "model": "tmc:anvil", "y": 90 },
+	"facing=south": { "model": "tmc:anvil", "y": 180 },
+	"facing=west": { "model": "tmc:anvil", "y": 270 }
+  }
+}

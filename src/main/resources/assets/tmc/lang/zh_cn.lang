@@ -42,4 +42,4 @@ item.unit.specificHeat=J/(L*℃)
 
 tile.original_forge.name=原始锻造炉
 tile.mould.name=模具
-tile.anvil_steel.name=钢砧
+tile.anvil.steel.name=钢砧

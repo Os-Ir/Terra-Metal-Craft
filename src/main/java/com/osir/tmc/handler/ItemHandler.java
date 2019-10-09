@@ -29,9 +29,6 @@ public class ItemHandler {
 	@SubscribeEvent
 	public static void onModelRegister(ModelRegistryEvent e) {
 		render(COIN);
-		render(ITEM_MOULD);
-		render(ITEM_ORIGINAL_FORGE);
-		render(ITEM_ANVIL_STEEL);
 	}
 
 	@SideOnly(Side.CLIENT)

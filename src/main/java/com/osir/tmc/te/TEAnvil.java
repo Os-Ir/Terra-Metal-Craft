@@ -14,6 +14,9 @@ public class TEAnvil extends TEInventory implements ITickable {
 
 	@Override
 	public void update() {
+		if (this.inventory == null) {
+			return;
+		}
 		ItemStack stack = this.inventory.getStackInSlot(1);
 		if (stack != null && !stack.isEmpty()) {
 			this.inventory.setStackInSlot(10, stack.copy());

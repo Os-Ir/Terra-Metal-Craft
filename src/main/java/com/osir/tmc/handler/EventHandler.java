@@ -7,15 +7,21 @@ import com.osir.tmc.api.heat.HeatRecipe;
 import com.osir.tmc.api.heat.HeatRegistry;
 import com.osir.tmc.api.inter.IHeatable;
 import com.osir.tmc.api.inter.ILiquidContainer;
+import com.osir.tmc.block.BlockAnvil;
 import com.osir.tmc.capability.CapabilityHeat;
 import com.osir.tmc.capability.CapabilityLiquidContainer;
 import com.osir.tmc.capability.ItemStackInventory;
 
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -26,7 +32,28 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @EventBusSubscriber(modid = Main.MODID)
 public class EventHandler {
-	// private static int tipIdx;
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public static void onModelColor(ColorHandlerEvent.Item e) {
+		ItemColors itemColors = e.getItemColors();
+		BlockColors blockColors = e.getBlockColors();
+		itemColors.registerItemColorHandler((stack, idx) -> {
+			if (stack.getItem() instanceof ItemBlock) {
+				Block block = ((ItemBlock) stack.getItem()).getBlock();
+				if (block instanceof BlockAnvil) {
+					return ((BlockAnvil) block).getAnvilMaterial().getColor();
+				}
+			}
+			return 0xffffff;
+		}, BlockHandler.ANVIL_STEEL);
+		blockColors.registerBlockColorHandler((state, world, pos, idx) -> {
+			Block block = state.getBlock();
+			if (block instanceof BlockAnvil) {
+				return ((BlockAnvil) block).getAnvilMaterial().getColor();
+			}
+			return 0xffffff;
+		}, BlockHandler.ANVIL_STEEL);
+	}
 
 	@SubscribeEvent
 	public static void onAttachCapabilitiesItem(AttachCapabilitiesEvent<ItemStack> e) {
@@ -57,11 +84,7 @@ public class EventHandler {
 		long time = 0;
 		if (e.getEntityPlayer() != null && e.getEntityPlayer().getEntityWorld() != null) {
 			time = e.getEntityPlayer().getEntityWorld().getTotalWorldTime();
-			// if (time % 200 == 0) {
-			// tipIdx++;
-			// }
 		}
-		// tooltip.add(tipIdx + "");
 		tooltip.add(TextFormatting.AQUA + I18n.format("item.heatable.tip.title"));
 		tooltip.add(TextFormatting.AQUA + "--" + I18n.format("item.heatable.tip.heating"));
 		HeatRecipe recipe = HeatRegistry.findRecipe(stack);

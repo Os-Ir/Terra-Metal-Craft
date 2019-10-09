@@ -32,12 +32,16 @@ public class BlockAnvil extends BlockContainer {
 	public BlockAnvil(AnvilMaterialList material) {
 		super(material.getMaterial());
 		this.material = material;
-		this.setUnlocalizedName("anvil_" + material.getAnvilMaterial());
-		this.setRegistryName("anvil_" + material.getAnvilMaterial());
+		this.setUnlocalizedName("anvil." + material.getAnvilMaterial());
+		this.setRegistryName("anvil." + material.getAnvilMaterial());
 		this.setHardness(material.getLevel() + 3);
 		this.setHarvestLevel("pickaxe", (material.getLevel() < 2) ? 1 : 2);
 		this.setCreativeTab(CreativeTabList.tabEquipment);
 		this.setSoundType(SoundType.ANVIL);
+	}
+
+	public AnvilMaterialList getAnvilMaterial() {
+		return this.material;
 	}
 
 	@Override
