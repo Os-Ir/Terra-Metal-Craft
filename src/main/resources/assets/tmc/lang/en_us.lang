@@ -42,4 +42,8 @@ item.unit.specificHeat=J/(L*℃)
 
 tile.original_forge.name=Original Forge
 tile.mould.name=Mould
-tile.anvil_steel.name=Steel Anvil
+tile.anvil.stone.name=Stone Anvil
+tile.anvil.copper.name=Copper Anvil
+tile.anvil.bronze.name=Bronze Anvil
+tile.anvil.iron.name=Iron Anvil
+tile.anvil.steel.name=Steel Anvil

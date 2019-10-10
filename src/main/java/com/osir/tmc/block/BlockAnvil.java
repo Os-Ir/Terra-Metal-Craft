@@ -2,6 +2,7 @@ package com.osir.tmc.block;
 
 import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
+import com.osir.tmc.api.inter.IBlockModel;
 import com.osir.tmc.api.util.AnvilMaterialList;
 import com.osir.tmc.te.TEAnvil;
 
@@ -10,6 +11,8 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -21,8 +24,9 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 
-public class BlockAnvil extends BlockContainer {
+public class BlockAnvil extends BlockContainer implements IBlockModel {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	private static final AxisAlignedBB ANVIL_AABB_A = new AxisAlignedBB(0, 0, 0.125, 1, 0.6875, 0.875);
 	private static final AxisAlignedBB ANVIL_AABB_B = new AxisAlignedBB(0.125, 0, 0, 0.875, 0.6875, 1);
@@ -105,5 +109,15 @@ public class BlockAnvil extends BlockContainer {
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new TEAnvil(this.material.getLevel());
+	}
+
+	@Override
+	public void registerModel() {
+		ModelLoader.setCustomStateMapper(this, new StateMapperBase() {
+			@Override
+			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
+				return new ModelResourceLocation(Main.MODID + ":anvil", getPropertyString(state.getProperties()));
+			}
+		});
 	}
 }

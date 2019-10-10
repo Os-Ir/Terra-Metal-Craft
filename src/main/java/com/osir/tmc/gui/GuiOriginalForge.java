@@ -38,7 +38,7 @@ public class GuiOriginalForge extends GuiContainer {
 		this.drawTexturedModalRect(this.guiLeft + 48 + dis, this.guiTop + 63, 177, 15, 5, 17);
 		this.fontRenderer.drawString(I18n.format("tile.original_forge.name"), this.guiLeft + 5, this.guiTop + 5,
 				0x404040);
-		this.fontRenderer.drawString(I18n.format("item.heatable.state.temperature") + " " + (int) temp
-				+ I18n.format("item.unit.temperature"), this.guiLeft + 49, this.guiTop + 54, 0x404040);
+		this.fontRenderer.drawString((int) temp + I18n.format("item.unit.temperature"), this.guiLeft + 49,
+				this.guiTop + 54, 0x404040);
 	}
 }

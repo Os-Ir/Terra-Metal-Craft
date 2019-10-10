@@ -45,14 +45,14 @@ public class EventHandler {
 				}
 			}
 			return 0xffffff;
-		}, BlockHandler.ANVIL_STEEL);
+		}, BlockHandler.ANVIL);
 		blockColors.registerBlockColorHandler((state, world, pos, idx) -> {
 			Block block = state.getBlock();
 			if (block instanceof BlockAnvil) {
 				return ((BlockAnvil) block).getAnvilMaterial().getColor();
 			}
 			return 0xffffff;
-		}, BlockHandler.ANVIL_STEEL);
+		}, BlockHandler.ANVIL);
 	}
 
 	@SubscribeEvent
