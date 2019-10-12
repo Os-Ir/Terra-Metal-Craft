@@ -1,4 +1,4 @@
-package com.osir.tmc.api.util;
+package com.osir.tmc.api.anvil;
 
 import net.minecraft.block.material.Material;
 

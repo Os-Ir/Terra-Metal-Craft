@@ -1,4 +1,9 @@
 
+gui.bullet.anvil.weld=焊接
+gui.bullet.anvil.work=加工
+gui.bullet.anvil.twine=缠绕
+gui.bullet.anvil.bend=弯曲
+
 itemGroup.tmc.equipment=群峦金属工艺-设备
 itemGroup.tmc.item=群峦金属工艺-物品
 

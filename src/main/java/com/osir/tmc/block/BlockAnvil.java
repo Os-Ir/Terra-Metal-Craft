@@ -2,8 +2,8 @@ package com.osir.tmc.block;
 
 import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
+import com.osir.tmc.api.anvil.AnvilMaterialList;
 import com.osir.tmc.api.inter.IBlockModel;
-import com.osir.tmc.api.util.AnvilMaterialList;
 import com.osir.tmc.te.TEAnvil;
 
 import net.minecraft.block.BlockContainer;

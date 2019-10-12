@@ -1,8 +1,8 @@
 package com.osir.tmc.handler;
 
 import com.osir.tmc.Main;
+import com.osir.tmc.api.anvil.AnvilMaterialList;
 import com.osir.tmc.api.inter.IBlockModel;
-import com.osir.tmc.api.util.AnvilMaterialList;
 import com.osir.tmc.block.BlockAnvil;
 import com.osir.tmc.block.BlockMould;
 import com.osir.tmc.block.BlockOriginalForge;

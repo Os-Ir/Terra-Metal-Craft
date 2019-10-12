@@ -2,6 +2,7 @@ package com.osir.tmc.gui;
 
 import com.osir.tmc.Main;
 import com.osir.tmc.container.ContainerAnvil;
+import com.osir.tmc.gui.button.ButtonAnvil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -11,7 +12,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiAnvil extends GuiContainer {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID, "textures/gui/gui_anvil.png");
+	public static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID, "textures/gui/gui_anvil.png");
 	private ContainerAnvil container;
 
 	public GuiAnvil(ContainerAnvil container) {
@@ -24,19 +25,9 @@ public class GuiAnvil extends GuiContainer {
 	@Override
 	public void initGui() {
 		super.initGui();
-		this.buttonList.add(new GuiButton(0, this.guiLeft + 8, this.guiTop + 30, 16, 16, "") {
-			@Override
-			public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-				if (this.visible) {
-					GlStateManager.color(1, 1, 1, 1);
-					mc.getTextureManager().bindTexture(TEXTURE);
-					this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width
-							&& mouseY < this.y + this.height;
-					Gui.drawModalRectWithCustomSizedTexture(this.x, this.y, 0, 214, this.width, this.height, 256, 256);
-					this.mouseDragged(mc, mouseX, mouseY);
-				}
-			}
-		});
+		this.buttonList.add(new ButtonAnvil(0, this.guiLeft + 8, this.guiTop + 30, 0, 214, 16, 16, ""));
+		this.buttonList.add(new ButtonAnvil(1, this.guiLeft + 30, this.guiTop + 30, 16, 214, 38, 16, ""));
+		this.buttonList.add(new ButtonAnvil(2, this.guiLeft + 74, this.guiTop + 30, 54, 214, 16, 16, ""));
 	}
 
 	@Override
