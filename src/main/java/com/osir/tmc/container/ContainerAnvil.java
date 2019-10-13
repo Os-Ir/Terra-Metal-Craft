@@ -10,6 +10,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class ContainerAnvil extends ContainerTEInventory<TEAnvil> {
@@ -71,5 +72,10 @@ public class ContainerAnvil extends ContainerTEInventory<TEAnvil> {
 		this.addSlotToContainer(new SlotItemHandler(cap, 9, 30, 81));
 		this.addSlotToContainer(new SlotLocked(cap, 10, 124, 45));
 		this.addSlotToContainer(new SlotLocked(cap, 11, 146, 45));
+	}
+
+	public void receiveMessage(int idx) {
+		IItemHandlerModifiable cap = (IItemHandlerModifiable) this.te
+				.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 	}
 }

@@ -33,7 +33,7 @@ public class CapabilityContainerListener implements IContainerListener {
 		}
 		MessageHeatableItem message = new MessageHeatableItem(container.windowId, list);
 		if (message.hasData()) {
-			NetworkHandler.instance.sendTo(message, player);
+			NetworkHandler.NETWORK.sendTo(message, player);
 		}
 	}
 
@@ -42,7 +42,7 @@ public class CapabilityContainerListener implements IContainerListener {
 		if (this.shouldSync(stack)) {
 			MessageHeatableItem message = new MessageHeatableItem(container.windowId, slot, stack);
 			if (message.hasData()) {
-				NetworkHandler.instance.sendTo(message, player);
+				NetworkHandler.NETWORK.sendTo(message, player);
 			}
 		}
 	}

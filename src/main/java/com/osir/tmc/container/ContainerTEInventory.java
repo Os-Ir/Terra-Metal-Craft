@@ -13,6 +13,10 @@ public abstract class ContainerTEInventory<T extends TEInventory> extends Contai
 	protected T te;
 	protected InventoryPlayer invPlayer;
 
+	public T getTE() {
+		return this.te;
+	}
+
 	public ContainerTEInventory(InventoryPlayer invPlayer, T te) {
 		this(invPlayer, te, 0, 0);
 	}

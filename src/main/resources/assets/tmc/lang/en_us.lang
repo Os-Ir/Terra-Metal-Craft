@@ -1,8 +1,8 @@
 
-gui.bullet.anvil.weld=Weld
-gui.bullet.anvil.work=Work
-gui.bullet.anvil.twine=Twine
-gui.bullet.anvil.bend=Bend
+gui.button.anvil.weld=Weld
+gui.button.anvil.work=Work
+gui.button.anvil.twine=Twine
+gui.button.anvil.bend=Bend
 
 itemGroup.tmc.equipment=Terra Metal Craft-Equipment
 itemGroup.tmc.item=Terra Metal Craft-Item

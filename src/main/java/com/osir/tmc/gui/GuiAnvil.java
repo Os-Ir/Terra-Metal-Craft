@@ -1,15 +1,23 @@
 package com.osir.tmc.gui;
 
+import java.io.IOException;
+
 import com.osir.tmc.Main;
 import com.osir.tmc.container.ContainerAnvil;
 import com.osir.tmc.gui.button.ButtonAnvil;
+import com.osir.tmc.handler.NetworkHandler;
+import com.osir.tmc.network.MessageAnvilButton;
+import com.osir.tmc.te.TEAnvil;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 
 public class GuiAnvil extends GuiContainer {
 	public static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID, "textures/gui/gui_anvil.png");
@@ -42,5 +50,16 @@ public class GuiAnvil extends GuiContainer {
 		GlStateManager.color(1, 1, 1, 1);
 		Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE);
 		this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+	}
+
+	@Override
+	protected void actionPerformed(GuiButton button) throws IOException {
+		if (button instanceof ButtonAnvil) {
+			NetworkHandler.NETWORK.sendToServer(new MessageAnvilButton(button.id));
+			TEAnvil te = this.container.getTE();
+			IItemHandlerModifiable cap = (IItemHandlerModifiable) te
+					.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+		}
+		super.actionPerformed(button);
 	}
 }
