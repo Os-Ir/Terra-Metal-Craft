@@ -20,9 +20,8 @@ public class HeatRegistry {
 	}
 
 	public static void deleteRecipe(ItemStack stack) {
-		int i;
 		HeatRecipe recipe;
-		for (i = 0; i < REGISTRY.size(); i++) {
+		for (int i = 0; i < REGISTRY.size(); i++) {
 			recipe = REGISTRY.get(i);
 			if (recipe.match(stack)) {
 				REGISTRY.remove(i);
@@ -32,9 +31,8 @@ public class HeatRegistry {
 	}
 
 	public static HeatRecipe findRecipe(ItemStack stack) {
-		int i;
 		HeatRecipe recipe;
-		for (i = 0; i < REGISTRY.size(); i++) {
+		for (int i = 0; i < REGISTRY.size(); i++) {
 			recipe = REGISTRY.get(i);
 			if (recipe.match(stack)) {
 				return recipe;

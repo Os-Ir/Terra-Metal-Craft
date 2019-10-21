@@ -1,9 +1,9 @@
 package com.osir.tmc.api.anvil;
 
-import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import com.osir.tmc.api.util.ComparatorAnvilRecipe;
 
@@ -11,40 +11,50 @@ import net.minecraft.item.ItemStack;
 
 public class AnvilRecipe {
 	protected static final Comparator COMPARATOR = new ComparatorAnvilRecipe();
-	protected List<ItemStack> input, output;
+	protected Pair<ItemStack, ItemStack> input, output;
 
-	public AnvilRecipe(ItemStack[] input, ItemStack[] output) {
-		this(Arrays.asList(input), Arrays.asList(output));
+	public AnvilRecipe(ItemStack inputA, ItemStack inputB, ItemStack outputA, ItemStack outputB) {
+		this.input = new ImmutablePair(inputA, inputB);
+		this.output = new ImmutablePair(outputA, outputB);
 	}
 
-	public AnvilRecipe(List<ItemStack> input, List<ItemStack> output) {
+	public AnvilRecipe(Pair<ItemStack, ItemStack> input, Pair<ItemStack, ItemStack> output) {
 		this.input = input;
 		this.output = output;
-		this.input.sort(COMPARATOR);
-		this.output.sort(COMPARATOR);
 	}
 
-	public boolean match(List<ItemStack> input) {
-		if (input == null || input.isEmpty() || input.size() != this.input.size()) {
+	public boolean match(Pair<ItemStack, ItemStack> input) {
+		if (input == null) {
 			return false;
 		}
-		Iterator<ItemStack> iteratorA = input.iterator();
-		Iterator<ItemStack> iteratorB = this.input.iterator();
-		while (iteratorA.hasNext()) {
-			ItemStack stackA = iteratorA.next();
-			ItemStack stackB = iteratorB.next();
-			if (!ItemStack.areItemsEqual(stackA, stackB)) {
-				return false;
-			}
+		ItemStack left = input.getLeft();
+		ItemStack right = input.getRight();
+		if (left == null || left.isEmpty()) {
+			left = ItemStack.EMPTY;
 		}
-		return true;
+		if (right == null || right.isEmpty()) {
+			right = ItemStack.EMPTY;
+		}
+		if (ItemStack.areItemsEqual(left, this.input.getLeft())) {
+			if (ItemStack.areItemsEqual(right, this.input.getRight())) {
+				return true;
+			}
+			return false;
+		}
+		if (ItemStack.areItemsEqual(right, this.input.getLeft())) {
+			if (ItemStack.areItemsEqual(left, this.input.getRight())) {
+				return true;
+			}
+			return false;
+		}
+		return false;
 	}
 
-	public List<ItemStack> getInput() {
+	public Pair<ItemStack, ItemStack> getInput() {
 		return this.input;
 	}
 
-	public List<ItemStack> getOutput() {
+	public Pair<ItemStack, ItemStack> getOutput() {
 		return this.output;
 	}
 }
