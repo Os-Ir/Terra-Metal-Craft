@@ -1,6 +1,5 @@
 package com.osir.tmc.api.heat;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class HeatRecipe {

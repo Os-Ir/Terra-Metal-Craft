@@ -23,8 +23,11 @@ public class TEOriginalForge extends TEHeatBlock {
 		this.inventory = new ItemStackHandler(9) {
 			@Override
 			public int getSlotLimit(int slot) {
-				if (slot < 6) {
+				if (slot < 3) {
 					return 1;
+				}
+				if (slot < 6) {
+					return 4;
 				}
 				return 64;
 			}
@@ -83,14 +86,17 @@ public class TEOriginalForge extends TEHeatBlock {
 			} else if (delta < 0) {
 				delta = Math.min(delta, -RATE);
 			}
+			int count = stack.getCount();
 			cap.setIncreaseEnergy(delta);
-			this.energy -= delta;
+			this.energy -= delta * count;
 			if (cap.getUnit() == 0) {
 				HeatRecipe recipe = HeatRegistry.findRecipe(stack);
 				if (recipe != null) {
 					ItemStack output = recipe.getOutput();
 					if (output != null && !output.isEmpty()) {
-						this.inventory.setStackInSlot(i, output.copy());
+						output = output.copy();
+						output.setCount(count);
+						this.inventory.setStackInSlot(i, output);
 					} else {
 						this.inventory.setStackInSlot(i, ItemStack.EMPTY);
 					}

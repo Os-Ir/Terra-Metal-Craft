@@ -1,11 +1,16 @@
 package com.osir.tmc.container;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+
+import com.osir.tmc.api.anvil.AnvilRecipe;
+import com.osir.tmc.api.anvil.AnvilRecipeType;
+import com.osir.tmc.api.anvil.AnvilRegistry;
 import com.osir.tmc.container.slot.SlotLocked;
 import com.osir.tmc.container.slot.SlotOutput;
 import com.osir.tmc.te.TEAnvil;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -70,12 +75,19 @@ public class ContainerAnvil extends ContainerTEInventory<TEAnvil> {
 		}
 		this.addSlotToContainer(new SlotItemHandler(cap, 8, 8, 81));
 		this.addSlotToContainer(new SlotItemHandler(cap, 9, 30, 81));
-		this.addSlotToContainer(new SlotLocked(cap, 10, 124, 45));
-		this.addSlotToContainer(new SlotLocked(cap, 11, 146, 45));
+		this.addSlotToContainer(new SlotLocked(cap, 1, 124, 45));
+		this.addSlotToContainer(new SlotLocked(cap, 2, 146, 45));
 	}
 
 	public void receiveMessage(int idx) {
 		IItemHandlerModifiable cap = (IItemHandlerModifiable) this.te
 				.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+		if (idx == 1) {
+			Pair pair = new ImmutablePair(cap.getStackInSlot(1), cap.getStackInSlot(2));
+			if (AnvilRegistry.hasRecipe(pair, AnvilRecipeType.WORK)) {
+				AnvilRecipe recipe = AnvilRegistry.findRecipe(pair, AnvilRecipeType.WORK);
+				recipe.accept(pair, AnvilRecipeType.WORK, true);
+			}
+		}
 	}
 }
