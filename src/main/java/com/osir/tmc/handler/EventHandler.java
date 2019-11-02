@@ -47,7 +47,7 @@ public class EventHandler {
 					continue;
 				}
 				IHeatable cap = stack.getCapability(CapabilityHandler.HEATABLE, null);
-				float delta = Math.min((20 - cap.getTemp()) * 5, -200);
+				float delta = Math.min((20 - cap.getTemp()) * 0.02F, -1);
 				cap.setIncreaseEnergy(delta);
 			}
 		}

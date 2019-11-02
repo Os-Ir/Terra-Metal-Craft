@@ -82,12 +82,43 @@ public class ContainerAnvil extends ContainerTEInventory<TEAnvil> {
 	public void receiveMessage(int idx) {
 		IItemHandlerModifiable cap = (IItemHandlerModifiable) this.te
 				.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-		if (idx == 1) {
-			Pair pair = new ImmutablePair(cap.getStackInSlot(1), cap.getStackInSlot(2));
-			if (AnvilRegistry.hasRecipe(pair, AnvilRecipeType.WORK)) {
-				AnvilRecipe recipe = AnvilRegistry.findRecipe(pair, AnvilRecipeType.WORK);
-				recipe.accept(pair, AnvilRecipeType.WORK, true);
+		Pair pair;
+		switch (idx) {
+		case 0:
+			if (cap.getStackInSlot(4) == null || cap.getStackInSlot(4).isEmpty()) {
+				pair = new ImmutablePair(cap.getStackInSlot(0), ItemStack.EMPTY);
+				if (AnvilRegistry.hasRecipe(pair, AnvilRecipeType.TWINE)) {
+					AnvilRecipe recipe = AnvilRegistry.findRecipe(pair, AnvilRecipeType.TWINE);
+					if (recipe.accept(pair, AnvilRecipeType.TWINE, true)) {
+						cap.setStackInSlot(4, recipe.getOutput().getLeft().copy());
+					}
+				}
 			}
+			break;
+		case 1:
+			if ((cap.getStackInSlot(5) == null || cap.getStackInSlot(5).isEmpty())
+					&& (cap.getStackInSlot(6) == null || cap.getStackInSlot(6).isEmpty())) {
+				pair = new ImmutablePair(cap.getStackInSlot(1), cap.getStackInSlot(2));
+				if (AnvilRegistry.hasRecipe(pair, AnvilRecipeType.WELD)) {
+					AnvilRecipe recipe = AnvilRegistry.findRecipe(pair, AnvilRecipeType.WELD);
+					if (recipe.accept(pair, AnvilRecipeType.WELD, true)) {
+						cap.setStackInSlot(5, recipe.getOutput().getLeft().copy());
+						cap.setStackInSlot(6, recipe.getOutput().getRight().copy());
+					}
+				}
+			}
+			break;
+		case 2:
+			if (cap.getStackInSlot(7) == null || cap.getStackInSlot(7).isEmpty()) {
+				pair = new ImmutablePair(cap.getStackInSlot(3), ItemStack.EMPTY);
+				if (AnvilRegistry.hasRecipe(pair, AnvilRecipeType.BEND)) {
+					AnvilRecipe recipe = AnvilRegistry.findRecipe(pair, AnvilRecipeType.BEND);
+					if (recipe.accept(pair, AnvilRecipeType.BEND, true)) {
+						cap.setStackInSlot(7, recipe.getOutput().getLeft().copy());
+					}
+				}
+			}
+			break;
 		}
 	}
 }

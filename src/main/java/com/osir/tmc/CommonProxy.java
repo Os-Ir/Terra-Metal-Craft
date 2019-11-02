@@ -4,6 +4,7 @@ import com.osir.tmc.handler.AnvilRecipeHandler;
 import com.osir.tmc.handler.CapabilityHandler;
 import com.osir.tmc.handler.GuiHandler;
 import com.osir.tmc.handler.HeatableItemHandler;
+import com.osir.tmc.handler.MaterialHandler;
 import com.osir.tmc.handler.NetworkHandler;
 import com.osir.tmc.handler.TEHandler;
 
@@ -21,6 +22,7 @@ public class CommonProxy {
 		CapabilityHandler.register();
 		NetworkHandler.register();
 		HeatableItemHandler.setup();
+		MaterialHandler.register();
 		AnvilRecipeHandler.setup();
 	}
 

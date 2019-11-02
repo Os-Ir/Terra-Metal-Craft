@@ -5,7 +5,9 @@ import java.util.Comparator;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
+import com.osir.tmc.api.inter.IHeatable;
 import com.osir.tmc.api.util.ComparatorAnvilRecipe;
+import com.osir.tmc.handler.CapabilityHandler;
 
 import net.minecraft.item.ItemStack;
 
@@ -42,6 +44,26 @@ public class AnvilRecipe {
 		}
 		if (right == null || right.isEmpty()) {
 			right = ItemStack.EMPTY;
+		}
+		if (left.hasCapability(CapabilityHandler.HEATABLE, null)) {
+			IHeatable cap = left.getCapability(CapabilityHandler.HEATABLE, null);
+			if (type == AnvilRecipeType.WELD) {
+				if (!cap.isWeldable()) {
+					return false;
+				}
+			} else if (!cap.isWorkable()) {
+				return false;
+			}
+		}
+		if (right.hasCapability(CapabilityHandler.HEATABLE, null)) {
+			IHeatable cap = right.getCapability(CapabilityHandler.HEATABLE, null);
+			if (type == AnvilRecipeType.WELD) {
+				if (!cap.isWeldable()) {
+					return false;
+				}
+			} else if (!cap.isWorkable()) {
+				return false;
+			}
 		}
 		if (ItemStack.areItemsEqual(left, this.input.getLeft()) && left.getCount() >= this.num.getLeft()) {
 			if (ItemStack.areItemsEqual(right, this.input.getRight()) && right.getCount() >= this.num.getRight()) {

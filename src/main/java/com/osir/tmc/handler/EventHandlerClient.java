@@ -84,19 +84,16 @@ public class EventHandlerClient {
 		if (cap.getUnit() != cap.getCompleteUnit()) {
 			tooltip.add(TextFormatting.WHITE + I18n.format("item.heatable.state.melting"));
 		} else {
-			float t = (float) (temp - 20) / (cap.getMeltTemp() - 20);
 			String info = "";
-			if (t >= 0.9) {
+			if (cap.isDanger()) {
 				info += (time % 10 < 5 ? TextFormatting.RED : TextFormatting.WHITE)
 						+ I18n.format("item.heatable.state.danger") + TextFormatting.WHITE + " | ";
 			}
-			if (output != null && !output.isEmpty()) {
-				if (t >= 0.8) {
-					info += TextFormatting.WHITE + I18n.format("item.heatable.state.weldable") + " | ";
-				}
-				if (t >= 0.6) {
-					info += TextFormatting.WHITE + I18n.format("item.heatable.state.workable");
-				}
+			if (cap.isWeldable()) {
+				info += TextFormatting.WHITE + I18n.format("item.heatable.state.weldable") + " | ";
+			}
+			if (cap.isWorkable()) {
+				info += TextFormatting.WHITE + I18n.format("item.heatable.state.workable");
 			}
 			if (!info.equals("")) {
 				tooltip.add(info);

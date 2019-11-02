@@ -2,9 +2,9 @@ package com.osir.tmc.capability;
 
 import com.osir.tmc.Main;
 import com.osir.tmc.api.heat.HeatMaterial;
-import com.osir.tmc.api.heat.MaterialList;
 import com.osir.tmc.api.heat.TempList;
 import com.osir.tmc.api.inter.IHeatable;
+import com.osir.tmc.api.material.MaterialList;
 import com.osir.tmc.handler.CapabilityHandler;
 
 import net.minecraft.client.resources.I18n;
@@ -64,7 +64,8 @@ public class CapabilityHeat {
 
 	public static class Implementation implements IHeatable, ICapabilitySerializable<NBTTagCompound> {
 		private static final String[] NUMBER = { "I", "II", "III", "IV", "V" };
-		private int specificHeat, meltTemp, unit, compUnit;
+		private float specificHeat;
+		private int meltTemp, unit, compUnit;
 		private float maxEnergy, energy, overEnergy;
 
 		public Implementation() {
@@ -84,7 +85,7 @@ public class CapabilityHeat {
 		}
 
 		@Override
-		public int getSpecificHeat() {
+		public float getSpecificHeat() {
 			return this.specificHeat;
 		}
 
@@ -213,6 +214,26 @@ public class CapabilityHeat {
 			if (nbt.hasKey("overEnergy")) {
 				this.overEnergy = nbt.getFloat("overEnergy");
 			}
+		}
+
+		@Override
+		public boolean isWorkable() {
+			return ((float) (this.getTemp() - 20)) / (this.meltTemp - 20) >= 0.6;
+		}
+
+		@Override
+		public boolean isSoft() {
+			return ((float) (this.getTemp() - 20)) / (this.meltTemp - 20) >= 0.7;
+		}
+
+		@Override
+		public boolean isWeldable() {
+			return ((float) (this.getTemp() - 20)) / (this.meltTemp - 20) >= 0.8;
+		}
+
+		@Override
+		public boolean isDanger() {
+			return ((float) (this.getTemp() - 20)) / (this.meltTemp - 20) >= 0.9;
 		}
 	}
 }

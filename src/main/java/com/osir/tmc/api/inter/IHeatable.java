@@ -3,7 +3,7 @@ package com.osir.tmc.api.inter;
 public interface IHeatable {
 	int getMeltTemp();
 
-	int getSpecificHeat();
+	float getSpecificHeat();
 
 	int getTemp();
 
@@ -26,4 +26,12 @@ public interface IHeatable {
 	void setEnergy(float energy);
 
 	void setIncreaseEnergy(float energy);
+
+	boolean isWorkable();
+
+	boolean isSoft();
+
+	boolean isWeldable();
+
+	boolean isDanger();
 }

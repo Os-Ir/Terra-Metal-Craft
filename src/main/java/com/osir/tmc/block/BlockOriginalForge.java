@@ -114,7 +114,7 @@ public class BlockOriginalForge extends TEBlock {
 	public int getMetaFromState(IBlockState state) {
 		EnumFacing facing = state.getValue(FACING);
 		boolean burn = state.getValue(BURN);
-		return facing.getHorizontalIndex() | (burn ? 1 : 0);
+		return facing.getHorizontalIndex() | (burn ? 1 : 0) << 2;
 	}
 
 	@Override

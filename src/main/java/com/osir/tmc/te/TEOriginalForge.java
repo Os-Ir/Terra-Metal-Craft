@@ -14,9 +14,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class TEOriginalForge extends TEHeatBlock {
-	public static final float RATE = 50;
-	public static final int MAX_TEMP = 900;
-	public static final int SPECIFIC_HEAT = 46000;
+	public static final int POWER = 210;
+	public static final float RATE = 3;
+	public static final int MAX_TEMP = 1500;
+	public static final int SPECIFIC_HEAT = 460;
 	protected int burnTime;
 
 	public TEOriginalForge() {
@@ -55,7 +56,7 @@ public class TEOriginalForge extends TEHeatBlock {
 		IBlockState state = this.world.getBlockState(this.pos);
 		TileEntity te = this.world.getTileEntity(this.pos);
 		if (this.burnTime > 0) {
-			this.energy += 20000;
+			this.energy += POWER;
 			this.burnTime--;
 			this.world.setBlockState(this.pos,
 					BlockHandler.ORIGINAL_FORGE.getDefaultState()
@@ -71,7 +72,7 @@ public class TEOriginalForge extends TEHeatBlock {
 			te.validate();
 			this.world.setTileEntity(this.pos, te);
 		}
-		this.energy -= Math.max((this.temp - 20) * 5F, 50);
+		this.energy -= Math.max((this.temp - 20) * 0.02, 5);
 		this.energy = Math.min(Math.max(this.energy, 0), SPECIFIC_HEAT * (MAX_TEMP - 20));
 		this.temp = (int) (this.energy / SPECIFIC_HEAT) + 20;
 		for (i = 3; i < 6; i++) {

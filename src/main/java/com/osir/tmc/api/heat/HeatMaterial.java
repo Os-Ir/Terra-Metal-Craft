@@ -1,14 +1,19 @@
 package com.osir.tmc.api.heat;
 
-public class HeatMaterial {
-	private int specificHeat, meltTemp;
+import java.util.List;
 
-	public HeatMaterial(int specificHeat, int meltTemp) {
+public class HeatMaterial {
+	private List<String> shape;
+	private float specificHeat;
+	private int meltTemp;
+
+	public HeatMaterial(List<String> shape, float specificHeat, int meltTemp) {
+		this.shape = shape;
 		this.specificHeat = specificHeat;
 		this.meltTemp = meltTemp;
 	}
 
-	public int getSpecificHeat() {
+	public float getSpecificHeat() {
 		return this.specificHeat;
 	}
 

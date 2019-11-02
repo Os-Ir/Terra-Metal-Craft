@@ -1,6 +1,6 @@
 package com.osir.tmc.api.metal;
 
-import com.osir.tmc.api.heat.MaterialList;
+import com.osir.tmc.api.material.MaterialList;
 
 import net.minecraft.init.Items;
 

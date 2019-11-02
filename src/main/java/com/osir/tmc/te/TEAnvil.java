@@ -6,6 +6,10 @@ import net.minecraftforge.items.ItemStackHandler;
 public class TEAnvil extends TEInventory implements ITickable {
 	protected int level;
 
+	public TEAnvil() {
+		this(0);
+	}
+
 	public TEAnvil(int level) {
 		this.level = level;
 		this.inventory = new ItemStackHandler(10);
