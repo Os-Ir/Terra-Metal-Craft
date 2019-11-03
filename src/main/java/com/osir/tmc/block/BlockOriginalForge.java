@@ -1,9 +1,11 @@
 package com.osir.tmc.block;
 
+import java.util.List;
 import java.util.Random;
 
 import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
+import com.osir.tmc.api.util.UtilMathUnit;
 import com.osir.tmc.te.TEOriginalForge;
 
 import net.minecraft.block.SoundType;
@@ -12,6 +14,8 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -23,8 +27,11 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockOriginalForge extends TEBlock {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
@@ -40,6 +47,13 @@ public class BlockOriginalForge extends TEBlock {
 		this.setCreativeTab(CreativeTabList.tabEquipment);
 		this.setDefaultState(
 				this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(BURN, false));
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {
+		tooltip.add(TextFormatting.BLUE + I18n.format("tile.machine.rated_power") + " " + TextFormatting.GOLD
+				+ UtilMathUnit.formatNumber(TEOriginalForge.POWER * 20) + TextFormatting.GREEN
+				+ UtilMathUnit.formatOrder(TEOriginalForge.POWER * 20) + I18n.format("item.unit.power"));
 	}
 
 	@Override
@@ -85,6 +99,13 @@ public class BlockOriginalForge extends TEBlock {
 		default:
 			break;
 		}
+		for (int i = 0; i < 2; i++) {
+			tx = pos.getX() + rand.nextDouble();
+			ty = pos.getY() + 0.75;
+			tz = pos.getZ() + rand.nextDouble();
+			world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, tx, ty, tz, 0, 0, 0);
+			world.spawnParticle(EnumParticleTypes.FLAME, tx, ty, tz, 0, 0, 0);
+		}
 	}
 
 	@Override
@@ -106,15 +127,15 @@ public class BlockOriginalForge extends TEBlock {
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing facing = EnumFacing.getHorizontal(meta & 3);
-		boolean burn = (meta & 4) != 0;
+		boolean burn = (meta & 4 >> 2) == 1;
 		return this.getDefaultState().withProperty(FACING, facing).withProperty(BURN, burn);
 	}
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		EnumFacing facing = state.getValue(FACING);
-		boolean burn = state.getValue(BURN);
-		return facing.getHorizontalIndex() | (burn ? 1 : 0) << 2;
+		int burn = state.getValue(BURN) ? 4 : 0;
+		return facing.getHorizontalIndex() | burn;
 	}
 
 	@Override

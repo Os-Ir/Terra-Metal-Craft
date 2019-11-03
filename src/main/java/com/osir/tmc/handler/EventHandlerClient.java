@@ -8,6 +8,7 @@ import com.osir.tmc.api.heat.HeatRegistry;
 import com.osir.tmc.api.inter.IHeatable;
 import com.osir.tmc.api.inter.ILiquidContainer;
 import com.osir.tmc.block.BlockAnvil;
+import com.osir.tmc.block.BlockOriginalForge;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.color.BlockColors;
@@ -47,6 +48,16 @@ public class EventHandlerClient {
 			}
 			return 0xffffff;
 		}, BlockHandler.ANVIL);
+		itemColors.registerItemColorHandler((stack, idx) -> {
+			return 0x202020;
+		}, ItemHandler.ITEM_ORIGINAL_FORGE);
+		blockColors.registerBlockColorHandler((state, world, pos, idx) -> {
+			Block block = state.getBlock();
+			if (block instanceof BlockOriginalForge && idx == 1) {
+				return state.getValue(BlockOriginalForge.BURN) ? 0x820a0a : 0x202020;
+			}
+			return 0xffffff;
+		}, BlockHandler.ORIGINAL_FORGE);
 	}
 
 	@SubscribeEvent

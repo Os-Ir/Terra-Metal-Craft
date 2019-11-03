@@ -60,6 +60,9 @@ item.heatable.material.specificHeat=Specific Heat:
 item.unit.temperature=℃
 item.unit.volume=L
 item.unit.specificHeat=J/(L*℃)
+item.unit.power=W
+
+tile.machine.rated_power=Rated Power:
 
 tile.original_forge.name=Original Forge
 tile.mould.name=Mould

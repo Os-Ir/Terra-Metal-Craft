@@ -4,7 +4,34 @@ public class UtilMathUnit {
 	public static final String[] HIGH = { "k", "M", "G", "T", "P", "E" };
 	public static final String[] LOW = { "m", "μ", "n", "p", "f", "a" };
 
-	public static String format(double num) {
+	public static String formatOrder(double num) {
+		if (num == 0) {
+			return "0";
+		} else {
+			String str = "";
+			if (num < 0) {
+				num = -num;
+				str += "-";
+			}
+			int i;
+			if (num >= 1000) {
+				for (i = -1; num >= 1000; i++) {
+					num /= 1000;
+				}
+				str += HIGH[i];
+			} else if (num < 1) {
+				for (i = -1; num < 1; i++) {
+					num *= 10;
+					num *= 10;
+					num *= 10;
+				}
+				str += LOW[i];
+			}
+			return str;
+		}
+	}
+
+	public static String formatNumber(double num) {
 		if (num == 0) {
 			return "0";
 		} else {
@@ -29,7 +56,6 @@ public class UtilMathUnit {
 				} else {
 					str += String.format("%.1f", num);
 				}
-				str += HIGH[i];
 			} else {
 				for (i = -1; num < 1; i++) {
 					num *= 10;
@@ -41,7 +67,6 @@ public class UtilMathUnit {
 				} else {
 					str += String.format("%.1f", num);
 				}
-				str += LOW[i];
 			}
 			return str;
 		}

@@ -16,7 +16,7 @@ import net.minecraftforge.items.ItemStackHandler;
 public class TEOriginalForge extends TEHeatBlock {
 	public static final int POWER = 210;
 	public static final float RATE = 3;
-	public static final int MAX_TEMP = 1500;
+	public static final int MAX_TEMP = 900;
 	public static final int SPECIFIC_HEAT = 460;
 	protected int burnTime;
 
@@ -107,6 +107,14 @@ public class TEOriginalForge extends TEHeatBlock {
 		if (this.world != null) {
 			this.world.markChunkDirty(this.pos, this);
 		}
+	}
+
+	public boolean burn() {
+		return this.burnTime > 0 || this.temp > 580;
+	}
+
+	public int getTemp() {
+		return this.temp;
 	}
 
 	public int getBurnTime() {
