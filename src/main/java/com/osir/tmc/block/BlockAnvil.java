@@ -2,7 +2,6 @@ package com.osir.tmc.block;
 
 import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
-import com.osir.tmc.api.anvil.AnvilMaterialList;
 import com.osir.tmc.api.inter.IBlockModel;
 import com.osir.tmc.te.TEAnvil;
 
@@ -37,7 +36,7 @@ public class BlockAnvil extends BlockContainer implements IBlockModel {
 		super(material.getMaterial());
 		this.material = material;
 		this.setUnlocalizedName("anvil." + material.getAnvilMaterial());
-		this.setRegistryName("anvil." + material.getAnvilMaterial());
+		this.setRegistryName(Main.MODID, "anvil." + material.getAnvilMaterial());
 		this.setHardness(material.getLevel() + 3);
 		this.setHarvestLevel("pickaxe", (material.getLevel() < 2) ? 1 : 2);
 		this.setCreativeTab(CreativeTabList.tabEquipment);

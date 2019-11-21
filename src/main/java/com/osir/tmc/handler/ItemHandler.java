@@ -19,7 +19,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 @EventBusSubscriber(modid = Main.MODID)
 public class ItemHandler {
 	public static final Item COIN = new Item().setUnlocalizedName("coin").setCreativeTab(CreativeTabList.tabItem)
-			.setRegistryName("coin");
+			.setRegistryName(Main.MODID, "coin");
 	public static final Item ITEM_ORIGINAL_FORGE = new ItemBlock(BlockHandler.ORIGINAL_FORGE)
 			.setRegistryName(BlockHandler.ORIGINAL_FORGE.getRegistryName());
 	public static final Item ITEM_MOULD = new ItemMould();

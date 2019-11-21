@@ -3,6 +3,7 @@ package com.osir.tmc.block;
 import java.util.List;
 
 import com.osir.tmc.CreativeTabList;
+import com.osir.tmc.Main;
 import com.osir.tmc.api.inter.ILiquidContainer;
 import com.osir.tmc.capability.CapabilityLiquidContainer;
 import com.osir.tmc.handler.CapabilityHandler;
@@ -37,7 +38,7 @@ public class BlockMould extends TEBlock {
 	public BlockMould() {
 		super(Material.ROCK);
 		this.setUnlocalizedName("mould");
-		this.setRegistryName("mould");
+		this.setRegistryName(Main.MODID, "mould");
 		this.setHardness(0.5F);
 		this.setSoundType(SoundType.STONE);
 		this.setHarvestLevel("pickaxe", 0);

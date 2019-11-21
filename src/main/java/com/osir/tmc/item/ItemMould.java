@@ -1,5 +1,6 @@
 package com.osir.tmc.item;
 
+import com.osir.tmc.Main;
 import com.osir.tmc.handler.BlockHandler;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,7 +16,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 public class ItemMould extends ItemBlock {
 	public ItemMould() {
 		super(BlockHandler.MOULD);
-		this.setRegistryName("mould");
+		this.setRegistryName(Main.MODID, "mould");
 	}
 
 	@Override
