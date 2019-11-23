@@ -21,11 +21,11 @@ public class CommonProxy {
 		TEHandler.register();
 		CapabilityHandler.register();
 		NetworkHandler.register();
-		RecipeHandler.register();
 	}
 
 	public void init(FMLInitializationEvent e) {
 		new GuiHandler();
+		RecipeHandler.register();
 	}
 
 	public void postInit(FMLPostInitializationEvent e) {
