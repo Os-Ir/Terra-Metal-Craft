@@ -4,10 +4,10 @@ import net.minecraft.block.material.Material;
 
 public enum AnvilMaterialList {
 	 STONE(Material.ROCK,  "stone", 0, 0x828282),
-	COPPER(Material.IRON, "copper", 1, 0xa0501e),
-	BRONZE(Material.IRON, "bronze", 2, 0xa0780a),
+	COPPER(Material.IRON, "copper", 1, 0xff8000),
+	BRONZE(Material.IRON, "bronze", 2, 0xa0501e),
 	  IRON(Material.IRON,   "iron", 3, 0xaaaaaa),
-	 STEEL(Material.IRON,  "steel", 4, 0x646464);
+	 STEEL(Material.IRON,  "steel", 4, 0x505050);
 
 	private Material material;
 	private String anvilMaterial;

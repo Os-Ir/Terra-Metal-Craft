@@ -25,11 +25,5 @@ public class CreativeTabList {
 				return new ItemStack(ItemHandler.COIN);
 			}
 		};
-		tabMaterial = new CreativeTabs(Main.MODID + ".material") {
-			@Override
-			public ItemStack getTabIconItem() {
-				return new ItemStack(Items.IRON_INGOT);
-			}
-		};
 	}
 }

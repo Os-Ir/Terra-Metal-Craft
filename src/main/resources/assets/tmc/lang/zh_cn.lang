@@ -6,26 +6,11 @@ gui.button.anvil.bend=弯曲
 
 itemGroup.tmc.equipment=群峦金属工艺-设备
 itemGroup.tmc.item=群峦金属工艺-物品
+itemGroup.tmc.material=群峦金属工艺-材料
 
 item.coin.name=TMC纪念币
 item.mould.description=用于制造锭的模具
 item.mould.developing=仍在开发中
-
-item.material.iron=铁
-item.material.copper=铜
-item.material.silver=银
-item.material.tin=锡
-item.material.antimony=锑
-item.material.gold=金
-item.material.lead=铅
-item.material.wrought_iron=熟铁
-item.material.pig_iron=生铁
-item.material.steel=钢
-item.material.sand=沙
-
-item.shape.block=块
-item.shape.ingot=锭
-item.shape.nugget=粒
 
 item.heatable.color.warming=暖
 item.heatable.color.hot=烫

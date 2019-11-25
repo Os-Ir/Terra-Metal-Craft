@@ -6,26 +6,11 @@ gui.button.anvil.bend=Bend
 
 itemGroup.tmc.equipment=Terra Metal Craft-Equipment
 itemGroup.tmc.item=Terra Metal Craft-Item
+itemGroup.tmc.material=Terra Metal Craft-Material
 
 item.coin.name=TMC Coin
 item.mould.description=Moulds for Ingots
 item.mould.developing=Still Developing
-
-item.material.iron=Iron
-item.material.copper=Copper
-item.material.silver=Silver
-item.material.tin=Tin
-item.material.antimony=Antimony
-item.material.gold=Gold
-item.material.lead=Lead
-item.material.wrought_iron=Wrought Iron
-item.material.pig_iron=Pig Iron
-item.material.steel=Steel
-item.material.sand=Sand
-
-item.shape.block=Block
-item.shape.ingot=Ingot
-item.shape.nugget=Nugget
 
 item.heatable.color.warming=Warming
 item.heatable.color.hot=Hot
