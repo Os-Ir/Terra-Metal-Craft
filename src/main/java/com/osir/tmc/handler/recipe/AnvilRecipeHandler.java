@@ -30,7 +30,7 @@ public class AnvilRecipeHandler {
 
 		BUILDER.setValue("type", AnvilRecipeType.WELD);
 		BUILDER.input(OrePrefix.ingot, Materials.Iron, 2);
-		BUILDER.outputs(OreDictUnifier.get(OrePrefix.plate, Materials.Iron, 1));
+		BUILDER.outputs(OreDictUnifier.get(OrePrefix.valueOf("ingotDouble"), Materials.Iron, 1));
 		BUILDER.buildAndRegister();
 
 		List input = new ArrayList();

@@ -52,11 +52,34 @@ public class ScalableRecipeBuilder extends RecipeBuilder<ScalableRecipeBuilder> 
 		this.value = new HashMap();
 	}
 
+	public RecipeValueFormat findFormat(String name) {
+		Iterator<Entry<RecipeValueFormat, Object>> ite = this.value.entrySet().iterator();
+		while (ite.hasNext()) {
+			Entry<RecipeValueFormat, Object> entry = ite.next();
+			if (entry.getKey().getName().equals(name)) {
+				return entry.getKey();
+			}
+		}
+		return null;
+	}
+
 	public void addFormat(RecipeValueFormat format) {
 		if (this.value.containsKey(format)) {
 			throw new IllegalStateException("Extra format [" + format.getName() + "] has existed");
 		} else {
 			this.value.put(format, null);
+		}
+	}
+
+	public void deleteFormat(String name) {
+		this.deleteFormat(this.findFormat(name));
+	}
+
+	public void deleteFormat(RecipeValueFormat format) {
+		if (this.value.containsKey(format)) {
+			this.value.remove(format);
+		} else {
+			throw new IllegalStateException("Extra format [" + format.getName() + "] undefined");
 		}
 	}
 
@@ -67,34 +90,28 @@ public class ScalableRecipeBuilder extends RecipeBuilder<ScalableRecipeBuilder> 
 			} else {
 				throw new IllegalStateException("Extra format [EUt] doesn't match the object");
 			}
-			return;
-		}
-		if (name.equals("duration")) {
+		} else if (name.equals("duration")) {
 			if (obj instanceof Integer) {
 				this.duration((int) obj);
 			} else {
 				throw new IllegalStateException("Extra format [duration] doesn't match the object");
 			}
-			return;
-		}
-		Iterator<Entry<RecipeValueFormat, Object>> ite = this.value.entrySet().iterator();
-		while (ite.hasNext()) {
-			Entry<RecipeValueFormat, Object> entry = ite.next();
-			if (entry.getKey().getName().equals(name)) {
-				if (entry.getKey().validate(obj) == EnumValidationResult.INVALID) {
-					throw new IllegalStateException(
-							"Extra format [" + entry.getKey().getName() + "] doesn't match the object");
-				} else {
-					entry.setValue(obj);
-				}
-				return;
+		} else {
+			RecipeValueFormat format = this.findFormat(name);
+			if (format != null) {
+				this.setValue(format, obj);
+			} else {
+				TMCLog.logger.warn("Extra format [" + name + "] undefined");
 			}
 		}
-		TMCLog.logger.warn("Extra format [" + name + "] undefined");
 	}
 
 	public void setValue(RecipeValueFormat format, Object obj) {
-		this.setValue(format.getName(), obj);
+		if (format.validate(obj) == EnumValidationResult.INVALID) {
+			throw new IllegalStateException("Extra format [" + format.getName() + "] doesn't match the object");
+		} else {
+			this.value.put(format, obj);
+		}
 	}
 
 	public Predicate<ScalableRecipeBuilder> getValidation() {
