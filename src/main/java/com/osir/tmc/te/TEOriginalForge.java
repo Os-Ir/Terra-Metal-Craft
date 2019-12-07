@@ -1,8 +1,8 @@
 package com.osir.tmc.te;
 
+import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.heat.HeatRecipe;
 import com.osir.tmc.api.heat.HeatRegistry;
-import com.osir.tmc.api.inter.IHeatable;
 import com.osir.tmc.block.BlockOriginalForge;
 import com.osir.tmc.handler.BlockHandler;
 import com.osir.tmc.handler.CapabilityHandler;

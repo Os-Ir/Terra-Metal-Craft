@@ -1,9 +1,9 @@
 package com.osir.tmc.capability;
 
 import com.osir.tmc.Main;
+import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.heat.HeatMaterial;
 import com.osir.tmc.api.heat.TempList;
-import com.osir.tmc.api.inter.IHeatable;
 import com.osir.tmc.api.material.MaterialList;
 import com.osir.tmc.handler.CapabilityHandler;
 

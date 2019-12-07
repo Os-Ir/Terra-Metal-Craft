@@ -1,7 +1,7 @@
 package com.osir.tmc.handler;
 
-import com.osir.tmc.api.inter.IHeatable;
-import com.osir.tmc.api.inter.ILiquidContainer;
+import com.osir.tmc.api.capability.IHeatable;
+import com.osir.tmc.api.capability.ILiquidContainer;
 import com.osir.tmc.capability.CapabilityHeat;
 import com.osir.tmc.capability.CapabilityLiquidContainer;
 

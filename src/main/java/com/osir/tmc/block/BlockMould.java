@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
-import com.osir.tmc.api.inter.ILiquidContainer;
+import com.osir.tmc.api.capability.ILiquidContainer;
 import com.osir.tmc.capability.CapabilityLiquidContainer;
 import com.osir.tmc.handler.CapabilityHandler;
 import com.osir.tmc.handler.ItemHandler;

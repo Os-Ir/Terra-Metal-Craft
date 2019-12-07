@@ -1,4 +1,4 @@
-package com.osir.tmc.api.inter;
+package com.osir.tmc.api.capability;
 
 public interface ILiquidContainer {
 	void setRate(float rate);

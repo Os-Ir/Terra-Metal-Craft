@@ -3,10 +3,10 @@ package com.osir.tmc.handler;
 import java.util.List;
 
 import com.osir.tmc.Main;
+import com.osir.tmc.api.capability.IHeatable;
+import com.osir.tmc.api.capability.ILiquidContainer;
 import com.osir.tmc.api.heat.HeatRecipe;
 import com.osir.tmc.api.heat.HeatRegistry;
-import com.osir.tmc.api.inter.IHeatable;
-import com.osir.tmc.api.inter.ILiquidContainer;
 import com.osir.tmc.block.BlockAnvil;
 import com.osir.tmc.block.BlockOriginalForge;
 

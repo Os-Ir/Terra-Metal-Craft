@@ -1,6 +1,6 @@
 package com.osir.tmc.network;
 
-import com.osir.tmc.api.inter.IHeatable;
+import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.handler.CapabilityHandler;
 
 import gnu.trove.map.TIntObjectMap;

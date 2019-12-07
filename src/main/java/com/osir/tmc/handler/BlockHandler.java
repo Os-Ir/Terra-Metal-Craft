@@ -1,7 +1,7 @@
 package com.osir.tmc.handler;
 
 import com.osir.tmc.Main;
-import com.osir.tmc.api.inter.IBlockModel;
+import com.osir.tmc.api.capability.IBlockModel;
 import com.osir.tmc.block.AnvilMaterialList;
 import com.osir.tmc.block.BlockAnvil;
 import com.osir.tmc.block.BlockMould;

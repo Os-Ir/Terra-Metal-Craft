@@ -1,6 +1,6 @@
 package com.osir.tmc.te;
 
-import com.osir.tmc.api.inter.ILiquidContainer;
+import com.osir.tmc.api.capability.ILiquidContainer;
 import com.osir.tmc.capability.CapabilityLiquidContainer;
 import com.osir.tmc.handler.CapabilityHandler;
 
