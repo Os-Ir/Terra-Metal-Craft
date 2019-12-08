@@ -1,0 +1,54 @@
+package com.osir.tmc.capability;
+
+import com.osir.tmc.Main;
+import com.osir.tmc.api.capability.IHeatable;
+
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.Capability.IStorage;
+
+public class StorageHeat implements IStorage<IHeatable> {
+	@Override
+	public NBTBase writeNBT(Capability capability, IHeatable instance, EnumFacing side) {
+		NBTTagCompound nbt = new NBTTagCompound();
+		boolean flag = false;
+		if (instance.getUnit() != instance.getCompleteUnit()) {
+			nbt.setInteger("unit", instance.getUnit());
+			flag = true;
+		}
+		if (instance.getEnergy() != 0) {
+			nbt.setFloat("energy", instance.getEnergy());
+			flag = true;
+		}
+		if (instance.getOverEnergy() != 0) {
+			nbt.setFloat("overEnergy", instance.getOverEnergy());
+			flag = true;
+		}
+		if (flag) {
+			return nbt;
+		}
+		return null;
+	}
+
+	@Override
+	public void readNBT(Capability capability, IHeatable instance, EnumFacing side, NBTBase base) {
+		NBTTagCompound nbt = (NBTTagCompound) base;
+		if (nbt == null) {
+			return;
+		}
+		if (nbt.hasKey("unit")) {
+			instance.setUnit(nbt.getInteger("unit"));
+		}
+		float energy = 0;
+		if (nbt.hasKey("energy")) {
+			energy += nbt.getFloat("energy");
+		}
+		if (nbt.hasKey("overEnergy")) {
+			energy += nbt.getFloat("overEnergy");
+		}
+		instance.setEnergy(energy);
+	}
+}

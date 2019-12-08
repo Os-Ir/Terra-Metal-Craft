@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
+import com.osir.tmc.api.capability.CapabilityLiquidContainer;
+import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.ILiquidContainer;
-import com.osir.tmc.capability.CapabilityLiquidContainer;
-import com.osir.tmc.handler.CapabilityHandler;
 import com.osir.tmc.handler.ItemHandler;
 import com.osir.tmc.te.TELiquidContainer;
 
@@ -51,17 +51,17 @@ public class BlockMould extends TEBlock {
 		TELiquidContainer te = (TELiquidContainer) world.getTileEntity(pos);
 		IItemHandlerModifiable handler = (IItemHandlerModifiable) te
 				.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-		ILiquidContainer liquid = te.getCapability(CapabilityHandler.LIQUID_CONTAINER, null);
+		ILiquidContainer liquid = te.getCapability(CapabilityList.LIQUID_CONTAINER, null);
 		ItemStack stack = new ItemStack(ItemHandler.ITEM_MOULD);
 		IItemHandlerModifiable handlerStack = (IItemHandlerModifiable) stack
 				.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-		ILiquidContainer liquidStack = stack.getCapability(CapabilityHandler.LIQUID_CONTAINER, null);
+		ILiquidContainer liquidStack = stack.getCapability(CapabilityList.LIQUID_CONTAINER, null);
 		IStorage storage = CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.getStorage();
 		storage.readNBT(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, handlerStack, null,
 				storage.writeNBT(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, handler, null));
-		storage = CapabilityHandler.LIQUID_CONTAINER.getStorage();
-		storage.readNBT(CapabilityHandler.LIQUID_CONTAINER, liquidStack, null,
-				storage.writeNBT(CapabilityHandler.LIQUID_CONTAINER, liquid, null));
+		storage = CapabilityList.LIQUID_CONTAINER.getStorage();
+		storage.readNBT(CapabilityList.LIQUID_CONTAINER, liquidStack, null,
+				storage.writeNBT(CapabilityList.LIQUID_CONTAINER, liquid, null));
 		drops.add(stack);
 	}
 
@@ -75,10 +75,10 @@ public class BlockMould extends TEBlock {
 		} else {
 			handler = new ItemStackHandler(1);
 		}
-		if (stack.hasCapability(CapabilityHandler.LIQUID_CONTAINER, null)) {
-			liquid = stack.getCapability(CapabilityHandler.LIQUID_CONTAINER, null);
+		if (stack.hasCapability(CapabilityList.LIQUID_CONTAINER, null)) {
+			liquid = stack.getCapability(CapabilityList.LIQUID_CONTAINER, null);
 		} else {
-			liquid = new CapabilityLiquidContainer.Implementation(1, 144, 230);
+			liquid = new CapabilityLiquidContainer(1, 144, 230);
 		}
 		world.setTileEntity(pos, new TELiquidContainer(liquid, (ItemStackHandler) handler));
 	}
@@ -107,7 +107,7 @@ public class BlockMould extends TEBlock {
 		}
 		TileEntity te = world.getTileEntity(pos);
 		if (te instanceof TELiquidContainer) {
-			if (te.hasCapability(CapabilityHandler.LIQUID_CONTAINER, null)) {
+			if (te.hasCapability(CapabilityList.LIQUID_CONTAINER, null)) {
 				IItemHandlerModifiable handler = (IItemHandlerModifiable) te
 						.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 				ItemStack stack = handler.getStackInSlot(0);
@@ -116,7 +116,7 @@ public class BlockMould extends TEBlock {
 				} else {
 					System.out.println("empty");
 				}
-				ILiquidContainer liquid = te.getCapability(CapabilityHandler.LIQUID_CONTAINER, null);
+				ILiquidContainer liquid = te.getCapability(CapabilityList.LIQUID_CONTAINER, null);
 			}
 		}
 		return true;

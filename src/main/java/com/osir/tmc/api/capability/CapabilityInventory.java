@@ -1,4 +1,4 @@
-package com.osir.tmc.capability;
+package com.osir.tmc.api.capability;
 
 import com.osir.tmc.Main;
 
@@ -11,11 +11,11 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class ItemStackInventory implements ICapabilitySerializable<NBTTagCompound> {
+public class CapabilityInventory implements ICapabilitySerializable<NBTTagCompound> {
 	public static final ResourceLocation KEY = new ResourceLocation(Main.MODID, "item_inventory");
 	private IItemHandler handler;
 
-	public ItemStackInventory(int size) {
+	public CapabilityInventory(int size) {
 		this.handler = new ItemStackHandler(size);
 	}
 

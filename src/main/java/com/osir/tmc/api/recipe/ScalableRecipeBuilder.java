@@ -67,7 +67,7 @@ public class ScalableRecipeBuilder extends RecipeBuilder<ScalableRecipeBuilder> 
 		if (this.value.containsKey(format)) {
 			throw new IllegalStateException("Extra format [" + format.getName() + "] has existed");
 		} else {
-			this.value.put(format, null);
+			this.value.put(format, format.getDefault());
 		}
 	}
 

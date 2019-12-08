@@ -5,7 +5,7 @@ import java.util.Random;
 
 import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
-import com.osir.tmc.api.util.UtilMathUnit;
+import com.osir.tmc.api.util.MathTool;
 import com.osir.tmc.te.TEOriginalForge;
 
 import net.minecraft.block.SoundType;
@@ -52,8 +52,8 @@ public class BlockOriginalForge extends TEBlock {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {
 		tooltip.add(TextFormatting.BLUE + I18n.format("tile.machine.rated_power") + " " + TextFormatting.GOLD
-				+ UtilMathUnit.formatNumber(TEOriginalForge.POWER * 20) + TextFormatting.GREEN
-				+ UtilMathUnit.formatOrder(TEOriginalForge.POWER * 20) + I18n.format("item.unit.power"));
+				+ MathTool.formatNumber(TEOriginalForge.POWER * 20) + TextFormatting.GREEN
+				+ MathTool.formatOrder(TEOriginalForge.POWER * 20) + I18n.format("item.unit.power"));
 	}
 
 	@Override

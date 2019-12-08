@@ -1,16 +1,20 @@
 package com.osir.tmc.api.heat;
 
-import java.util.List;
+import gregtech.api.unification.material.type.Material;
 
 public class HeatMaterial {
-	private List<String> shape;
-	private float specificHeat;
-	private int meltTemp;
+	protected Material material;
+	protected float specificHeat;
+	protected int meltTemp;
 
-	public HeatMaterial(List<String> shape, float specificHeat, int meltTemp) {
-		this.shape = shape;
+	public HeatMaterial(Material material, float specificHeat, int meltTemp) {
+		this.material = material;
 		this.specificHeat = specificHeat;
 		this.meltTemp = meltTemp;
+	}
+
+	public Material getMaterial() {
+		return this.material;
 	}
 
 	public float getSpecificHeat() {
@@ -19,5 +23,14 @@ public class HeatMaterial {
 
 	public int getMeltTemp() {
 		return this.meltTemp;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof HeatMaterial)) {
+			return false;
+		}
+		HeatMaterial mat = (HeatMaterial) obj;
+		return this.material == mat.material && mat.meltTemp == this.meltTemp && mat.specificHeat == this.specificHeat;
 	}
 }

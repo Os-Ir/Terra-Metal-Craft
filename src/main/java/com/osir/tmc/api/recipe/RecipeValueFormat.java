@@ -5,6 +5,7 @@ import gregtech.api.util.EnumValidationResult;
 public class RecipeValueFormat {
 	private String name;
 	private Class type;
+	private Object def;
 	private boolean nullable;
 
 	public RecipeValueFormat(String name, Class type) {
@@ -13,9 +14,14 @@ public class RecipeValueFormat {
 		this.nullable = true;
 	}
 
-	public RecipeValueFormat(String name, Class type, boolean nullable) {
+	public RecipeValueFormat(String name, Class type, boolean nullable, Object def) {
 		this(name, type);
 		this.nullable = nullable;
+		if ((nullable && def == null) || this.validate(def) == EnumValidationResult.VALID) {
+			this.def = def;
+		} else {
+			throw new IllegalStateException("Default object is invalid");
+		}
 	}
 
 	public boolean match(String str) {
@@ -27,6 +33,10 @@ public class RecipeValueFormat {
 			return this.nullable ? EnumValidationResult.VALID : EnumValidationResult.SKIP;
 		}
 		return this.type.isInstance(obj) ? EnumValidationResult.VALID : EnumValidationResult.INVALID;
+	}
+
+	public Object getDefault() {
+		return this.def;
 	}
 
 	public String getName() {

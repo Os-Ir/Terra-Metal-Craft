@@ -1,8 +1,17 @@
 package com.osir.tmc.api.util;
 
-public class UtilMathUnit {
+public class MathTool {
+	public static final String M[] = { "", "M", "MM", "MMM" };
+	public static final String C[] = { "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" };
+	public static final String X[] = { "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" };
+	public static final String I[] = { "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" };
+
 	public static final String[] HIGH = { "k", "M", "G", "T", "P", "E" };
 	public static final String[] LOW = { "m", "μ", "n", "p", "f", "a" };
+
+	public static String romanNumber(int n) {
+		return M[n / 1000] + C[(n % 1000) / 100] + X[(n % 100) / 10] + I[n % 10];
+	}
 
 	public static String formatOrder(double num) {
 		if (num == 0) {

@@ -1,7 +1,5 @@
 package com.osir.tmc.container.slot;
 
-import com.osir.tmc.api.heat.HeatRegistry;
-
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;

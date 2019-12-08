@@ -3,6 +3,7 @@ package com.osir.tmc.handler;
 import java.util.List;
 
 import com.osir.tmc.Main;
+import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.capability.ILiquidContainer;
 import com.osir.tmc.api.heat.HeatRecipe;
@@ -64,10 +65,10 @@ public class EventHandlerClient {
 	@SideOnly(Side.CLIENT)
 	public static void onHeatableItemTooltip(ItemTooltipEvent e) {
 		ItemStack stack = e.getItemStack();
-		if (!stack.hasCapability(CapabilityHandler.HEATABLE, null)) {
+		if (!stack.hasCapability(CapabilityList.HEATABLE, null)) {
 			return;
 		}
-		IHeatable cap = stack.getCapability(CapabilityHandler.HEATABLE, null);
+		IHeatable cap = stack.getCapability(CapabilityList.HEATABLE, null);
 		List tooltip = e.getToolTip();
 		long time = 0;
 		if (e.getEntityPlayer() != null && e.getEntityPlayer().getEntityWorld() != null) {
@@ -119,10 +120,10 @@ public class EventHandlerClient {
 	@SideOnly(Side.CLIENT)
 	public static void onLiquidContainerTooltip(ItemTooltipEvent e) {
 		ItemStack stack = e.getItemStack();
-		if (!stack.hasCapability(CapabilityHandler.LIQUID_CONTAINER, null)) {
+		if (!stack.hasCapability(CapabilityList.LIQUID_CONTAINER, null)) {
 			return;
 		}
-		ILiquidContainer cap = stack.getCapability(CapabilityHandler.LIQUID_CONTAINER, null);
+		ILiquidContainer cap = stack.getCapability(CapabilityList.LIQUID_CONTAINER, null);
 		List tooltip = e.getToolTip();
 		tooltip.add(TextFormatting.BLUE + I18n.format("item.liquidContainer.state.capacity") + " " + TextFormatting.GOLD
 				+ cap.getCapacity() + TextFormatting.GREEN + I18n.format("item.unit.volume"));
