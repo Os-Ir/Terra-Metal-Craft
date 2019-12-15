@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.osir.tmc.api.recipe.AnvilRecipeType;
-import com.osir.tmc.api.recipe.TMCRecipeMap;
+import com.osir.tmc.api.recipe.ModRecipeMap;
 import com.osir.tmc.api.recipe.ScalableRecipe;
 import com.osir.tmc.api.recipe.ScalableRecipeBuilder;
 
@@ -15,12 +15,12 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class AnvilRecipeHandler {
-	private static final ScalableRecipeBuilder BUILDER = TMCRecipeMap.BUILDER_ANVIL;
+	private static final ScalableRecipeBuilder BUILDER = ModRecipeMap.BUILDER_ANVIL;
 
 	public static void register() {
 		BUILDER.EUt(1);
 		BUILDER.duration(1);
-		BUILDER.addFormat(TMCRecipeMap.FORMAT_ANVIL);
+		BUILDER.addFormat(ModRecipeMap.FORMAT_ANVIL);
 
 		BUILDER.setValue("type", AnvilRecipeType.WELD);
 		BUILDER.input(OrePrefix.ingot, Materials.Iron, 2);
@@ -29,7 +29,7 @@ public class AnvilRecipeHandler {
 
 		List input = new ArrayList();
 		input.add(new ItemStack(Items.IRON_INGOT, 2));
-		ScalableRecipe recipe = (ScalableRecipe) TMCRecipeMap.MAP_ANVIL.findRecipe(1, input, new ArrayList(), 0);
+		ScalableRecipe recipe = (ScalableRecipe) ModRecipeMap.MAP_ANVIL.findRecipe(1, input, new ArrayList(), 0);
 		System.out.println(recipe.getValueList().size());
 	}
 }

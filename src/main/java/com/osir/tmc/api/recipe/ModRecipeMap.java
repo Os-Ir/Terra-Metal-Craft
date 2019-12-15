@@ -5,7 +5,7 @@ import com.osir.tmc.api.heat.MaterialStack;
 
 import gregtech.api.recipes.RecipeMap;
 
-public class TMCRecipeMap {
+public class ModRecipeMap {
 	public static final RecipeValueFormat FORMAT_ANVIL = new RecipeValueFormat("type", AnvilRecipeType.class, false,
 			AnvilRecipeType.WELD);
 	public static final RecipeValueFormat FORMAT_TEMP = new RecipeValueFormat("temp", int.class, false, 20);

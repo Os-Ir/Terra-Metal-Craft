@@ -4,5 +4,6 @@ public class RecipeHandler {
 	public static void register() {
 		AnvilRecipeHandler.register();
 		HeatRecipeHandler.register();
+		CraftingRecipeHandler.register();
 	}
 }

@@ -2,16 +2,15 @@ package com.osir.tmc.handler;
 
 import com.osir.tmc.Main;
 import com.osir.tmc.api.capability.CapabilityHeat;
-import com.osir.tmc.api.capability.CapabilityInventory;
-import com.osir.tmc.api.capability.CapabilityLiquidContainer;
 import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
-import com.osir.tmc.api.heat.HeatRecipe;
-import com.osir.tmc.api.heat.HeatRegistry;
+import com.osir.tmc.api.recipe.ModRecipeMap;
+import com.osir.tmc.api.recipe.ScalableRecipe;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -25,14 +24,21 @@ public class EventHandler {
 		if (stack.hasCapability(CapabilityList.HEATABLE, null)) {
 			return;
 		}
-		HeatRecipe recipe = HeatRegistry.findRecipe(stack);
+		ScalableRecipe recipe = (ScalableRecipe) ModRecipeMap.MAP_HEAT.findRecipe(1, NonNullList.withSize(1, stack),
+				NonNullList.create(), 0);
 		if (recipe != null) {
-			e.addCapability(CapabilityHeat.KEY, new CapabilityHeat(recipe.getMaterial(), recipe.getUnit()));
+			 e.addCapability(CapabilityHeat.KEY, new CapabilityHeat());
 		}
-		if (stack.getItem() == ItemHandler.ITEM_MOULD) {
-			e.addCapability(CapabilityLiquidContainer.KEY, new CapabilityLiquidContainer(1, 144, 230));
-			e.addCapability(CapabilityInventory.KEY, new CapabilityInventory(1));
-		}
+		// HeatRecipe recipe = HeatRegistry.findRecipe(stack);
+		// if (recipe != null) {
+		// e.addCapability(CapabilityHeat.KEY, new CapabilityHeat(recipe.getMaterial(),
+		// recipe.getUnit()));
+		// }
+		// if (stack.getItem() == ItemHandler.ITEM_MOULD) {
+		// e.addCapability(CapabilityLiquidContainer.KEY, new
+		// CapabilityLiquidContainer(1, 144, 230));
+		// e.addCapability(CapabilityInventory.KEY, new CapabilityInventory(1));
+		// }
 	}
 
 	@SubscribeEvent
