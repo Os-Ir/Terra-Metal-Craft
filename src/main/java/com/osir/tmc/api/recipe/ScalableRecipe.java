@@ -38,7 +38,7 @@ public class ScalableRecipe extends Recipe {
 				TMCLog.logger.warn("Extra format [" + fmt.getName() + "] has existed");
 				continue;
 			}
-			if (fmt.validate(value.get(i)) == EnumValidationResult.INVALID) {
+			if (!fmt.validate(value.get(i))) {
 				TMCLog.logger.warn("Extra format [" + fmt.getName() + "] doesn't match the object");
 				continue;
 			}
@@ -53,8 +53,33 @@ public class ScalableRecipe extends Recipe {
 		return this.length;
 	}
 
-	public Map<RecipeValueFormat, Object> getValue() {
-		return this.value;
+	public RecipeValueFormat findFormat(String name) {
+		Iterator<Entry<RecipeValueFormat, Object>> ite = this.value.entrySet().iterator();
+		while (ite.hasNext()) {
+			Entry<RecipeValueFormat, Object> entry = ite.next();
+			if (entry.getKey().getName().equals(name)) {
+				return entry.getKey();
+			}
+		}
+		return null;
+	}
+
+	public Object getValue(RecipeValueFormat format) {
+		if (this.value.containsKey(format)) {
+			return this.value.get(format);
+		}
+		return null;
+	}
+
+	public Object getValue(String name) {
+		RecipeValueFormat format = this.findFormat(name);
+		if (format == null) {
+			return null;
+		}
+		if (this.value.containsKey(format)) {
+			return this.value.get(format);
+		}
+		return null;
 	}
 
 	public NonNullList<RecipeValueFormat> getFormatList() {
@@ -62,7 +87,7 @@ public class ScalableRecipe extends Recipe {
 		Iterator<Entry<RecipeValueFormat, Object>> ite = this.value.entrySet().iterator();
 		while (ite.hasNext()) {
 			Entry<RecipeValueFormat, Object> entry = ite.next();
-			if (entry.getKey().validate(entry.getValue()) == EnumValidationResult.INVALID) {
+			if (!entry.getKey().validate(entry.getValue())) {
 				TMCLog.logger.warn("Extra format [" + entry.getKey().getName() + "] doesn't match the object");
 				continue;
 			}
@@ -76,7 +101,7 @@ public class ScalableRecipe extends Recipe {
 		Iterator<Entry<RecipeValueFormat, Object>> ite = this.value.entrySet().iterator();
 		while (ite.hasNext()) {
 			Entry<RecipeValueFormat, Object> entry = ite.next();
-			if (entry.getKey().validate(entry.getValue()) == EnumValidationResult.INVALID) {
+			if (!entry.getKey().validate(entry.getValue())) {
 				TMCLog.logger.warn("Extra format [" + entry.getKey().getName() + "] doesn't match the object");
 				continue;
 			}

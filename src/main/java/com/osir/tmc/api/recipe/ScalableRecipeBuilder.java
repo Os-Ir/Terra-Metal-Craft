@@ -20,11 +20,6 @@ import net.minecraft.util.NonNullList;
 
 public class ScalableRecipeBuilder extends RecipeBuilder<ScalableRecipeBuilder> {
 	protected Map<RecipeValueFormat, Object> value;
-	protected Predicate<ScalableRecipeBuilder> validation;
-
-	public ScalableRecipeBuilder() {
-		this((builder) -> true);
-	}
 
 	public ScalableRecipeBuilder(Recipe recipe, RecipeMap<ScalableRecipeBuilder> recipeMap) {
 		super(recipe, recipeMap);
@@ -33,22 +28,14 @@ public class ScalableRecipeBuilder extends RecipeBuilder<ScalableRecipeBuilder> 
 		}
 	}
 
-	public ScalableRecipeBuilder(Recipe recipe, RecipeMap<ScalableRecipeBuilder> recipeMap,
-			Predicate<ScalableRecipeBuilder> validation) {
-		this(recipe, recipeMap);
-		this.validation = validation;
-	}
-
 	public ScalableRecipeBuilder(RecipeBuilder<ScalableRecipeBuilder> recipeBuilder) {
 		super(recipeBuilder);
 		if (recipeBuilder instanceof ScalableRecipeBuilder) {
 			this.value = ((ScalableRecipeBuilder) recipeBuilder).value;
-			this.validation = ((ScalableRecipeBuilder) recipeBuilder).validation;
 		}
 	}
 
-	public ScalableRecipeBuilder(Predicate<ScalableRecipeBuilder> validation) {
-		this.validation = validation;
+	public ScalableRecipeBuilder() {
 		this.value = new HashMap();
 	}
 
@@ -63,27 +50,29 @@ public class ScalableRecipeBuilder extends RecipeBuilder<ScalableRecipeBuilder> 
 		return null;
 	}
 
-	public void addFormat(RecipeValueFormat format) {
+	public ScalableRecipeBuilder addFormat(RecipeValueFormat format) {
 		if (this.value.containsKey(format)) {
 			throw new IllegalStateException("Extra format [" + format.getName() + "] has existed");
 		} else {
 			this.value.put(format, format.getDefault());
 		}
+		return this;
 	}
 
-	public void deleteFormat(String name) {
-		this.deleteFormat(this.findFormat(name));
+	public ScalableRecipeBuilder deleteFormat(String name) {
+		return this.deleteFormat(this.findFormat(name));
 	}
 
-	public void deleteFormat(RecipeValueFormat format) {
+	public ScalableRecipeBuilder deleteFormat(RecipeValueFormat format) {
 		if (this.value.containsKey(format)) {
 			this.value.remove(format);
 		} else {
 			throw new IllegalStateException("Extra format [" + format.getName() + "] undefined");
 		}
+		return this;
 	}
 
-	public void setValue(String name, Object obj) {
+	public ScalableRecipeBuilder setValue(String name, Object obj) {
 		if (name.equals("EUt")) {
 			if (obj instanceof Integer) {
 				this.EUt((int) obj);
@@ -104,22 +93,40 @@ public class ScalableRecipeBuilder extends RecipeBuilder<ScalableRecipeBuilder> 
 				TMCLog.logger.warn("Extra format [" + name + "] undefined");
 			}
 		}
+		return this;
 	}
 
-	public void setValue(RecipeValueFormat format, Object obj) {
-		if (format.validate(obj) == EnumValidationResult.INVALID) {
-			throw new IllegalStateException("Extra format [" + format.getName() + "] doesn't match the object");
-		} else {
-			this.value.put(format, obj);
+	public ScalableRecipeBuilder setValue(RecipeValueFormat format, Object obj) {
+		if (format != null) {
+			if (this.value.containsKey(format)) {
+				if (!format.validate(obj)) {
+					throw new IllegalStateException("Extra format [" + format.getName() + "] doesn't match the object");
+				} else {
+					this.value.put(format, obj);
+				}
+			} else {
+				TMCLog.logger.warn("Extra format [" + format.getName() + "] undefined");
+			}
 		}
+		return this;
 	}
 
-	public Predicate<ScalableRecipeBuilder> getValidation() {
-		return this.validation;
+	public Object getValue(RecipeValueFormat format) {
+		if (this.value.containsKey(format)) {
+			return this.value.get(format);
+		}
+		return null;
 	}
 
-	public Map<RecipeValueFormat, Object> getValue() {
-		return this.value;
+	public Object getValue(String name) {
+		RecipeValueFormat format = this.findFormat(name);
+		if (format == null) {
+			return null;
+		}
+		if (this.value.containsKey(format)) {
+			return this.value.get(format);
+		}
+		return null;
 	}
 
 	public NonNullList<RecipeValueFormat> getFormatList() {
@@ -127,7 +134,7 @@ public class ScalableRecipeBuilder extends RecipeBuilder<ScalableRecipeBuilder> 
 		Iterator<Entry<RecipeValueFormat, Object>> ite = this.value.entrySet().iterator();
 		while (ite.hasNext()) {
 			Entry<RecipeValueFormat, Object> entry = ite.next();
-			if (entry.getKey().validate(entry.getValue()) == EnumValidationResult.INVALID) {
+			if (!entry.getKey().validate(entry.getValue())) {
 				TMCLog.logger.warn("Extra format [" + entry.getKey().getName() + "] doesn't match the object");
 				continue;
 			}
@@ -141,7 +148,7 @@ public class ScalableRecipeBuilder extends RecipeBuilder<ScalableRecipeBuilder> 
 		Iterator<Entry<RecipeValueFormat, Object>> ite = this.value.entrySet().iterator();
 		while (ite.hasNext()) {
 			Entry<RecipeValueFormat, Object> entry = ite.next();
-			if (entry.getKey().validate(entry.getValue()) == EnumValidationResult.INVALID) {
+			if (!entry.getKey().validate(entry.getValue())) {
 				TMCLog.logger.warn("Extra format [" + entry.getKey().getName() + "] doesn't match the object");
 				continue;
 			}
@@ -152,13 +159,13 @@ public class ScalableRecipeBuilder extends RecipeBuilder<ScalableRecipeBuilder> 
 
 	@Override
 	protected EnumValidationResult finalizeAndValidate() {
-		if (this.validate() == EnumValidationResult.INVALID || !this.validation.test(this)) {
+		if (this.validate() == EnumValidationResult.INVALID) {
 			return EnumValidationResult.INVALID;
 		}
 		Iterator<Entry<RecipeValueFormat, Object>> ite = this.value.entrySet().iterator();
 		while (ite.hasNext()) {
 			Entry<RecipeValueFormat, Object> entry = ite.next();
-			if (entry.getKey().validate(entry.getValue()) == EnumValidationResult.INVALID) {
+			if (!entry.getKey().validate(entry.getValue())) {
 				return EnumValidationResult.INVALID;
 			}
 		}

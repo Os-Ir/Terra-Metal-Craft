@@ -1,23 +1,22 @@
 package com.osir.tmc.api.recipe;
 
+import java.util.function.Predicate;
+
 import gregtech.api.util.EnumValidationResult;
 
 public class RecipeValueFormat {
 	private String name;
-	private Class type;
+	private Predicate<Object> predicate;
 	private Object def;
-	private boolean nullable;
 
-	public RecipeValueFormat(String name, Class type) {
-		this.name = name;
-		this.type = type;
-		this.nullable = true;
+	public RecipeValueFormat(String name, Predicate<Object> predicate) {
+		this(name, predicate, null);
 	}
 
-	public RecipeValueFormat(String name, Class type, boolean nullable, Object def) {
-		this(name, type);
-		this.nullable = nullable;
-		if ((nullable && def == null) || this.validate(def) == EnumValidationResult.VALID) {
+	public RecipeValueFormat(String name, Predicate<Object> predicate, Object def) {
+		this.name = name;
+		this.predicate = predicate;
+		if (this.validate(def)) {
 			this.def = def;
 		} else {
 			throw new IllegalStateException("Default object is invalid");
@@ -28,11 +27,8 @@ public class RecipeValueFormat {
 		return this.name.equals(str);
 	}
 
-	public EnumValidationResult validate(Object obj) {
-		if (obj == null) {
-			return this.nullable ? EnumValidationResult.VALID : EnumValidationResult.SKIP;
-		}
-		return this.type.isInstance(obj) ? EnumValidationResult.VALID : EnumValidationResult.INVALID;
+	public boolean validate(Object obj) {
+		return this.predicate.test(obj);
 	}
 
 	public Object getDefault() {
@@ -41,9 +37,5 @@ public class RecipeValueFormat {
 
 	public String getName() {
 		return this.name;
-	}
-
-	public Class getType() {
-		return this.type;
 	}
 }

@@ -8,10 +8,9 @@ import gregtech.api.items.metaitem.MetaItem;
 public class MetaItems {
 	public static MaterialMetaItem MATERIAL_ITEM;
 
-	public static MetaItem<?>.MetaValueItem COIN;
+	public static MetaItem<?>.MetaValueItem COIN_TMC;
 
 	public static void preInit() {
 		MATERIAL_ITEM = new MaterialItem();
-		MATERIAL_ITEM.setRegistryName(Main.MODID, "material_item");
 	}
 }

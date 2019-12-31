@@ -16,60 +16,38 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 public class CapabilityHeat implements IHeatable, ICapabilitySerializable<NBTTagCompound> {
 	public static final ResourceLocation KEY = new ResourceLocation(Main.MODID, "heatable_item");
 
-	private float specificHeat;
-	private int meltTemp, unit, compUnit;
-	private float maxEnergy, energy, overEnergy;
+	protected HeatMaterial material;
+	protected int maxTemp, unit;
+	protected float maxEnergy, energy, overEnergy;
 
 	public CapabilityHeat() {
-		this(HeatMaterialList.EMPTY, 144);
+		this(HeatMaterialList.EMPTY, 1, 20);
 	}
 
 	public CapabilityHeat(HeatMaterial material, int unit) {
-		this.compUnit = this.unit = unit;
-		this.specificHeat = material.getSpecificHeat();
-		this.meltTemp = material.getMeltTemp();
-		this.maxEnergy = this.specificHeat * (this.meltTemp - 20) * unit;
+		this(material, unit, material.getMeltTemp());
+	}
+
+	public CapabilityHeat(HeatMaterial material, int unit, int maxTemp) {
+		this.material = material;
+		this.unit = unit;
+		this.maxTemp = Math.min(maxTemp, material.getMeltTemp());
+		this.maxEnergy = material.getSpecificHeat() * (this.maxTemp - 20) * unit;
 	}
 
 	@Override
-	public int getMeltTemp() {
-		return this.meltTemp;
+	public HeatMaterial getMaterial() {
+		return this.material;
 	}
 
 	@Override
-	public float getSpecificHeat() {
-		return this.specificHeat;
+	public int getMaxTemp() {
+		return this.maxTemp;
 	}
 
 	@Override
 	public int getTemp() {
-		return (int) ((this.energy / this.maxEnergy) * (this.meltTemp - 20) + 20);
-	}
-
-	@Override
-	public String getColor() {
-		if (!this.hasEnergy()) {
-			return null;
-		}
-		String str = "";
-		float temp = this.getTemp();
-		TempList[] list = TempList.values();
-		if (temp < list[list.length - 1].getTemp()) {
-			int i;
-			for (i = 0; i < list.length - 1; i++) {
-				if (temp >= list[i + 1].getTemp()) {
-					continue;
-				}
-				str = list[i].getColor() + I18n.format("item.heatable.color." + list[i].getId()) + " "
-						+ MathTool.romanNumber(
-								(int) ((temp - list[i].getTemp()) / (list[i + 1].getTemp() - list[i].getTemp()) * 5));
-				break;
-			}
-		} else {
-			str = list[list.length - 1].getColor()
-					+ I18n.format("item.heatable.color." + list[list.length - 1].getId());
-		}
-		return str;
+		return (int) ((this.energy / this.maxEnergy) * (this.maxTemp - 20) + 20);
 	}
 
 	@Override
@@ -78,13 +56,8 @@ public class CapabilityHeat implements IHeatable, ICapabilitySerializable<NBTTag
 	}
 
 	@Override
-	public int getCompleteUnit() {
-		return this.compUnit;
-	}
-
-	@Override
-	public void setUnit(int unit) {
-		this.unit = unit;
+	public float getProgress() {
+		return Math.max(Math.min(this.overEnergy / this.maxEnergy * 10, 1), 0);
 	}
 
 	@Override
@@ -113,11 +86,10 @@ public class CapabilityHeat implements IHeatable, ICapabilitySerializable<NBTTag
 	}
 
 	@Override
-	public void setIncreaseEnergy(float energy) {
+	public void increaseEnergy(float energy) {
 		if (energy + this.energy > this.maxEnergy) {
 			this.overEnergy += energy + this.energy - this.maxEnergy;
 			this.energy = this.maxEnergy;
-			this.unit = Math.max((int) ((1 - this.overEnergy / this.maxEnergy * 10) * this.compUnit), 0);
 		} else {
 			this.energy += energy;
 		}
@@ -140,9 +112,6 @@ public class CapabilityHeat implements IHeatable, ICapabilitySerializable<NBTTag
 	@Override
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
-		if (this.unit != this.compUnit) {
-			nbt.setInteger("unit", this.unit);
-		}
 		if (this.energy != 0) {
 			nbt.setFloat("energy", this.energy);
 		}
@@ -157,9 +126,6 @@ public class CapabilityHeat implements IHeatable, ICapabilitySerializable<NBTTag
 		if (nbt == null) {
 			return;
 		}
-		if (nbt.hasKey("unit")) {
-			this.unit = nbt.getInteger("unit");
-		}
 		if (nbt.hasKey("energy")) {
 			this.energy = nbt.getFloat("energy");
 		}
@@ -170,21 +136,21 @@ public class CapabilityHeat implements IHeatable, ICapabilitySerializable<NBTTag
 
 	@Override
 	public boolean isWorkable() {
-		return ((float) (this.getTemp() - 20)) / (this.meltTemp - 20) >= 0.6;
+		return ((float) (this.getTemp() - 20)) / (this.maxTemp - 20) >= 0.6;
 	}
 
 	@Override
 	public boolean isSoft() {
-		return ((float) (this.getTemp() - 20)) / (this.meltTemp - 20) >= 0.7;
+		return ((float) (this.getTemp() - 20)) / (this.maxTemp - 20) >= 0.7;
 	}
 
 	@Override
 	public boolean isWeldable() {
-		return ((float) (this.getTemp() - 20)) / (this.meltTemp - 20) >= 0.8;
+		return ((float) (this.getTemp() - 20)) / (this.maxTemp - 20) >= 0.8;
 	}
 
 	@Override
 	public boolean isDanger() {
-		return ((float) (this.getTemp() - 20)) / (this.meltTemp - 20) >= 0.9;
+		return ((float) (this.getTemp() - 20)) / (this.maxTemp - 20) >= 0.9;
 	}
 }

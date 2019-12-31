@@ -1,11 +1,9 @@
 package com.osir.tmc.te;
 
+import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
-import com.osir.tmc.api.heat.HeatRecipe;
-import com.osir.tmc.api.heat.HeatRegistry;
 import com.osir.tmc.block.BlockOriginalForge;
 import com.osir.tmc.handler.BlockHandler;
-import com.osir.tmc.handler.CapabilityHandler;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -77,7 +75,7 @@ public class TEOriginalForge extends TEHeatBlock {
 		this.temp = (int) (this.energy / SPECIFIC_HEAT) + 20;
 		for (i = 3; i < 6; i++) {
 			ItemStack stack = this.inventory.getStackInSlot(i);
-			IHeatable cap = stack.getCapability(CapabilityHandler.HEATABLE, null);
+			IHeatable cap = stack.getCapability(CapabilityList.HEATABLE, null);
 			if (cap == null) {
 				continue;
 			}
@@ -88,21 +86,21 @@ public class TEOriginalForge extends TEHeatBlock {
 				delta = Math.min(delta, -RATE);
 			}
 			int count = stack.getCount();
-			cap.setIncreaseEnergy(delta);
+			cap.increaseEnergy(delta);
 			this.energy -= delta * count;
-			if (cap.getUnit() == 0) {
-				HeatRecipe recipe = HeatRegistry.findRecipe(stack);
-				if (recipe != null) {
-					ItemStack output = recipe.getOutput();
-					if (output != null && !output.isEmpty()) {
-						output = output.copy();
-						output.setCount(count);
-						this.inventory.setStackInSlot(i, output);
-					} else {
-						this.inventory.setStackInSlot(i, ItemStack.EMPTY);
-					}
-				}
-			}
+			// if (cap.getUnit() == 0) {
+			// HeatRecipe recipe = HeatRegistry.findRecipe(stack);
+			// if (recipe != null) {
+			// ItemStack output = recipe.getOutput();
+			// if (output != null && !output.isEmpty()) {
+			// output = output.copy();
+			// output.setCount(count);
+			// this.inventory.setStackInSlot(i, output);
+			// } else {
+			// this.inventory.setStackInSlot(i, ItemStack.EMPTY);
+			// }
+			// }
+			// }
 		}
 		if (this.world != null) {
 			this.world.markChunkDirty(this.pos, this);

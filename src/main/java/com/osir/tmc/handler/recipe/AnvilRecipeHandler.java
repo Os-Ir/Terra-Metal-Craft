@@ -15,21 +15,9 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class AnvilRecipeHandler {
-	private static final ScalableRecipeBuilder BUILDER = ModRecipeMap.BUILDER_ANVIL;
-
 	public static void register() {
-		BUILDER.EUt(1);
-		BUILDER.duration(1);
-		BUILDER.addFormat(ModRecipeMap.FORMAT_ANVIL);
-
-		BUILDER.setValue("type", AnvilRecipeType.WELD);
-		BUILDER.input(OrePrefix.ingot, Materials.Iron, 2);
-		BUILDER.outputs(OreDictUnifier.get(OrePrefix.valueOf("ingotDouble"), Materials.Iron, 1));
-		BUILDER.buildAndRegister();
-
-		List input = new ArrayList();
-		input.add(new ItemStack(Items.IRON_INGOT, 2));
-		ScalableRecipe recipe = (ScalableRecipe) ModRecipeMap.MAP_ANVIL.findRecipe(1, input, new ArrayList(), 0);
-		System.out.println(recipe.getValueList().size());
+		ModRecipeMap.MAP_ANVIL.recipeBuilder().setValue("type", AnvilRecipeType.WELD)
+				.input(OrePrefix.ingot, Materials.Iron, 2)
+				.outputs(OreDictUnifier.get(OrePrefix.valueOf("ingotDouble"), Materials.Iron, 1)).buildAndRegister();
 	}
 }

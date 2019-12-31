@@ -1,10 +1,11 @@
 package com.osir.tmc.handler;
 
-import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
 import com.osir.tmc.item.ItemMould;
 import com.osir.tmc.item.MetaItems;
+import com.osir.tmc.item.ModMetaItem;
 
+import gregtech.api.items.metaitem.MetaItem;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -19,6 +20,8 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 @EventBusSubscriber(modid = Main.MODID)
 public class ItemHandler {
+	public static final MetaItem META_ITEM = new ModMetaItem();
+
 	public static final Item ITEM_ORIGINAL_FORGE = new ItemBlock(BlockHandler.ORIGINAL_FORGE)
 			.setRegistryName(BlockHandler.ORIGINAL_FORGE.getRegistryName());
 	public static final Item ITEM_MOULD = new ItemMould();
@@ -43,7 +46,6 @@ public class ItemHandler {
 	public static void register(Register<Item> e) {
 		IForgeRegistry<Item> registry = e.getRegistry();
 		MetaItems.preInit();
-		registry.register(COIN);
 		registry.register(ITEM_ORIGINAL_FORGE);
 		registry.register(ITEM_MOULD);
 		for (int i = 0; i < BlockHandler.ANVIL.length; i++) {

@@ -57,6 +57,11 @@ public class ItemIndex {
 	}
 
 	@Override
+	public int hashCode() {
+		return this.item.hashCode() * 31 + this.meta;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof ItemIndex)) {
 			return false;

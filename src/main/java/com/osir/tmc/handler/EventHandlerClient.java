@@ -1,13 +1,15 @@
 package com.osir.tmc.handler;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.osir.tmc.Main;
 import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.capability.ILiquidContainer;
-import com.osir.tmc.api.heat.HeatRecipe;
-import com.osir.tmc.api.heat.HeatRegistry;
+import com.osir.tmc.api.recipe.ModRecipeMap;
+import com.osir.tmc.api.recipe.ScalableRecipe;
 import com.osir.tmc.block.BlockAnvil;
 import com.osir.tmc.block.BlockOriginalForge;
 
@@ -76,24 +78,28 @@ public class EventHandlerClient {
 		}
 		tooltip.add(TextFormatting.AQUA + I18n.format("item.heatable.tip.title"));
 		tooltip.add(TextFormatting.AQUA + "--" + I18n.format("item.heatable.tip.heating"));
-		HeatRecipe recipe = HeatRegistry.findRecipe(stack);
-		ItemStack output = recipe.getOutput();
-		if (output == null || output.isEmpty()) {
-			tooltip.add(TextFormatting.AQUA + "--" + I18n.format("item.heatable.tip.melting"));
-		} else {
-			tooltip.add(TextFormatting.AQUA + "--" + I18n.format("item.heatable.tip.making") + " "
-					+ TextFormatting.YELLOW + I18n.format(output.getItem().getUnlocalizedName() + ".name"));
-		}
+		ScalableRecipe recipe = (ScalableRecipe) ModRecipeMap.MAP_HEAT.findRecipe(0, Arrays.asList(stack),
+				new ArrayList(), 0);
+		// if (recipe != null && recipe.getOutputs().isEmpty()) {
+		// tooltip.add(TextFormatting.AQUA + "--" +
+		// I18n.format("item.heatable.tip.melting"));
+		// } else {
+		// tooltip.add(
+		// TextFormatting.AQUA + "--" + I18n.format("item.heatable.tip.making") + " " +
+		// TextFormatting.YELLOW
+		// + I18n.format(recipe.getOutputs().get(0).getItem().getUnlocalizedName() +
+		// ".name"));
+		// }
 		tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.material.meltPoint") + " " + TextFormatting.GOLD
-				+ cap.getMeltTemp() + TextFormatting.GREEN + I18n.format("item.unit.temperature"));
+				+ cap.getMaterial().getMeltTemp() + TextFormatting.GREEN + I18n.format("item.unit.temperature"));
 		tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.material.specificHeat") + " " + TextFormatting.GOLD
-				+ cap.getSpecificHeat() + TextFormatting.GREEN + I18n.format("item.unit.specificHeat"));
+				+ cap.getMaterial().getSpecificHeat() + TextFormatting.GREEN + I18n.format("item.unit.specificHeat"));
 		tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.state.volume") + " " + TextFormatting.GOLD
 				+ cap.getUnit() + TextFormatting.GREEN + I18n.format("item.unit.volume"));
 		int temp = cap.getTemp();
 		tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.state.temperature") + " " + TextFormatting.GOLD
 				+ temp + TextFormatting.GREEN + I18n.format("item.unit.temperature"));
-		if (cap.getUnit() != cap.getCompleteUnit()) {
+		if (cap.getProgress() > 0) {
 			tooltip.add(TextFormatting.WHITE + I18n.format("item.heatable.state.melting"));
 		} else {
 			String info = "";
