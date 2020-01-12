@@ -1,15 +1,13 @@
 package com.osir.tmc.handler;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.osir.tmc.Main;
 import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.capability.ILiquidContainer;
-import com.osir.tmc.api.recipe.ModRecipeMap;
-import com.osir.tmc.api.recipe.ScalableRecipe;
+import com.osir.tmc.api.util.DividedInfoBuilder;
+import com.osir.tmc.api.util.InfoBuf;
 import com.osir.tmc.block.BlockAnvil;
 import com.osir.tmc.block.BlockOriginalForge;
 
@@ -71,55 +69,76 @@ public class EventHandlerClient {
 			return;
 		}
 		IHeatable cap = stack.getCapability(CapabilityList.HEATABLE, null);
-		List tooltip = e.getToolTip();
-		long time = 0;
-		if (e.getEntityPlayer() != null && e.getEntityPlayer().getEntityWorld() != null) {
-			time = e.getEntityPlayer().getEntityWorld().getTotalWorldTime();
-		}
-		tooltip.add(TextFormatting.AQUA + I18n.format("item.heatable.tip.title"));
-		tooltip.add(TextFormatting.AQUA + "--" + I18n.format("item.heatable.tip.heating"));
-		ScalableRecipe recipe = (ScalableRecipe) ModRecipeMap.MAP_HEAT.findRecipe(0, Arrays.asList(stack),
-				new ArrayList(), 0);
-		// if (recipe != null && recipe.getOutputs().isEmpty()) {
-		// tooltip.add(TextFormatting.AQUA + "--" +
-		// I18n.format("item.heatable.tip.melting"));
-		// } else {
-		// tooltip.add(
-		// TextFormatting.AQUA + "--" + I18n.format("item.heatable.tip.making") + " " +
-		// TextFormatting.YELLOW
-		// + I18n.format(recipe.getOutputs().get(0).getItem().getUnlocalizedName() +
-		// ".name"));
+		List<String> tooltip = e.getToolTip();
+		DividedInfoBuilder builder = new DividedInfoBuilder();
+		builder.addInfo(
+				new InfoBuf("m", cap.getMaterial().getMeltTemp(), TextFormatting.RED, "K", TextFormatting.GREEN));
+		builder.addInfo(new InfoBuf("c", cap.getMaterial().getSpecificHeat(), TextFormatting.AQUA, "J/(L¡¤K)",
+				TextFormatting.GREEN).setAccuracy(2));
+		tooltip.add(builder.build());
+		// IHeatable cap = stack.getCapability(CapabilityList.HEATABLE, null);
+		// List tooltip = e.getToolTip();
+		// long time = 0;
+		// if (e.getEntityPlayer() != null && e.getEntityPlayer().getEntityWorld() !=
+		// null) {
+		// time = e.getEntityPlayer().getEntityWorld().getTotalWorldTime();
 		// }
-		tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.material.meltPoint") + " " + TextFormatting.GOLD
-				+ cap.getMaterial().getMeltTemp() + TextFormatting.GREEN + I18n.format("item.unit.temperature"));
-		tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.material.specificHeat") + " " + TextFormatting.GOLD
-				+ cap.getMaterial().getSpecificHeat() + TextFormatting.GREEN + I18n.format("item.unit.specificHeat"));
-		tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.state.volume") + " " + TextFormatting.GOLD
-				+ cap.getUnit() + TextFormatting.GREEN + I18n.format("item.unit.volume"));
-		int temp = cap.getTemp();
-		tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.state.temperature") + " " + TextFormatting.GOLD
-				+ temp + TextFormatting.GREEN + I18n.format("item.unit.temperature"));
-		if (cap.getProgress() > 0) {
-			tooltip.add(TextFormatting.WHITE + I18n.format("item.heatable.state.melting"));
-		} else {
-			String info = "";
-			if (cap.isDanger()) {
-				info += (time % 10 < 5 ? TextFormatting.RED : TextFormatting.WHITE)
-						+ I18n.format("item.heatable.state.danger") + TextFormatting.WHITE + " | ";
-			}
-			if (cap.isWeldable()) {
-				info += TextFormatting.WHITE + I18n.format("item.heatable.state.weldable") + " | ";
-			}
-			if (cap.isWorkable()) {
-				info += TextFormatting.WHITE + I18n.format("item.heatable.state.workable");
-			}
-			if (!info.equals("")) {
-				tooltip.add(info);
-			}
-		}
-		if (cap.getTemp() != 20) {
-			tooltip.add(cap.getColor());
-		}
+		// tooltip.add(TextFormatting.AQUA + I18n.format("item.heatable.tip.title"));
+		// tooltip.add(TextFormatting.AQUA + "--" +
+		// I18n.format("item.heatable.tip.heating"));
+		// ScalableRecipe recipe = (ScalableRecipe) ModRecipeMap.MAP_HEAT.findRecipe(0,
+		// Arrays.asList(stack),
+		// new ArrayList(), 0);
+		// // if (recipe != null && recipe.getOutputs().isEmpty()) {
+		// // tooltip.add(TextFormatting.AQUA + "--" +
+		// // I18n.format("item.heatable.tip.melting"));
+		// // } else {
+		// // tooltip.add(
+		// // TextFormatting.AQUA + "--" + I18n.format("item.heatable.tip.making") + " "
+		// +
+		// // TextFormatting.YELLOW
+		// // + I18n.format(recipe.getOutputs().get(0).getItem().getUnlocalizedName() +
+		// // ".name"));
+		// // }
+		// tooltip.add(TextFormatting.BLUE +
+		// I18n.format("item.heatable.material.meltPoint") + " " + TextFormatting.GOLD
+		// + cap.getMaterial().getMeltTemp() + TextFormatting.GREEN +
+		// I18n.format("item.unit.temperature"));
+		// tooltip.add(TextFormatting.BLUE +
+		// I18n.format("item.heatable.material.specificHeat") + " " +
+		// TextFormatting.GOLD
+		// + cap.getMaterial().getSpecificHeat() + TextFormatting.GREEN +
+		// I18n.format("item.unit.specificHeat"));
+		// tooltip.add(TextFormatting.BLUE + I18n.format("item.heatable.state.volume") +
+		// " " + TextFormatting.GOLD
+		// + cap.getUnit() + TextFormatting.GREEN + I18n.format("item.unit.volume"));
+		// int temp = cap.getTemp();
+		// tooltip.add(TextFormatting.BLUE +
+		// I18n.format("item.heatable.state.temperature") + " " + TextFormatting.GOLD
+		// + temp + TextFormatting.GREEN + I18n.format("item.unit.temperature"));
+		// if (cap.getProgress() > 0) {
+		// tooltip.add(TextFormatting.WHITE +
+		// I18n.format("item.heatable.state.melting"));
+		// } else {
+		// String info = "";
+		// if (cap.isDanger()) {
+		// info += (time % 10 < 5 ? TextFormatting.RED : TextFormatting.WHITE)
+		// + I18n.format("item.heatable.state.danger") + TextFormatting.WHITE + " | ";
+		// }
+		// if (cap.isWeldable()) {
+		// info += TextFormatting.WHITE + I18n.format("item.heatable.state.weldable") +
+		// " | ";
+		// }
+		// if (cap.isWorkable()) {
+		// info += TextFormatting.WHITE + I18n.format("item.heatable.state.workable");
+		// }
+		// if (!info.equals("")) {
+		// tooltip.add(info);
+		// }
+		// }
+		// if (cap.getTemp() != 20) {
+		// tooltip.add(cap.getColor());
+		// }
 	}
 
 	@SubscribeEvent

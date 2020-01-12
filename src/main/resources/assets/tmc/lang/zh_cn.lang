@@ -8,7 +8,7 @@ itemGroup.tmc.equipment=群峦金属工艺-设备
 itemGroup.tmc.item=群峦金属工艺-物品
 itemGroup.tmc.material=群峦金属工艺-材料
 
-item.coin.name=TMC纪念币
+metaitem.coin.tmc.name=TMC纪念币
 item.mould.description=用于制造锭的模具
 item.mould.developing=仍在开发中
 

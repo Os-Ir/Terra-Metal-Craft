@@ -7,6 +7,8 @@ import com.osir.tmc.Main;
 import com.osir.tmc.api.capability.CapabilityHeat;
 import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
+import com.osir.tmc.api.heat.HeatMaterial;
+import com.osir.tmc.api.heat.HeatMaterialList;
 import com.osir.tmc.api.heat.MaterialStack;
 import com.osir.tmc.api.recipe.ModRecipeMap;
 import com.osir.tmc.api.recipe.ScalableRecipe;
@@ -28,16 +30,11 @@ public class EventHandler {
 		if (stack.hasCapability(CapabilityList.HEATABLE, null)) {
 			return;
 		}
-		ItemIndex idx = new ItemIndex(stack, ModRecipeMap.VALI_STACK);
-		if (ModRecipeMap.REGISTRY_MATERIAL.containsKey(idx)) {
-			MaterialStack mat = ModRecipeMap.REGISTRY_MATERIAL.getObject(idx);
-			int maxTemp = mat.getMaterial().getMeltTemp();
-			ScalableRecipe recipe = (ScalableRecipe) ModRecipeMap.MAP_HEAT.findRecipe(0, Arrays.asList(stack),
-					new ArrayList(), 0);
-			if (recipe != null) {
-				maxTemp = Math.min((int) recipe.getValue("temp"), maxTemp);
-			}
-			e.addCapability(CapabilityHeat.KEY, new CapabilityHeat(mat.getMaterial(), mat.getAmount(), maxTemp));
+		MaterialStack mat = HeatMaterialList.findMaterial(stack);
+		ScalableRecipe recipe = HeatMaterialList.findRecipe(stack);
+		if (mat != null && recipe != null) {
+			e.addCapability(CapabilityHeat.KEY,
+					new CapabilityHeat(mat.getMaterial(), mat.getAmount(), (int) recipe.getValue("temp")));
 		}
 	}
 

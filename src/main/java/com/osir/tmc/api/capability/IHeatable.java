@@ -37,6 +37,10 @@ public interface IHeatable {
 
 	boolean isDanger();
 
+	default int getKelvinTemp() {
+		return this.getTemp() + 273;
+	}
+
 	default String getColor() {
 		if (!this.hasEnergy()) {
 			return null;

@@ -6,6 +6,7 @@ import com.osir.tmc.api.util.function.Validation;
 
 import gregtech.api.recipes.RecipeMap;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.registry.RegistrySimple;
 
 public class ModRecipeMap {
@@ -18,11 +19,11 @@ public class ModRecipeMap {
 
 	public static final RecipeMap<ScalableRecipeBuilder> MAP_ANVIL = new RecipeMap<ScalableRecipeBuilder>("anvil", 1, 2,
 			1, 4, 0, 0, 0, 0, new ScalableRecipeBuilder().addFormat(FORMAT_ANVIL).EUt(1).duration(1));
-	public static final RecipeMap<ScalableRecipeBuilder> MAP_HEAT = new RecipeMap<ScalableRecipeBuilder>("anvil", 1, 1,
+	public static final RecipeMap<ScalableRecipeBuilder> MAP_HEAT = new RecipeMap<ScalableRecipeBuilder>("heat", 1, 1,
 			0, 1, 0, 0, 0, 0,
 			new ScalableRecipeBuilder().addFormat(FORMAT_TEMP).addFormat(FORMAT_MATERIAL).EUt(1).duration(1));
-
-	public static final RegistrySimple<ItemIndex, MaterialStack> REGISTRY_MATERIAL = new RegistrySimple<ItemIndex, MaterialStack>();
+	public static final RecipeMap<ScalableRecipeBuilder> MAP_MATERIAL = new RecipeMap<ScalableRecipeBuilder>("material",
+			1, 1, 0, 0, 0, 0, 0, 0, new ScalableRecipeBuilder().addFormat(FORMAT_MATERIAL).EUt(1).duration(1));
 
 	public static final Validation<ItemIndex, ItemStack> VALI_ITEM = (idx, stack) -> idx.getItem() == stack.getItem();
 	public static final Validation<ItemIndex, ItemStack> VALI_META = (idx,

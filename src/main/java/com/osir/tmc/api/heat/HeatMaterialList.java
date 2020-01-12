@@ -1,6 +1,13 @@
 package com.osir.tmc.api.heat;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import com.osir.tmc.api.recipe.ModRecipeMap;
+import com.osir.tmc.api.recipe.ScalableRecipe;
+
 import gregtech.api.unification.material.Materials;
+import net.minecraft.item.ItemStack;
 
 public class HeatMaterialList {
 	public static final HeatMaterial EMPTY = new HeatMaterial(Materials._NULL, 1F, 20);
@@ -18,4 +25,17 @@ public class HeatMaterialList {
 	public static final HeatMaterial STEEL = new HeatMaterial(Materials.Steel, 0.49F, 1520);
 
 	public static final HeatMaterial GLASS = new HeatMaterial(Materials.Glass, 0.96F, 1650);
+
+	public static MaterialStack findMaterial(ItemStack stack) {
+		ScalableRecipe recipe = (ScalableRecipe) ModRecipeMap.MAP_MATERIAL.findRecipe(1, Arrays.asList(stack),
+				new ArrayList(), 0);
+		if (recipe != null) {
+			return (MaterialStack) recipe.getValue("material");
+		}
+		return null;
+	}
+
+	public static ScalableRecipe findRecipe(ItemStack stack) {
+		return (ScalableRecipe) ModRecipeMap.MAP_HEAT.findRecipe(1, Arrays.asList(stack), new ArrayList(), 0);
+	}
 }

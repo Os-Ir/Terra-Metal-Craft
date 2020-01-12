@@ -2,6 +2,7 @@ package com.osir.tmc.item;
 
 import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
+import com.osir.tmc.api.TMCLog;
 
 import gregtech.api.items.metaitem.MetaItem;
 import gregtech.api.items.metaitem.StandardMetaItem;
@@ -20,15 +21,14 @@ public class ModMetaItem extends StandardMetaItem {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		if (tab != CreativeTabList.tabItem || tab != CreativeTabs.SEARCH) {
+		if (tab != CreativeTabList.tabItem && tab != CreativeTabs.SEARCH) {
 			return;
 		}
-		for (MetaItem<?>.MetaValueItem enabledItem : metaItems.valueCollection()) {
-			if (!enabledItem.isVisible()) {
+		for (MetaItem<?>.MetaValueItem metaItem : metaItems.valueCollection()) {
+			if (!metaItem.isVisible()) {
 				continue;
 			}
-			ItemStack stack = enabledItem.getStackForm();
-			enabledItem.getSubItemHandler().getSubItems(stack, tab, subItems);
+			metaItem.getSubItemHandler().getSubItems(metaItem.getStackForm(), tab, subItems);
 		}
 	}
 

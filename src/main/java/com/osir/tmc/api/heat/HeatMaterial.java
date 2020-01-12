@@ -13,6 +13,14 @@ public class HeatMaterial {
 		this.meltTemp = meltTemp;
 	}
 
+	public String getUnlocalizedName() {
+		return this.material.getUnlocalizedName();
+	}
+
+	public String getLocalizedName() {
+		return this.material.getLocalizedName();
+	}
+
 	public Material getMaterial() {
 		return this.material;
 	}

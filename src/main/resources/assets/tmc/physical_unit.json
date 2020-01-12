@@ -1,0 +1,95 @@
+{
+  "units": [
+    {
+      "type": "mass",
+	  "use": 0,
+      "values": [
+        {
+		  "id": 0,
+          "abbreviation": "kg",
+          "name": "kilogram"
+        },
+        {
+		  "id": 1,
+          "abbreviation": "g",
+          "name": "gram",
+          "convert": [1000, 0]
+        },
+        {
+		  "id": 2,
+          "abbreviation": "lb",
+          "name": "pound",
+          "convert": [2.205, 0]
+        },
+        {
+		  "id": 3,
+          "abbreviation": "oz",
+          "name": "ounce",
+          "convert": [35.274, 0]
+        }
+      ]
+	},
+	{
+      "type": "temperature",
+	  "use": 0,
+      "values": [
+        {
+		  "id": 0,
+          "abbreviation": "℃",
+          "name": "Celsius"
+        },
+        {
+		  "id": 1,
+          "abbreviation": "K",
+          "name": "Kelvin",
+          "convert": [1, 273.15]
+        },
+        {
+		  "id": 2,
+          "abbreviation": "℉",
+          "name": "Fahrenheit",
+          "convert": [1.8, 32]
+        }
+      ]
+    },
+	{
+	  "type": "energy",
+	  "use": 0,
+	  "values": [
+	    {
+		  "id": 0,
+		  "abbreviation": "J",
+		  "name": "joule"
+		},
+		{
+		  "id": 1,
+		  "abbreviation": "cal",
+		  "name": "calorie",
+		  "convert": [0.239, 0]
+		},
+		{
+		  "id": 2,
+		  "abbreviation": "ft·lb",
+		  "name": "foot_pound",
+		  "convert": [7.233, 0]
+		}
+		{
+		  "id": 3,
+		  "abbreviation": "RF",
+		  "name": "redstone_flux",
+		  "convert": [0.02, 0]
+		}
+	  ]
+	},
+	{
+	  "type": "specific_heat"
+	  "use": 0,
+	  "values": [
+	    {
+		  "id": 0,
+		  "abbreviation": "J/(L·℃)",
+		}
+	  ]
+	}
+  ]
+}

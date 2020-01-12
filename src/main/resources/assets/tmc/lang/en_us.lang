@@ -8,7 +8,7 @@ itemGroup.tmc.equipment=Terra Metal Craft-Equipment
 itemGroup.tmc.item=Terra Metal Craft-Item
 itemGroup.tmc.material=Terra Metal Craft-Material
 
-item.coin.name=TMC Coin
+metaitem.coin.tmc.name=TMC Coin
 item.mould.description=Moulds for Ingots
 item.mould.developing=Still Developing
 

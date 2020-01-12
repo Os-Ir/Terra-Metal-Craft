@@ -1,5 +1,6 @@
 package com.osir.tmc.container.slot;
 
+import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.recipe.ModRecipeMap;
 import com.osir.tmc.api.util.ItemIndex;
 
@@ -14,8 +15,6 @@ public class SlotHeat extends SlotItemHandler {
 
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-		return stack != null
-				&& ModRecipeMap.REGISTRY_MATERIAL.containsKey(new ItemIndex(stack, ModRecipeMap.VALI_STACK))
-				&& super.isItemValid(stack);
+		return stack.hasCapability(CapabilityList.HEATABLE, null) && super.isItemValid(stack);
 	}
 }

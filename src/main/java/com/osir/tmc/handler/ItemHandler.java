@@ -20,8 +20,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 @EventBusSubscriber(modid = Main.MODID)
 public class ItemHandler {
-	public static final MetaItem META_ITEM = new ModMetaItem();
-
 	public static final Item ITEM_ORIGINAL_FORGE = new ItemBlock(BlockHandler.ORIGINAL_FORGE)
 			.setRegistryName(BlockHandler.ORIGINAL_FORGE.getRegistryName());
 	public static final Item ITEM_MOULD = new ItemMould();

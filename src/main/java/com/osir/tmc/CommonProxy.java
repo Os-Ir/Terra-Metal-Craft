@@ -1,6 +1,7 @@
 package com.osir.tmc;
 
 import com.osir.tmc.api.TMCLog;
+import com.osir.tmc.api.util.PhysicalUnitLoader;
 import com.osir.tmc.handler.CapabilityHandler;
 import com.osir.tmc.handler.GuiHandler;
 import com.osir.tmc.handler.NetworkHandler;
@@ -26,6 +27,7 @@ public class CommonProxy {
 	public void init(FMLInitializationEvent e) {
 		new GuiHandler();
 		RecipeHandler.register();
+		PhysicalUnitLoader.load();
 	}
 
 	public void postInit(FMLPostInitializationEvent e) {
