@@ -31,7 +31,7 @@ public class CapabilityHeat implements IHeatable, ICapabilitySerializable<NBTTag
 	public CapabilityHeat(HeatMaterial material, int unit, int maxTemp) {
 		this.material = material;
 		this.unit = unit;
-		this.maxTemp = Math.min(maxTemp, material.getMeltTemp());
+		this.maxTemp = maxTemp;
 		this.maxEnergy = material.getSpecificHeat() * (this.maxTemp - 20) * unit;
 	}
 

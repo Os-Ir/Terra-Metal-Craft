@@ -1,36 +1,68 @@
 package com.osir.tmc.te;
 
+import com.osir.tmc.api.capability.CapabilityHeat;
 import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
+import com.osir.tmc.api.gui.PointerWidget;
+import com.osir.tmc.api.gui.SimpleUIHolder;
+import com.osir.tmc.api.gui.TextureHelper;
+import com.osir.tmc.api.heat.HeatMaterialList;
 import com.osir.tmc.block.BlockOriginalForge;
 import com.osir.tmc.handler.BlockHandler;
 
+import gregtech.api.gui.GuiTextures;
+import gregtech.api.gui.ModularUI;
+import gregtech.api.gui.resources.TextureArea;
+import gregtech.api.gui.widgets.ImageWidget;
+import gregtech.api.gui.widgets.ProgressWidget;
+import gregtech.api.gui.widgets.SlotWidget;
+import gregtech.api.metatileentity.SyncedTileEntityBase;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class TEOriginalForge extends TEHeatBlock {
-	public static final int POWER = 210;
-	public static final float RATE = 3;
+public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, SimpleUIHolder {
+	public static final int COAL_BURN_TIME = 1600;
+	public static final int POWER = 200;
+	public static final float RATE = 0.5F;
+	public static final float COOLING_RATE = 0.05F;
 	public static final int MAX_TEMP = 900;
-	public static final int SPECIFIC_HEAT = 460;
-	protected int burnTime;
+
+	public static final TextureArea OVERLAY_INGOT = TextureHelper.fullImage("textures/gui/heat/overlay_ingot.png");
+	public static final TextureArea OVERLAY_COAL = TextureHelper.fullImage("textures/gui/heat/overlay_coal.png");
+	public static final TextureArea FUEL = TextureHelper.fullImage("textures/gui/heat/fuel.png");
+	public static final TextureArea FUEL_FULL = TextureHelper.fullImage("textures/gui/heat/fuel_full.png");
+	public static final TextureArea TEMPERATURE_PROGRESS = TextureHelper
+			.fullImage("textures/gui/heat/temperature_progress.png");
+	public static final TextureArea POINTER = TextureHelper.fullImage("textures/gui/heat/pointer.png");
+
+	protected ItemStackHandler inventory;
+	protected CapabilityHeat cap;
+	protected int burnTime, maxTemp;
+	protected boolean burning;
 
 	public TEOriginalForge() {
 		this.inventory = new ItemStackHandler(9) {
 			@Override
 			public int getSlotLimit(int slot) {
-				if (slot < 3) {
-					return 1;
-				}
-				if (slot < 6) {
+				if (slot > 0 && slot < 6) {
 					return 4;
 				}
 				return 64;
 			}
 		};
+		this.cap = new CapabilityHeat(HeatMaterialList.GLASS, 500);
+		this.maxTemp = MAX_TEMP;
 	}
 
 	@Override
@@ -38,96 +70,183 @@ public class TEOriginalForge extends TEHeatBlock {
 		if (this.world.isRemote) {
 			return;
 		}
-		int i;
-		if (!this.inventory.getStackInSlot(0).isEmpty() && this.inventory.getStackInSlot(1).isEmpty()) {
-			this.inventory.setStackInSlot(1, this.inventory.getStackInSlot(0));
-			this.inventory.setStackInSlot(0, ItemStack.EMPTY);
+		this.burnTime = Math.max(this.burnTime, 0);
+		if (this.burnTime == 0) {
+			this.consumeCoal();
 		}
-		if (!this.inventory.getStackInSlot(1).isEmpty() && this.inventory.getStackInSlot(2).isEmpty()) {
-			this.inventory.setStackInSlot(2, this.inventory.getStackInSlot(1));
-			this.inventory.setStackInSlot(1, ItemStack.EMPTY);
-		}
-		if (this.burnTime <= 0 && !this.inventory.getStackInSlot(2).isEmpty()) {
-			this.inventory.setStackInSlot(2, ItemStack.EMPTY);
-			this.burnTime = 1600;
-		}
-		IBlockState state = this.world.getBlockState(this.pos);
-		TileEntity te = this.world.getTileEntity(this.pos);
+		this.updateBuring(this.burnTime > 0 || this.cap.getTemp() >= 500);
 		if (this.burnTime > 0) {
-			this.energy += POWER;
 			this.burnTime--;
-			this.world.setBlockState(this.pos,
-					BlockHandler.ORIGINAL_FORGE.getDefaultState()
-							.withProperty(BlockOriginalForge.FACING, state.getValue(BlockOriginalForge.FACING))
-							.withProperty(BlockOriginalForge.BURN, true));
-		} else {
-			this.world.setBlockState(this.pos,
-					BlockHandler.ORIGINAL_FORGE.getDefaultState()
-							.withProperty(BlockOriginalForge.FACING, state.getValue(BlockOriginalForge.FACING))
-							.withProperty(BlockOriginalForge.BURN, false));
+			this.increaseHeat(POWER);
 		}
-		if (te != null) {
-			te.validate();
-			this.world.setTileEntity(this.pos, te);
-		}
-		this.energy -= Math.max((this.temp - 20) * 0.02, 5);
-		this.energy = Math.min(Math.max(this.energy, 0), SPECIFIC_HEAT * (MAX_TEMP - 20));
-		this.temp = (int) (this.energy / SPECIFIC_HEAT) + 20;
-		for (i = 3; i < 6; i++) {
+		for (int i = 3; i < 6; i++) {
 			ItemStack stack = this.inventory.getStackInSlot(i);
-			IHeatable cap = stack.getCapability(CapabilityList.HEATABLE, null);
-			if (cap == null) {
-				continue;
+			if (stack.hasCapability(CapabilityList.HEATABLE, null)) {
+				IHeatable heat = stack.getCapability(CapabilityList.HEATABLE, null);
+				this.heatExchange(heat, stack.getCount());
 			}
-			float delta = (this.temp - cap.getTemp()) * RATE;
-			if (delta > 0) {
-				delta = Math.max(delta, RATE);
-			} else if (delta < 0) {
-				delta = Math.min(delta, -RATE);
-			}
-			int count = stack.getCount();
-			cap.increaseEnergy(delta);
-			this.energy -= delta * count;
-			// if (cap.getUnit() == 0) {
-			// HeatRecipe recipe = HeatRegistry.findRecipe(stack);
-			// if (recipe != null) {
-			// ItemStack output = recipe.getOutput();
-			// if (output != null && !output.isEmpty()) {
-			// output = output.copy();
-			// output.setCount(count);
-			// this.inventory.setStackInSlot(i, output);
-			// } else {
-			// this.inventory.setStackInSlot(i, ItemStack.EMPTY);
-			// }
-			// }
-			// }
 		}
+		this.cooling();
+		this.updateBlockState();
 		if (this.world != null) {
 			this.world.markChunkDirty(this.pos, this);
 		}
 	}
 
-	public boolean burn() {
-		return this.burnTime > 0 || this.temp > 580;
+	public void cooling() {
+		float exchange = (this.cap.getTemp() - 20) * COOLING_RATE;
+		exchange = Math.max(exchange, 5);
+		this.increaseHeat(-exchange);
 	}
 
-	public int getTemp() {
-		return this.temp;
+	public boolean consumeCoal() {
+		ItemStack coal = this.inventory.getStackInSlot(0);
+		if (coal.getItem() == Items.COAL) {
+			coal.shrink(1);
+			this.burnTime += COAL_BURN_TIME;
+			return true;
+		}
+		return false;
 	}
 
-	public int getBurnTime() {
-		return this.burnTime;
+	public void updateBlockState() {
+		IBlockState state = this.getBlockState();
+		TileEntity te = this.world.getTileEntity(this.pos);
+		this.world.setBlockState(this.pos,
+				BlockHandler.ORIGINAL_FORGE.getDefaultState()
+						.withProperty(BlockOriginalForge.FACING, state.getValue(BlockOriginalForge.FACING))
+						.withProperty(BlockOriginalForge.BURN, this.burning));
+		if (te != null) {
+			te.validate();
+			this.world.setTileEntity(this.pos, te);
+		}
+	}
+
+	public void increaseHeat(float energy) {
+		float maxEnergy = this.cap.getMaterial().getSpecificHeat() * this.cap.getUnit() * (this.maxTemp - 20);
+		if (maxEnergy < this.cap.getEnergy() + energy) {
+			this.cap.setEnergy(maxEnergy);
+		} else {
+			this.cap.increaseEnergy(energy);
+		}
+	}
+
+	public void heatExchange(IHeatable cap, int count) {
+		if (cap == null) {
+			return;
+		}
+		float exchange = (this.cap.getTemp() - cap.getTemp()) * RATE;
+		this.increaseHeat(-exchange);
+		cap.increaseEnergy(exchange / count);
+	}
+
+	public double getBurnProgress() {
+		return ((double) this.burnTime) / COAL_BURN_TIME;
+	}
+
+	public double getTemperatureProgress() {
+		return Math.min(((double) this.cap.getTemp()) / 1500, 1);
+	}
+
+	public boolean isBurning() {
+		return this.burning;
+	}
+
+	public void updateBuring(boolean update) {
+		if (this.burning ^ update) {
+			this.burning = update;
+			this.writeCustomData(100, (buf) -> buf.writeBoolean(update));
+		}
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		this.burnTime = nbt.getInteger("burnTime");
+		this.cap.deserializeNBT(nbt.getCompoundTag("capability"));
 		super.readFromNBT(nbt);
 	}
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		nbt.setFloat("burnTime", this.burnTime);
+		nbt.setTag("capability", this.cap.serializeNBT());
 		return super.writeToNBT(nbt);
+	}
+
+	@Override
+	public void writeInitialSyncData(PacketBuffer buf) {
+		buf.writeBoolean(this.burning);
+	}
+
+	@Override
+	public void receiveInitialSyncData(PacketBuffer buf) {
+		this.burning = buf.readBoolean();
+	}
+
+	@Override
+	public void receiveCustomData(int discriminator, PacketBuffer buf) {
+		if (discriminator == 100) {
+			this.burning = buf.readBoolean();
+			this.scheduleChunkForRenderUpdate();
+		}
+	}
+
+	@Override
+	public boolean hasCapability(Capability capability, EnumFacing facing) {
+		return super.hasCapability(capability, facing) || capability == CapabilityList.HEATABLE
+				|| capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
+	}
+
+	@Override
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+		if (super.hasCapability(capability, facing)) {
+			return super.getCapability(capability, facing);
+		}
+		if (capability == CapabilityList.HEATABLE) {
+			return (T) this.cap;
+		}
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			return (T) this.inventory;
+		}
+		return null;
+	}
+
+	protected void scheduleChunkForRenderUpdate() {
+		BlockPos pos = this.getPos();
+		this.getWorld().markBlockRangeForRenderUpdate(pos.getX() - 1, pos.getY() - 1, pos.getZ() - 1, pos.getX() + 1,
+				pos.getY() + 1, pos.getZ() + 1);
+	}
+
+	@Override
+	public boolean isValid() {
+		return !super.isInvalid();
+	}
+
+	@Override
+	public boolean isRemote() {
+		return this.world.isRemote;
+	}
+
+	@Override
+	public void markAsDirty() {
+		this.markDirty();
+	}
+
+	@Override
+	public ModularUI createUI(EntityPlayer player) {
+		return ModularUI.builder(GuiTextures.BACKGROUND, 176, 166)
+				.widget(new SlotWidget(this.inventory, 0, 8, 63).setBackgroundTexture(GuiTextures.SLOT, OVERLAY_COAL))
+				.widget(new SlotWidget(this.inventory, 3, 50, 21).setBackgroundTexture(GuiTextures.SLOT, OVERLAY_INGOT))
+				.widget(new SlotWidget(this.inventory, 4, 84, 21).setBackgroundTexture(GuiTextures.SLOT, OVERLAY_INGOT))
+				.widget(new SlotWidget(this.inventory, 5, 118, 21).setBackgroundTexture(GuiTextures.SLOT,
+						OVERLAY_INGOT))
+				.widget(new SlotWidget(this.inventory, 6, 152, 21)).widget(new SlotWidget(this.inventory, 7, 152, 42))
+				.widget(new SlotWidget(this.inventory, 8, 152, 63))
+				.widget(new ImageWidget(49, 67, 77, 9, TEMPERATURE_PROGRESS))
+				.widget(new PointerWidget(this::getTemperatureProgress, 47, 63, 5, 17).setPointer(75, POINTER,
+						PointerWidget.MoveType.HORIZONTAL))
+				.widget(new ProgressWidget(this::getBurnProgress, 31, 65, 14, 14).setProgressBar(FUEL, FUEL_FULL,
+						ProgressWidget.MoveType.VERTICAL))
+				.bindPlayerInventory(player.inventory).build(this, player);
 	}
 }

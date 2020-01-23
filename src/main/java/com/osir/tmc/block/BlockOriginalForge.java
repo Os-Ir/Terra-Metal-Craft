@@ -5,9 +5,12 @@ import java.util.Random;
 
 import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
+import com.osir.tmc.api.gui.SimpleUIHolder;
+import com.osir.tmc.api.gui.SyncedUIFactory;
 import com.osir.tmc.api.util.MathTool;
 import com.osir.tmc.te.TEOriginalForge;
 
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -18,6 +21,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -33,7 +37,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockOriginalForge extends TEBlock {
+public class BlockOriginalForge extends BlockContainer {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	public static final PropertyBool BURN = PropertyBool.create("burn");
 
@@ -99,13 +103,6 @@ public class BlockOriginalForge extends TEBlock {
 		default:
 			break;
 		}
-		for (int i = 0; i < 2; i++) {
-			tx = pos.getX() + rand.nextDouble();
-			ty = pos.getY() + 0.75;
-			tz = pos.getZ() + rand.nextDouble();
-			world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, tx, ty, tz, 0, 0, 0);
-			world.spawnParticle(EnumParticleTypes.FLAME, tx, ty, tz, 0, 0, 0);
-		}
 	}
 
 	@Override
@@ -114,7 +111,7 @@ public class BlockOriginalForge extends TEBlock {
 		if (world.isRemote) {
 			return true;
 		}
-		player.openGui(Main.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
+		SyncedUIFactory.INSTANCE.openSyncedUI((SimpleUIHolder) world.getTileEntity(pos), (EntityPlayerMP) player);
 		return true;
 	}
 

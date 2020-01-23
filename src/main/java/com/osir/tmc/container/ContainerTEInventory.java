@@ -1,27 +1,26 @@
 package com.osir.tmc.container;
 
-import com.osir.tmc.te.TEInventory;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 
-public abstract class ContainerTEInventory<T extends TEInventory> extends Container {
-	protected T te;
+public abstract class ContainerTEInventory extends Container {
+	protected TileEntity te;
 	protected InventoryPlayer invPlayer;
 
-	public T getTE() {
+	public TileEntity getTE() {
 		return this.te;
 	}
 
-	public ContainerTEInventory(InventoryPlayer invPlayer, T te) {
+	public ContainerTEInventory(InventoryPlayer invPlayer, TileEntity te) {
 		this(invPlayer, te, 0, 0);
 	}
 
-	public ContainerTEInventory(InventoryPlayer invPlayer, T te, int x, int y) {
+	public ContainerTEInventory(InventoryPlayer invPlayer, TileEntity te, int x, int y) {
 		this.invPlayer = invPlayer;
 		this.te = te;
 		this.addSlot();

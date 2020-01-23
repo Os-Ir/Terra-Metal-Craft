@@ -2,7 +2,6 @@ package com.osir.tmc.block;
 
 import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
-import com.osir.tmc.api.capability.IBlockModel;
 import com.osir.tmc.te.TEAnvil;
 
 import net.minecraft.block.BlockContainer;
@@ -25,7 +24,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 
-public class BlockAnvil extends BlockContainer implements IBlockModel {
+public class BlockAnvil extends BlockContainer {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	private static final AxisAlignedBB ANVIL_AABB_A = new AxisAlignedBB(0, 0, 0.125, 1, 0.6875, 0.875);
 	private static final AxisAlignedBB ANVIL_AABB_B = new AxisAlignedBB(0.125, 0, 0, 0.875, 0.6875, 1);
@@ -110,12 +109,11 @@ public class BlockAnvil extends BlockContainer implements IBlockModel {
 		return new TEAnvil(this.material.getLevel());
 	}
 
-	@Override
 	public void registerModel() {
 		ModelLoader.setCustomStateMapper(this, new StateMapperBase() {
 			@Override
 			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
-				return new ModelResourceLocation(Main.MODID + ":anvil", getPropertyString(state.getProperties()));
+				return new ModelResourceLocation(Main.MODID + ":anvil", this.getPropertyString(state.getProperties()));
 			}
 		});
 	}

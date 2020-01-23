@@ -4,7 +4,8 @@
 	"textures": {
 		"0": "tmc:blocks/mould_side",
 		"1": "tmc:blocks/mould_bottom",
-		"2": "tmc:blocks/mould_top"
+		"2": "tmc:blocks/mould_top",
+		"particle": "tmc:blocks/mould_side"
 	},
 	"elements": [
 		{

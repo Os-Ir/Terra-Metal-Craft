@@ -2,11 +2,8 @@ package com.osir.tmc.handler;
 
 import com.osir.tmc.Main;
 import com.osir.tmc.container.ContainerAnvil;
-import com.osir.tmc.container.ContainerOriginalForge;
 import com.osir.tmc.gui.GuiAnvil;
-import com.osir.tmc.gui.GuiOriginalForge;
 import com.osir.tmc.te.TEAnvil;
-import com.osir.tmc.te.TEOriginalForge;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -24,8 +21,6 @@ public class GuiHandler implements IGuiHandler {
 	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		switch (id) {
-		case 0:
-			return new ContainerOriginalForge((TEOriginalForge) te, player);
 		case 2:
 			return new ContainerAnvil((TEAnvil) te, player);
 		}
@@ -36,8 +31,6 @@ public class GuiHandler implements IGuiHandler {
 	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		switch (id) {
-		case 0:
-			return new GuiOriginalForge(new ContainerOriginalForge((TEOriginalForge) te, player));
 		case 2:
 			return new GuiAnvil(new ContainerAnvil((TEAnvil) te, player));
 		}

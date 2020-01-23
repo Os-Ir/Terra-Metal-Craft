@@ -1,12 +1,29 @@
 {
+  "forge_marker": 1,
+  "defaults": {
+    "model": "tmc:original_forge_off"
+  },
   "variants": {
-	"burn=false,facing=north": { "model": "tmc:original_forge" },
-	"burn=false,facing=east": { "model": "tmc:original_forge", "y": 90 },
-	"burn=false,facing=south": { "model": "tmc:original_forge", "y": 180 },
-	"burn=false,facing=west": { "model": "tmc:original_forge", "y": 270 },
-	"burn=true,facing=north": { "model": "tmc:original_forge" },
-	"burn=true,facing=east": { "model": "tmc:original_forge", "y": 90 },
-	"burn=true,facing=south": { "model": "tmc:original_forge", "y": 180 },
-	"burn=true,facing=west": { "model": "tmc:original_forge", "y": 270 }
+    "normal": [{}],
+    "inventory": [{}],
+    "burn": {
+      "true": {
+        "model": "tmc:original_forge_on"
+      },
+      "false": {
+        "model": "tmc:original_forge_off"
+      }
+    },
+    "facing": {
+      "east": {
+        "y": 90
+      },
+      "south": {
+	    "y": 180
+      },
+      "west": {
+        "y": 270
+      }
+    }
   }
 }

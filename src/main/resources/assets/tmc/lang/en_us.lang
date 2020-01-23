@@ -9,6 +9,7 @@ itemGroup.tmc.item=Terra Metal Craft-Item
 itemGroup.tmc.material=Terra Metal Craft-Material
 
 metaitem.coin.tmc.name=TMC Coin
+metaitem.coin.tmc.tooltip=Commemorative coin for Terra Metal Craft released on 2019/7/21
 item.mould.description=Moulds for Ingots
 item.mould.developing=Still Developing
 

@@ -1,7 +1,6 @@
 package com.osir.tmc.handler;
 
 import com.osir.tmc.Main;
-import com.osir.tmc.api.capability.IBlockModel;
 import com.osir.tmc.block.AnvilMaterialList;
 import com.osir.tmc.block.BlockAnvil;
 import com.osir.tmc.block.BlockMould;
@@ -19,9 +18,9 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 @EventBusSubscriber(modid = Main.MODID)
 public class BlockHandler {
-	public static final Block ORIGINAL_FORGE = new BlockOriginalForge();
-	public static final Block MOULD = new BlockMould();
-	public static final Block[] ANVIL = new BlockAnvil[] { new BlockAnvil(AnvilMaterialList.STONE),
+	public static final BlockOriginalForge ORIGINAL_FORGE = new BlockOriginalForge();
+	public static final BlockMould MOULD = new BlockMould();
+	public static final BlockAnvil[] ANVIL = new BlockAnvil[] { new BlockAnvil(AnvilMaterialList.STONE),
 			new BlockAnvil(AnvilMaterialList.COPPER), new BlockAnvil(AnvilMaterialList.BRONZE),
 			new BlockAnvil(AnvilMaterialList.IRON), new BlockAnvil(AnvilMaterialList.STEEL) };
 
@@ -31,22 +30,17 @@ public class BlockHandler {
 		render(ORIGINAL_FORGE);
 		for (int i = 0; i < ANVIL.length; i++) {
 			render(ANVIL[i], 0, "tmc:anvil", "inventory");
+			ANVIL[i].registerModel();
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
 	public static void render(Block block, int meta, String name, String type) {
-		if (block instanceof IBlockModel) {
-			((IBlockModel) block).registerModel();
-		}
 		ItemHandler.render(Item.getItemFromBlock(block), meta, name, type);
 	}
 
 	@SideOnly(Side.CLIENT)
 	public static void render(Block block) {
-		if (block instanceof IBlockModel) {
-			((IBlockModel) block).registerModel();
-		}
 		ItemHandler.render(Item.getItemFromBlock(block));
 	}
 
