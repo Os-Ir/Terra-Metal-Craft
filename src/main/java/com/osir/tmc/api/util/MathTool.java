@@ -1,5 +1,7 @@
 package com.osir.tmc.api.util;
 
+import net.minecraft.util.text.TextFormatting;
+
 public class MathTool {
 	public static final String M[] = { "", "M", "MM", "MMM" };
 	public static final String C[] = { "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" };
@@ -10,6 +12,9 @@ public class MathTool {
 	public static final String[] LOW = { "m", "μ", "n", "p", "f", "a" };
 
 	public static String romanNumber(int n) {
+		if (n == 0) {
+			return null;
+		}
 		return M[n / 1000] + C[(n % 1000) / 100] + X[(n % 100) / 10] + I[n % 10];
 	}
 
@@ -79,5 +84,9 @@ public class MathTool {
 			}
 			return str;
 		}
+	}
+
+	public static String format(double num) {
+		return formatNumber(num) + formatOrder(num);
 	}
 }

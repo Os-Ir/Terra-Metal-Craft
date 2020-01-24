@@ -17,14 +17,14 @@ public class DividedInfoBuilder {
 	}
 
 	public String build() {
-		String str = TextFormatting.RESET + "( ";
+		String str = TextFormatting.RESET + "";
 		for (int i = 0; i < this.list.size(); i++) {
 			if (i != 0) {
 				str += TextFormatting.RESET + " | ";
 			}
 			str += list.get(i).build();
 		}
-		str += TextFormatting.RESET + " )";
+		str += TextFormatting.RESET;
 		return str;
 	}
 }

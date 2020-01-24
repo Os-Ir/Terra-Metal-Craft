@@ -25,28 +25,18 @@ item.heatable.color.yellowWhite=Yellow White
 item.heatable.color.white=White
 item.heatable.color.brilliantWhite=Brilliant White
 
-item.heatable.tip.title=The following can be done in forge
-item.heatable.tip.heating=Heating
-item.heatable.tip.melting=Melting
-item.heatable.tip.making=Making
+item.heatable.material=Material Property:
 
 item.heatable.state.melting=Melting
 item.heatable.state.danger=**Danger**
 item.heatable.state.weldable=Can Weld
 item.heatable.state.workable=Can Work
-item.heatable.state.temperature=Temperature:
-item.heatable.state.volume=Volume:
 
 item.liquidContainer.state.capacity=Capacity:
 
 item.heatable.material.containing=Containing Material
 item.heatable.material.meltPoint=Melt Point:
 item.heatable.material.specificHeat=Specific Heat:
-
-item.unit.temperature=℃
-item.unit.volume=L
-item.unit.specificHeat=J/(L*℃)
-item.unit.power=W
 
 tile.machine.rated_power=Rated Power:
 

@@ -6,18 +6,17 @@ public class InfoBuf {
 	protected String inf, unit;
 	protected int accuracy;
 	protected double value;
-	protected TextFormatting formatValue, formatUnit;
+	protected TextFormatting formatValue;
 
 	public InfoBuf(String inf, int value, String unit) {
-		this(inf, value, TextFormatting.RESET, unit, TextFormatting.RESET);
+		this(inf, value, TextFormatting.RESET, unit);
 	}
 
-	public InfoBuf(String inf, double value, TextFormatting formatValue, String unit, TextFormatting formatUnit) {
+	public InfoBuf(String inf, double value, TextFormatting formatValue, String unit) {
 		this.inf = inf;
 		this.value = value;
 		this.unit = unit;
 		this.formatValue = formatValue;
-		this.formatUnit = formatUnit;
 	}
 
 	public InfoBuf setAccuracy(int accuracy) {
@@ -26,7 +25,7 @@ public class InfoBuf {
 	}
 
 	public String build() {
-		return TextFormatting.RESET + this.inf + ": " + this.formatValue
-				+ String.format("%." + this.accuracy + "f", this.value) + this.formatUnit + this.unit;
+		return TextFormatting.YELLOW + this.inf + ": " + this.formatValue
+				+ String.format("%." + this.accuracy + "f", this.value) + TextFormatting.GREEN + this.unit;
 	}
 }

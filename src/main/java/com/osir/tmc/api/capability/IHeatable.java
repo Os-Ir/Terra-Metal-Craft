@@ -55,7 +55,8 @@ public interface IHeatable {
 				}
 				str = list[i].getColor() + I18n.format("item.heatable.color." + list[i].getId()) + " "
 						+ MathTool.romanNumber(
-								(int) ((temp - list[i].getTemp()) / (list[i + 1].getTemp() - list[i].getTemp()) * 5));
+								(int) ((temp - list[i].getTemp()) / (list[i + 1].getTemp() - list[i].getTemp()) * 5)
+										+ 1);
 				break;
 			}
 		} else {

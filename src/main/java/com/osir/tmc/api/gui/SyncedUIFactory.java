@@ -1,6 +1,7 @@
 package com.osir.tmc.api.gui;
 
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 import com.osir.tmc.Main;
 
@@ -31,7 +32,7 @@ public class SyncedUIFactory extends UIFactory<SimpleUIHolder> {
 		UIFactory.FACTORY_REGISTRY.register(11, new ResourceLocation(Main.MODID, "synced_tile_entity_factory"), this);
 	}
 
-	public void openSyncedUI(SimpleUIHolder holder, EntityPlayerMP player) {
+	public void openSyncedUI(SimpleUIHolder holder, EntityPlayerMP player, Predicate<Integer> pre) {
 		if (player instanceof FakePlayer) {
 			return;
 		}
@@ -43,7 +44,7 @@ public class SyncedUIFactory extends UIFactory<SimpleUIHolder> {
 		PacketBuffer serializedHolder = new PacketBuffer(Unpooled.buffer());
 		writeHolderToSyncData(serializedHolder, holder);
 		int uiFactoryId = FACTORY_REGISTRY.getIDForObject(this);
-		SyncedModularUIContainer container = new SyncedModularUIContainer(uiTemplate);
+		SyncedModularUIContainer container = new SyncedModularUIContainer(uiTemplate, pre);
 		container.windowId = currentWindowId;
 		container.accumulateWidgetUpdateData = true;
 		uiTemplate.guiWidgets.values().forEach(Widget::detectAndSendChanges);

@@ -25,28 +25,14 @@ item.heatable.color.yellowWhite=黄白
 item.heatable.color.white=白
 item.heatable.color.brilliantWhite=炽白
 
-item.heatable.tip.title=可在锻造炉中进行以下处理
-item.heatable.tip.heating=加热
-item.heatable.tip.melting=熔化
-item.heatable.tip.making=制造
+item.heatable.material=材料属性:
 
 item.heatable.state.melting=熔化中
 item.heatable.state.danger=**危险**
 item.heatable.state.weldable=可焊接
 item.heatable.state.workable=可加工
-item.heatable.state.temperature=温度:
-item.heatable.state.volume=体积:
 
 item.liquidContainer.state.capacity=容量:
-
-item.heatable.material.containing=包含材料
-item.heatable.material.meltPoint=熔点:
-item.heatable.material.specificHeat=比热容:
-
-item.unit.temperature=℃
-item.unit.volume=L
-item.unit.specificHeat=J/(L*℃)
-item.unit.power=W
 
 tile.machine.rated_power=额定功率:
 

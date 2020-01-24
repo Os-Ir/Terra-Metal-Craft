@@ -56,8 +56,7 @@ public class BlockOriginalForge extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {
 		tooltip.add(TextFormatting.BLUE + I18n.format("tile.machine.rated_power") + " " + TextFormatting.GOLD
-				+ MathTool.formatNumber(TEOriginalForge.POWER * 20) + TextFormatting.GREEN
-				+ MathTool.formatOrder(TEOriginalForge.POWER * 20) + I18n.format("item.unit.power"));
+				+ MathTool.format(TEOriginalForge.POWER * 20) + TextFormatting.GREEN + "W");
 	}
 
 	@Override
@@ -111,7 +110,8 @@ public class BlockOriginalForge extends BlockContainer {
 		if (world.isRemote) {
 			return true;
 		}
-		SyncedUIFactory.INSTANCE.openSyncedUI((SimpleUIHolder) world.getTileEntity(pos), (EntityPlayerMP) player);
+		SyncedUIFactory.INSTANCE.openSyncedUI((SimpleUIHolder) world.getTileEntity(pos), (EntityPlayerMP) player,
+				(slot) -> slot > 0 && slot < 4);
 		return true;
 	}
 

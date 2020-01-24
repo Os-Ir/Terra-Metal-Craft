@@ -61,14 +61,29 @@ public class EventHandlerClient {
 		}
 		IHeatable cap = stack.getCapability(CapabilityList.HEATABLE, null);
 		List<String> tooltip = e.getToolTip();
+		String str = TextFormatting.WHITE + "" + cap.getTemp() + "\u2103";
+		if (cap.getTemp() != 20) {
+			str += " | " + cap.getColor() + TextFormatting.RESET;
+		}
+		if (cap.isWorkable()) {
+			str += " | " + I18n.format("item.heatable.state.workable");
+		}
+		if (cap.isWeldable()) {
+			str += " | " + I18n.format("item.heatable.state.weldable");
+		}
+		if (cap.isDanger()) {
+			str += " | " + (e.getEntityPlayer().world.getTotalWorldTime() % 10 < 5 ? "" : TextFormatting.RED)
+					+ I18n.format("item.heatable.state.danger");
+		}
+		tooltip.add(str);
 		HeatMaterial material = cap.getMaterial();
 		DividedInfoBuilder builder = new DividedInfoBuilder();
-		builder.addInfo(new InfoBuf("m", material.getMeltTemp(), TextFormatting.RED, "\u2103", TextFormatting.GREEN));
-		builder.addInfo(new InfoBuf("c", material.getSpecificHeat(), TextFormatting.RED, "J/kg·\u2103", TextFormatting.GREEN)
-				.setAccuracy(2));
-		tooltip.add(cap.getTemp() + "\u2103");
+		builder.addInfo(new InfoBuf("M", material.getMeltTemp(), TextFormatting.RED, "\u2103"));
+		builder.addInfo(
+				new InfoBuf("C", material.getSpecificHeat(), TextFormatting.AQUA, "J/kg·\u2103").setAccuracy(2));
+		tooltip.add(I18n.format("item.heatable.material"));
 		tooltip.add(String.format(TextFormatting.BLUE + "%.3f" + TextFormatting.YELLOW, ((float) cap.getUnit()) / 144)
-				+ " " + material.getLocalizedName() + builder.build());
+				+ " " + material.getLocalizedName() + TextFormatting.RESET + " ( " + builder.build() + " )");
 	}
 
 	@SubscribeEvent
