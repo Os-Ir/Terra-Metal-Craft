@@ -10,11 +10,12 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = Main.MODID, name = Main.NAME, version = Main.VERSION)
+@Mod(modid = Main.MODID, name = Main.NAME, version = Main.VERSION, dependencies = Main.DEPENDENCIED)
 public class Main {
 	public static final String MODID = "tmc";
 	public static final String NAME = "Terra Metal Craft";
 	public static final String VERSION = "1.2.5";
+	public static final String DEPENDENCIED = "required-after:gregtech@[1.8.13.465,)";
 
 	public Main() {
 		EnumHandler.register();

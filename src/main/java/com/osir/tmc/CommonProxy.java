@@ -7,6 +7,7 @@ import com.osir.tmc.handler.GuiHandler;
 import com.osir.tmc.handler.NetworkHandler;
 import com.osir.tmc.handler.TEHandler;
 import com.osir.tmc.handler.recipe.RecipeHandler;
+import com.osir.tmc.item.MetaItems;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IThreadListener;
@@ -22,6 +23,7 @@ public class CommonProxy {
 		TEHandler.register();
 		CapabilityHandler.register();
 		NetworkHandler.register();
+		MetaItems.init();
 	}
 
 	public void init(FMLInitializationEvent e) {

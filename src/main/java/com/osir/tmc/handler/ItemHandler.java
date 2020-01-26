@@ -43,7 +43,6 @@ public class ItemHandler {
 	@SubscribeEvent
 	public static void register(Register<Item> e) {
 		IForgeRegistry<Item> registry = e.getRegistry();
-		MetaItems.preInit();
 		registry.register(ITEM_ORIGINAL_FORGE);
 		registry.register(ITEM_MOULD);
 		for (int i = 0; i < BlockHandler.ANVIL.length; i++) {
