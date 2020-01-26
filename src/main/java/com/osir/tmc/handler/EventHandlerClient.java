@@ -76,6 +76,10 @@ public class EventHandlerClient {
 					+ I18n.format("item.heatable.state.danger");
 		}
 		tooltip.add(str);
+		if (cap.getProgress() > 0) {
+			tooltip.add(
+					I18n.format("item.heatable.state.melt") + " " + String.format("%.1f%%", cap.getProgress() * 100));
+		}
 		HeatMaterial material = cap.getMaterial();
 		DividedInfoBuilder builder = new DividedInfoBuilder();
 		builder.addInfo(new InfoBuf("M", material.getMeltTemp(), TextFormatting.RED, "\u2103"));

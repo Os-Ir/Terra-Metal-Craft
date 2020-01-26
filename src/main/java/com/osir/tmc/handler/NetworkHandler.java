@@ -2,6 +2,7 @@ package com.osir.tmc.handler;
 
 import com.osir.tmc.Main;
 import com.osir.tmc.network.MessageAnvilButton;
+import com.osir.tmc.network.MessageCapabilityUpdate;
 
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -12,5 +13,6 @@ public class NetworkHandler {
 
 	public static void register() {
 		NETWORK.registerMessage(new MessageAnvilButton.Handler(), MessageAnvilButton.class, 0, Side.SERVER);
+		NETWORK.registerMessage(new MessageCapabilityUpdate.Handler(), MessageCapabilityUpdate.class, 1, Side.CLIENT);
 	}
 }

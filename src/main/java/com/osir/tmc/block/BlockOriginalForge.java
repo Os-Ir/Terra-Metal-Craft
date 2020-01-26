@@ -6,7 +6,7 @@ import java.util.Random;
 import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
 import com.osir.tmc.api.gui.SimpleUIHolder;
-import com.osir.tmc.api.gui.SyncedUIFactory;
+import com.osir.tmc.api.gui.CapabilitySyncedUIFactory;
 import com.osir.tmc.api.util.MathTool;
 import com.osir.tmc.te.TEOriginalForge;
 
@@ -110,8 +110,7 @@ public class BlockOriginalForge extends BlockContainer {
 		if (world.isRemote) {
 			return true;
 		}
-		SyncedUIFactory.INSTANCE.openSyncedUI((SimpleUIHolder) world.getTileEntity(pos), (EntityPlayerMP) player,
-				(slot) -> slot > 0 && slot < 4);
+		CapabilitySyncedUIFactory.INSTANCE.openSyncedUI((SimpleUIHolder) world.getTileEntity(pos), (EntityPlayerMP) player);
 		return true;
 	}
 

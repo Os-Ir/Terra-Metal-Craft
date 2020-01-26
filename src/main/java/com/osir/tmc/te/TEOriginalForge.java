@@ -1,5 +1,8 @@
 package com.osir.tmc.te;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import com.osir.tmc.api.capability.CapabilityHeat;
 import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
@@ -7,6 +10,8 @@ import com.osir.tmc.api.gui.PointerWidget;
 import com.osir.tmc.api.gui.SimpleUIHolder;
 import com.osir.tmc.api.gui.TextureHelper;
 import com.osir.tmc.api.heat.HeatMaterialList;
+import com.osir.tmc.api.recipe.ModRecipeMap;
+import com.osir.tmc.api.recipe.ScalableRecipe;
 import com.osir.tmc.block.BlockOriginalForge;
 import com.osir.tmc.handler.BlockHandler;
 
@@ -84,6 +89,8 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 			if (stack.hasCapability(CapabilityList.HEATABLE, null)) {
 				IHeatable heat = stack.getCapability(CapabilityList.HEATABLE, null);
 				this.heatExchange(heat, stack.getCount());
+				stack = this.getRecipeResult(stack);
+				this.inventory.setStackInSlot(i, stack);
 			}
 		}
 		this.cooling();
@@ -91,6 +98,20 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 		if (this.world != null) {
 			this.world.markChunkDirty(this.pos, this);
 		}
+	}
+
+	public ItemStack getRecipeResult(ItemStack stack) {
+		if (!stack.hasCapability(CapabilityList.HEATABLE, null)) {
+			return stack;
+		}
+		IHeatable cap = stack.getCapability(CapabilityList.HEATABLE, null);
+		if (cap.getProgress() < 1) {
+			return stack;
+		}
+		ScalableRecipe recipe = (ScalableRecipe) ModRecipeMap.MAP_HEAT.findRecipe(1, Arrays.asList(stack),
+				new ArrayList(), 0);
+		ItemStack result = recipe.getOutputs().get(0);
+		return result.isEmpty() ? ItemStack.EMPTY : result.copy();
 	}
 
 	public void cooling() {
@@ -163,6 +184,7 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 	public void readFromNBT(NBTTagCompound nbt) {
 		this.burnTime = nbt.getInteger("burnTime");
 		this.cap.deserializeNBT(nbt.getCompoundTag("capability"));
+		this.inventory.deserializeNBT((NBTTagCompound) nbt.getTag("inventory"));
 		super.readFromNBT(nbt);
 	}
 
@@ -170,6 +192,7 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		nbt.setFloat("burnTime", this.burnTime);
 		nbt.setTag("capability", this.cap.serializeNBT());
+		nbt.setTag("inventory", this.inventory.serializeNBT());
 		return super.writeToNBT(nbt);
 	}
 

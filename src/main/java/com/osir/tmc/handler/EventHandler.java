@@ -1,26 +1,25 @@
 package com.osir.tmc.handler;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import com.osir.tmc.Main;
 import com.osir.tmc.api.capability.CapabilityHeat;
 import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
-import com.osir.tmc.api.heat.HeatMaterial;
+import com.osir.tmc.api.container.ContainerListenerCapability;
 import com.osir.tmc.api.heat.HeatMaterialList;
 import com.osir.tmc.api.heat.MaterialStack;
-import com.osir.tmc.api.recipe.ModRecipeMap;
 import com.osir.tmc.api.recipe.ScalableRecipe;
-import com.osir.tmc.api.util.ItemIndex;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.player.PlayerContainerEvent.Open;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 
 @EventBusSubscriber(modid = Main.MODID)
 public class EventHandler {
@@ -35,6 +34,30 @@ public class EventHandler {
 		if (mat != null && recipe != null) {
 			e.addCapability(CapabilityHeat.KEY,
 					new CapabilityHeat(mat.getMaterial(), mat.getAmount(), (int) recipe.getValue("temp")));
+		}
+	}
+
+	@SubscribeEvent
+	public static void onPlayerLoggedIn(PlayerLoggedInEvent e) {
+		if (e.player instanceof EntityPlayerMP) {
+			EntityPlayerMP player = (EntityPlayerMP) e.player;
+			player.inventoryContainer.addListener(new ContainerListenerCapability(player));
+		}
+	}
+
+	@SubscribeEvent
+	public static void onPlayerRespawn(PlayerRespawnEvent e) {
+		if (e.player instanceof EntityPlayerMP) {
+			EntityPlayerMP player = (EntityPlayerMP) e.player;
+			player.inventoryContainer.addListener(new ContainerListenerCapability(player));
+		}
+	}
+
+	@SubscribeEvent
+	public static void onContainerOpen(Open e) {
+		if (e.getEntityPlayer() instanceof EntityPlayerMP) {
+			EntityPlayerMP player = (EntityPlayerMP) e.getEntityPlayer();
+			e.getContainer().addListener(new ContainerListenerCapability(player));
 		}
 	}
 

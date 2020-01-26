@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.function.Predicate;
 
 import com.osir.tmc.Main;
+import com.osir.tmc.api.container.CapabilitySyncedModularUIContainer;
 
 import gregtech.api.gui.ModularUI;
 import gregtech.api.gui.UIFactory;
@@ -25,14 +26,14 @@ import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class SyncedUIFactory extends UIFactory<SimpleUIHolder> {
-	public static final SyncedUIFactory INSTANCE = new SyncedUIFactory();
+public class CapabilitySyncedUIFactory extends UIFactory<SimpleUIHolder> {
+	public static final CapabilitySyncedUIFactory INSTANCE = new CapabilitySyncedUIFactory();
 
-	private SyncedUIFactory() {
+	private CapabilitySyncedUIFactory() {
 		UIFactory.FACTORY_REGISTRY.register(11, new ResourceLocation(Main.MODID, "synced_tile_entity_factory"), this);
 	}
 
-	public void openSyncedUI(SimpleUIHolder holder, EntityPlayerMP player, Predicate<Integer> pre) {
+	public void openSyncedUI(SimpleUIHolder holder, EntityPlayerMP player) {
 		if (player instanceof FakePlayer) {
 			return;
 		}
@@ -44,7 +45,7 @@ public class SyncedUIFactory extends UIFactory<SimpleUIHolder> {
 		PacketBuffer serializedHolder = new PacketBuffer(Unpooled.buffer());
 		writeHolderToSyncData(serializedHolder, holder);
 		int uiFactoryId = FACTORY_REGISTRY.getIDForObject(this);
-		SyncedModularUIContainer container = new SyncedModularUIContainer(uiTemplate, pre);
+		CapabilitySyncedModularUIContainer container = new CapabilitySyncedModularUIContainer(uiTemplate);
 		container.windowId = currentWindowId;
 		container.accumulateWidgetUpdateData = true;
 		uiTemplate.guiWidgets.values().forEach(Widget::detectAndSendChanges);

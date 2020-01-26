@@ -27,7 +27,7 @@ item.heatable.color.brilliantWhite=炽白
 
 item.heatable.material=材料属性:
 
-item.heatable.state.melting=熔化中
+item.heatable.state.melt=熔化进度:
 item.heatable.state.danger=**危险**
 item.heatable.state.weldable=可焊接
 item.heatable.state.workable=可加工

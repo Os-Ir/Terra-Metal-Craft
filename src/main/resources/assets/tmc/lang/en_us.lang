@@ -27,7 +27,7 @@ item.heatable.color.brilliantWhite=Brilliant White
 
 item.heatable.material=Material Property:
 
-item.heatable.state.melting=Melting
+item.heatable.state.melt=Melt Progress:
 item.heatable.state.danger=**Danger**
 item.heatable.state.weldable=Can Weld
 item.heatable.state.workable=Can Work
