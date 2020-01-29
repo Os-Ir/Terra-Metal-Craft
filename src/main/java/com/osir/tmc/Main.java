@@ -14,8 +14,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class Main {
 	public static final String MODID = "tmc";
 	public static final String NAME = "Terra Metal Craft";
-	public static final String VERSION = "1.2.5";
-	public static final String DEPENDENCIED = "required-after:gregtech@[1.8.13.465,)";
+	public static final String VERSION = "1.3.1.1";
+	public static final String DEPENDENCIED = "required-after:gregtech@[1.9.0.481,)";
 
 	public Main() {
 		EnumHandler.register();

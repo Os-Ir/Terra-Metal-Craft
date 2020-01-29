@@ -5,6 +5,7 @@ import com.osir.tmc.api.util.PhysicalUnitLoader;
 import com.osir.tmc.handler.CapabilityHandler;
 import com.osir.tmc.handler.GuiHandler;
 import com.osir.tmc.handler.NetworkHandler;
+import com.osir.tmc.handler.OreHandler;
 import com.osir.tmc.handler.TEHandler;
 import com.osir.tmc.handler.recipe.RecipeHandler;
 import com.osir.tmc.item.MetaItems;
@@ -23,6 +24,7 @@ public class CommonProxy {
 		TEHandler.register();
 		CapabilityHandler.register();
 		NetworkHandler.register();
+		OreHandler.register();
 		MetaItems.init();
 	}
 

@@ -52,7 +52,6 @@ public class BlockAnvil extends BlockContainer {
 		if (world.isRemote) {
 			return true;
 		}
-		player.openGui(Main.instance, 2, world, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
 

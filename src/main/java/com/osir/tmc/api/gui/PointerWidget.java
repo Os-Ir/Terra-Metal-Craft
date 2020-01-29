@@ -14,11 +14,11 @@ public class PointerWidget extends Widget {
 		HORIZONTAL, HORIZONTAL_INVERTED, VERTICAL, VERTICAL_INVERTED
 	}
 
-	private DoubleSupplier supplier;
-	private int length;
-	private double progress;
-	private MoveType moveType;
-	private TextureArea texture;
+	protected DoubleSupplier supplier;
+	protected int length;
+	protected double progress;
+	protected MoveType moveType;
+	protected TextureArea texture;
 
 	public PointerWidget(DoubleSupplier progress, int x, int y, int width, int height) {
 		super(new Position(x, y), new Size(width, height));
@@ -45,8 +45,8 @@ public class PointerWidget extends Widget {
 		if (this.texture == null) {
 			return;
 		}
-		Position pos = getPosition();
-		Size size = getSize();
+		Position pos = this.getPosition();
+		Size size = this.getSize();
 		switch (this.moveType) {
 		case HORIZONTAL:
 			this.texture.drawSubArea((int) (pos.x + this.progress * this.length), pos.y, size.width, size.height, 0, 0,
@@ -74,7 +74,7 @@ public class PointerWidget extends Widget {
 		double actual = this.supplier.getAsDouble();
 		if (Math.abs(this.progress - actual) > 0.005) {
 			this.progress = actual;
-			writeUpdateInfo(0, (buffer) -> buffer.writeDouble(actual));
+			this.writeUpdateInfo(0, (buffer) -> buffer.writeDouble(actual));
 		}
 	}
 

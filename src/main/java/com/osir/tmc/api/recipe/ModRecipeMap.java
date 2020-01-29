@@ -5,6 +5,8 @@ import com.osir.tmc.api.util.ItemIndex;
 import com.osir.tmc.api.util.function.Validation;
 
 import gregtech.api.recipes.RecipeMap;
+import gregtech.api.unification.material.type.Material;
+import gregtech.api.util.GTControlledRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.registry.RegistrySimple;

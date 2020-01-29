@@ -12,7 +12,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class ContainerAnvil extends ContainerTEInventory<TEAnvil> {
+public class ContainerAnvil extends ContainerTEInventory {
 	public ContainerAnvil(TEAnvil te, EntityPlayer player) {
 		super(player.inventory, te, 24, 118);
 	}

@@ -84,7 +84,7 @@ public class EventHandlerClient {
 		DividedInfoBuilder builder = new DividedInfoBuilder();
 		builder.addInfo(new InfoBuf("M", material.getMeltTemp(), TextFormatting.RED, "\u2103"));
 		builder.addInfo(
-				new InfoBuf("C", material.getSpecificHeat(), TextFormatting.AQUA, "J/kg·\u2103").setAccuracy(2));
+				new InfoBuf("C", material.getSpecificHeat(), TextFormatting.AQUA, "J/(kg*\u2103)").setAccuracy(2));
 		tooltip.add(I18n.format("item.heatable.material"));
 		tooltip.add(String.format(TextFormatting.BLUE + "%.3f" + TextFormatting.YELLOW, ((float) cap.getUnit()) / 144)
 				+ " " + material.getLocalizedName() + TextFormatting.RESET + " ( " + builder.build() + " )");

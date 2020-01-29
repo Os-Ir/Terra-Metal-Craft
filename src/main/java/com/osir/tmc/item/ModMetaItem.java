@@ -16,8 +16,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ModMetaItem extends MaterialMetaItem {
 	public ModMetaItem() {
 		super(OrePrefix.valueOf("ingotDouble"), OrePrefix.valueOf("plateDouble"), null, null, null, null, null, null,
-				null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-				null, null, null, null, null, null, null);
+				null, null, null, null, null, null, null, null, OrePrefix.valueOf("oreCobble"), null, null, null, null,
+				null, null, null, null, null, null, null, null, null, null, null);
 		this.setRegistryName(Main.MODID, "meta_item");
 	}
 
@@ -28,7 +28,7 @@ public class ModMetaItem extends MaterialMetaItem {
 		if (tab != CreativeTabList.tabItem && tab != CreativeTabs.SEARCH) {
 			return;
 		}
-		for (MetaItem<?>.MetaValueItem metaItem : metaItems.valueCollection()) {
+		for (MetaItem<?>.MetaValueItem metaItem : this.metaItems.valueCollection()) {
 			if (!metaItem.isVisible()) {
 				continue;
 			}

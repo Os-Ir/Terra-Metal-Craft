@@ -9,6 +9,7 @@ import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.gui.PointerWidget;
 import com.osir.tmc.api.gui.SimpleUIHolder;
 import com.osir.tmc.api.gui.TextureHelper;
+import com.osir.tmc.api.gui.UpdatableTextWidget;
 import com.osir.tmc.api.heat.HeatMaterialList;
 import com.osir.tmc.api.recipe.ModRecipeMap;
 import com.osir.tmc.api.recipe.ScalableRecipe;
@@ -80,6 +81,7 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 			this.consumeCoal();
 		}
 		this.updateBuring(this.burnTime > 0 || this.cap.getTemp() >= 500);
+		this.cooling();
 		if (this.burnTime > 0) {
 			this.burnTime--;
 			this.increaseHeat(POWER);
@@ -93,7 +95,6 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 				this.inventory.setStackInSlot(i, stack);
 			}
 		}
-		this.cooling();
 		this.updateBlockState();
 		if (this.world != null) {
 			this.world.markChunkDirty(this.pos, this);
@@ -110,8 +111,13 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 		}
 		ScalableRecipe recipe = (ScalableRecipe) ModRecipeMap.MAP_HEAT.findRecipe(1, Arrays.asList(stack),
 				new ArrayList(), 0);
-		ItemStack result = recipe.getOutputs().get(0);
-		return result.isEmpty() ? ItemStack.EMPTY : result.copy();
+		ItemStack output = recipe.getOutputs().get(0);
+		if (output.isEmpty()) {
+			return ItemStack.EMPTY;
+		}
+		ItemStack result = output.copy();
+		result.setCount(stack.getCount());
+		return result;
 	}
 
 	public void cooling() {
@@ -167,6 +173,10 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 
 	public double getTemperatureProgress() {
 		return Math.min(((double) this.cap.getTemp()) / 1500, 1);
+	}
+
+	public String getTemperatureString() {
+		return this.cap.getTemp() + "\u2103";
 	}
 
 	public boolean isBurning() {
@@ -266,10 +276,11 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 				.widget(new SlotWidget(this.inventory, 6, 152, 21)).widget(new SlotWidget(this.inventory, 7, 152, 42))
 				.widget(new SlotWidget(this.inventory, 8, 152, 63))
 				.widget(new ImageWidget(49, 67, 77, 9, TEMPERATURE_PROGRESS))
-				.widget(new PointerWidget(this::getTemperatureProgress, 47, 63, 5, 17).setPointer(75, POINTER,
+				.widget(new PointerWidget(this::getTemperatureProgress, 47, 63, 5, 17).setPointer(76, POINTER,
 						PointerWidget.MoveType.HORIZONTAL))
 				.widget(new ProgressWidget(this::getBurnProgress, 31, 65, 14, 14).setProgressBar(FUEL, FUEL_FULL,
 						ProgressWidget.MoveType.VERTICAL))
+				.widget(new UpdatableTextWidget(this::getTemperatureString, () -> 0x404040, 49, 54))
 				.bindPlayerInventory(player.inventory).build(this, player);
 	}
 }

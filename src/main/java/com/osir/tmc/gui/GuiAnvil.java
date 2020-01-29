@@ -54,7 +54,7 @@ public class GuiAnvil extends GuiContainer {
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (button instanceof ButtonAnvil) {
 			NetworkHandler.NETWORK.sendToServer(new MessageAnvilButton(button.id));
-			TEAnvil te = this.container.getTE();
+			TEAnvil te = (TEAnvil) this.container.getTE();
 			IItemHandlerModifiable cap = (IItemHandlerModifiable) te
 					.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 		}
