@@ -6,7 +6,6 @@ gui.button.anvil.bend=Bend
 
 itemGroup.tmc.equipment=Terra Metal Craft-Equipment
 itemGroup.tmc.item=Terra Metal Craft-Item
-itemGroup.tmc.material=Terra Metal Craft-Material
 
 metaitem.coin.tmc.name=TMC Coin
 metaitem.coin.tmc.tooltip=Commemorative coin for Terra Metal Craft released on 2019/7/21
@@ -34,14 +33,13 @@ item.heatable.state.workable=Can Work
 
 item.liquidContainer.state.capacity=Capacity:
 
-item.heatable.material.containing=Containing Material
-item.heatable.material.meltPoint=Melt Point:
-item.heatable.material.specificHeat=Specific Heat:
-
-tile.machine.rated_power=Rated Power:
+tile.equipment.rated_power=Rated Power:
+tile.equipment.basin_1=Right click to add water using container
+tile.equipment.basin_2=Right click to clean the held item
 
 tile.original_forge.name=Original Forge
 tile.mould.name=Mould
+tile.basin.name=Basin
 tile.anvil.stone.name=Stone Anvil
 tile.anvil.copper.name=Copper Anvil
 tile.anvil.bronze.name=Bronze Anvil

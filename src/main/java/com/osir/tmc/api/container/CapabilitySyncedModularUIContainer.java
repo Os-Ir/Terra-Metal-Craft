@@ -1,7 +1,5 @@
 package com.osir.tmc.api.container;
 
-import java.util.function.Predicate;
-
 import gregtech.api.gui.ModularUI;
 import gregtech.api.gui.impl.ModularUIContainer;
 import net.minecraft.inventory.IContainerListener;

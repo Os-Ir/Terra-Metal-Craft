@@ -1,7 +1,5 @@
 package com.osir.tmc.api.util;
 
-import net.minecraft.util.text.TextFormatting;
-
 public class MathTool {
 	public static final String M[] = { "", "M", "MM", "MMM" };
 	public static final String C[] = { "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" };

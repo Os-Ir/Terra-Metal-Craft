@@ -1,0 +1,18 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "tmc:basin_empty"
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}],
+    "water": {
+      "true": {
+        "model": "tmc:basin_filled"
+      },
+      "false": {
+        "model": "tmc:basin_empty"
+      }
+    }
+  }
+}

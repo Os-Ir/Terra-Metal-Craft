@@ -2,7 +2,6 @@ package com.osir.tmc.item;
 
 import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
-import com.osir.tmc.api.TMCLog;
 
 import gregtech.api.items.materialitem.MaterialMetaItem;
 import gregtech.api.items.metaitem.MetaItem;

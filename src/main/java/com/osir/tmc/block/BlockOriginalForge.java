@@ -5,8 +5,8 @@ import java.util.Random;
 
 import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
-import com.osir.tmc.api.gui.SimpleUIHolder;
 import com.osir.tmc.api.gui.CapabilitySyncedUIFactory;
+import com.osir.tmc.api.gui.SimpleUIHolder;
 import com.osir.tmc.api.util.MathTool;
 import com.osir.tmc.te.TEOriginalForge;
 
@@ -54,8 +54,9 @@ public class BlockOriginalForge extends BlockContainer {
 	}
 
 	@SideOnly(Side.CLIENT)
+	@Override
 	public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {
-		tooltip.add(TextFormatting.BLUE + I18n.format("tile.machine.rated_power") + " " + TextFormatting.GOLD
+		tooltip.add(TextFormatting.BLUE + I18n.format("tile.equipment.rated_power") + " " + TextFormatting.GOLD
 				+ MathTool.format(TEOriginalForge.POWER * 20) + TextFormatting.GREEN + "W");
 	}
 
@@ -110,7 +111,8 @@ public class BlockOriginalForge extends BlockContainer {
 		if (world.isRemote) {
 			return true;
 		}
-		CapabilitySyncedUIFactory.INSTANCE.openSyncedUI((SimpleUIHolder) world.getTileEntity(pos), (EntityPlayerMP) player);
+		CapabilitySyncedUIFactory.INSTANCE.openSyncedUI((SimpleUIHolder) world.getTileEntity(pos),
+				(EntityPlayerMP) player);
 		return true;
 	}
 

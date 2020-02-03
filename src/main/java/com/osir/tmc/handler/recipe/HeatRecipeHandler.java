@@ -1,17 +1,13 @@
 package com.osir.tmc.handler.recipe;
 
-import com.osir.tmc.api.TMCLog;
 import com.osir.tmc.api.heat.HeatMaterialList;
 import com.osir.tmc.api.heat.MaterialStack;
 import com.osir.tmc.api.recipe.ModRecipeMap;
-import com.osir.tmc.api.util.ItemIndex;
 
 import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.ore.OrePrefix;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreIngredient;
 
 public class HeatRecipeHandler {
 	public static void register() {

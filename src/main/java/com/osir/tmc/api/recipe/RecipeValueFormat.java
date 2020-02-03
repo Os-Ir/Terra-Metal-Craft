@@ -2,8 +2,6 @@ package com.osir.tmc.api.recipe;
 
 import java.util.function.Predicate;
 
-import gregtech.api.util.EnumValidationResult;
-
 public class RecipeValueFormat {
 	private String name;
 	private Predicate<Object> predicate;

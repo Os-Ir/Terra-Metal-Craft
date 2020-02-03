@@ -3,10 +3,7 @@ package com.osir.tmc.api.capability;
 import com.osir.tmc.Main;
 import com.osir.tmc.api.heat.HeatMaterial;
 import com.osir.tmc.api.heat.HeatMaterialList;
-import com.osir.tmc.api.heat.TempList;
-import com.osir.tmc.api.util.MathTool;
 
-import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;

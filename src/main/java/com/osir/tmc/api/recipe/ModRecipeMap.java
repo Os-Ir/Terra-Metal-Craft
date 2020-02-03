@@ -5,11 +5,8 @@ import com.osir.tmc.api.util.ItemIndex;
 import com.osir.tmc.api.util.function.Validation;
 
 import gregtech.api.recipes.RecipeMap;
-import gregtech.api.unification.material.type.Material;
-import gregtech.api.util.GTControlledRegistry;
+import gregtech.api.recipes.builders.SimpleRecipeBuilder;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.registry.RegistrySimple;
 
 public class ModRecipeMap {
 	public static final RecipeValueFormat FORMAT_ANVIL = new RecipeValueFormat("type",
@@ -26,6 +23,8 @@ public class ModRecipeMap {
 			new ScalableRecipeBuilder().addFormat(FORMAT_TEMP).addFormat(FORMAT_MATERIAL).EUt(1).duration(1));
 	public static final RecipeMap<ScalableRecipeBuilder> MAP_MATERIAL = new RecipeMap<ScalableRecipeBuilder>("material",
 			1, 1, 0, 0, 0, 0, 0, 0, new ScalableRecipeBuilder().addFormat(FORMAT_MATERIAL).EUt(1).duration(1));
+	public static final RecipeMap<SimpleRecipeBuilder> MAP_CLEAN = new RecipeMap<SimpleRecipeBuilder>("material", 1, 1,
+			1, 1, 0, 0, 0, 0, new SimpleRecipeBuilder().EUt(1).duration(1));
 
 	public static final Validation<ItemIndex, ItemStack> VALI_ITEM = (idx, stack) -> idx.getItem() == stack.getItem();
 	public static final Validation<ItemIndex, ItemStack> VALI_META = (idx,

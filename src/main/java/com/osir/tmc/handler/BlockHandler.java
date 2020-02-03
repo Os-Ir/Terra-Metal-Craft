@@ -3,6 +3,7 @@ package com.osir.tmc.handler;
 import com.osir.tmc.Main;
 import com.osir.tmc.block.AnvilMaterialList;
 import com.osir.tmc.block.BlockAnvil;
+import com.osir.tmc.block.BlockBasin;
 import com.osir.tmc.block.BlockMould;
 import com.osir.tmc.block.BlockOriginalForge;
 
@@ -20,6 +21,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 public class BlockHandler {
 	public static final BlockOriginalForge ORIGINAL_FORGE = new BlockOriginalForge();
 	public static final BlockMould MOULD = new BlockMould();
+	public static final BlockBasin BASIN = new BlockBasin();
 	public static final BlockAnvil[] ANVIL = new BlockAnvil[] { new BlockAnvil(AnvilMaterialList.STONE),
 			new BlockAnvil(AnvilMaterialList.COPPER), new BlockAnvil(AnvilMaterialList.BRONZE),
 			new BlockAnvil(AnvilMaterialList.IRON), new BlockAnvil(AnvilMaterialList.STEEL) };
@@ -28,6 +30,7 @@ public class BlockHandler {
 	public static void onModelRegister(ModelRegistryEvent e) {
 		render(MOULD);
 		render(ORIGINAL_FORGE);
+		render(BASIN);
 		for (int i = 0; i < ANVIL.length; i++) {
 			render(ANVIL[i], 0, "tmc:anvil", "inventory");
 			ANVIL[i].registerModel();
@@ -48,6 +51,7 @@ public class BlockHandler {
 	public static void register(Register<Block> e) {
 		IForgeRegistry<Block> registry = e.getRegistry();
 		registry.register(ORIGINAL_FORGE);
+		registry.register(BASIN);
 		registry.register(MOULD);
 		for (int i = 0; i < ANVIL.length; i++) {
 			registry.register(ANVIL[i]);

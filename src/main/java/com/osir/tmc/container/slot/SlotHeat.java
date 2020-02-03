@@ -1,8 +1,6 @@
 package com.osir.tmc.container.slot;
 
 import com.osir.tmc.api.capability.CapabilityList;
-import com.osir.tmc.api.recipe.ModRecipeMap;
-import com.osir.tmc.api.util.ItemIndex;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;

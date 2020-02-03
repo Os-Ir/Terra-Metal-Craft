@@ -10,7 +10,6 @@ import com.osir.tmc.api.heat.HeatMaterial;
 import com.osir.tmc.api.util.DividedInfoBuilder;
 import com.osir.tmc.api.util.InfoBuf;
 import com.osir.tmc.block.BlockAnvil;
-import com.osir.tmc.block.BlockOriginalForge;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.color.BlockColors;

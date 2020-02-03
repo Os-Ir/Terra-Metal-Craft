@@ -1,7 +1,6 @@
 package com.osir.tmc.api.gui;
 
 import java.util.ArrayList;
-import java.util.function.Predicate;
 
 import com.osir.tmc.Main;
 import com.osir.tmc.api.container.CapabilitySyncedModularUIContainer;
@@ -9,7 +8,6 @@ import com.osir.tmc.api.container.CapabilitySyncedModularUIContainer;
 import gregtech.api.gui.ModularUI;
 import gregtech.api.gui.UIFactory;
 import gregtech.api.gui.Widget;
-import gregtech.api.gui.impl.ModularUIContainer;
 import gregtech.api.net.NetworkHandler;
 import gregtech.api.net.PacketUIOpen;
 import gregtech.api.net.PacketUIWidgetUpdate;

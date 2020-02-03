@@ -2,12 +2,8 @@ package com.osir.tmc.handler;
 
 import java.util.function.Predicate;
 
-import com.osir.tmc.api.TMCLog;
-import com.osir.tmc.api.recipe.ModRegistry;
-
 import gregtech.api.GTValues;
 import gregtech.api.unification.material.MaterialIconType;
-import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.material.type.DustMaterial;
 import gregtech.api.unification.material.type.IngotMaterial;
 import gregtech.api.unification.material.type.Material;
@@ -15,10 +11,6 @@ import gregtech.api.unification.ore.OrePrefix;
 import net.minecraftforge.common.util.EnumHelper;
 
 public class EnumHandler {
-	public static final Predicate<Material> PREDICATE_ORE = (Material material) -> {
-		return ModRegistry.REGISTRY_ORE_MATERIAL.getNameForObject(material) != null;
-	};
-
 	public static void register() {
 		EnumHelper.addEnum(MaterialIconType.class, "oreCobble", new Class[] {});
 
@@ -37,7 +29,7 @@ public class EnumHandler {
 				new Class[] { String.class, long.class, Material.class, MaterialIconType.class, long.class,
 						Predicate.class },
 				"Ore Cobble", -1, null, MaterialIconType.valueOf("oreCobble"),
-				OrePrefix.Flags.ENABLE_UNIFICATION | OrePrefix.Flags.DISALLOW_RECYCLING, PREDICATE_ORE);
+				OrePrefix.Flags.ENABLE_UNIFICATION | OrePrefix.Flags.DISALLOW_RECYCLING, OreHandler.PREDICATE_ORE);
 	}
 
 	private static Predicate<Material> predicate(Predicate<Material> pre) {

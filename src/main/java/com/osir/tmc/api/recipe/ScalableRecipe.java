@@ -13,7 +13,6 @@ import com.osir.tmc.api.TMCLog;
 
 import gregtech.api.recipes.CountableIngredient;
 import gregtech.api.recipes.Recipe;
-import gregtech.api.util.EnumValidationResult;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fluids.FluidStack;

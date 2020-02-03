@@ -1,12 +1,10 @@
 package com.osir.tmc.capability;
 
-import com.osir.tmc.Main;
 import com.osir.tmc.api.capability.IHeatable;
 
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 

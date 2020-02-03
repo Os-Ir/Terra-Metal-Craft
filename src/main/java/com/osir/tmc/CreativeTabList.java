@@ -1,11 +1,9 @@
 package com.osir.tmc;
 
 import com.osir.tmc.handler.BlockHandler;
-import com.osir.tmc.handler.ItemHandler;
 import com.osir.tmc.item.MetaItems;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class CreativeTabList {

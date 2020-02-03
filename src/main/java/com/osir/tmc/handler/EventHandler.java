@@ -8,12 +8,15 @@ import com.osir.tmc.api.container.ContainerListenerCapability;
 import com.osir.tmc.api.heat.HeatMaterialList;
 import com.osir.tmc.api.heat.MaterialStack;
 import com.osir.tmc.api.recipe.ScalableRecipe;
+import com.osir.tmc.handler.recipe.OrePrefixRecipeHandler;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent.Open;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -23,6 +26,11 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 
 @EventBusSubscriber(modid = Main.MODID)
 public class EventHandler {
+	@SubscribeEvent
+	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
+		OrePrefixRecipeHandler.register();
+	}
+
 	@SubscribeEvent
 	public static void onAttachCapabilitiesItem(AttachCapabilitiesEvent<ItemStack> e) {
 		ItemStack stack = e.getObject();

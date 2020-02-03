@@ -5,5 +5,6 @@ public class RecipeHandler {
 		AnvilRecipeHandler.register();
 		HeatRecipeHandler.register();
 		CraftingRecipeHandler.register();
+		OrePrefixRecipeHandler.register();
 	}
 }

@@ -6,7 +6,6 @@ gui.button.anvil.bend=弯曲
 
 itemGroup.tmc.equipment=群峦金属工艺-设备
 itemGroup.tmc.item=群峦金属工艺-物品
-itemGroup.tmc.material=群峦金属工艺-材料
 
 metaitem.coin.tmc.name=TMC纪念币
 metaitem.coin.tmc.tooltip=发行于2019/7/21的Terra Metal Craft纪念币
@@ -34,10 +33,13 @@ item.heatable.state.workable=可加工
 
 item.liquidContainer.state.capacity=容量:
 
-tile.machine.rated_power=额定功率:
+tile.equipment.rated_power=额定功率:
+tile.equipment.basin_1=使用容器右击添加水
+tile.equipment.basin_2=右击以清洗手持物品
 
 tile.original_forge.name=原始锻造炉
 tile.mould.name=模具
+tile.basin.name=盆
 tile.anvil.stone.name=石砧
 tile.anvil.copper.name=铜砧
 tile.anvil.bronze.name=青铜砧
