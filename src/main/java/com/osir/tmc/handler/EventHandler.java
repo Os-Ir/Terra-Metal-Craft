@@ -8,6 +8,7 @@ import com.osir.tmc.api.container.ContainerListenerCapability;
 import com.osir.tmc.api.heat.HeatMaterialList;
 import com.osir.tmc.api.heat.MaterialStack;
 import com.osir.tmc.api.recipe.ScalableRecipe;
+import com.osir.tmc.handler.recipe.HeatRecipeHandler;
 import com.osir.tmc.handler.recipe.OrePrefixRecipeHandler;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,6 +29,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 public class EventHandler {
 	@SubscribeEvent
 	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
+		HeatRecipeHandler.register();
 		OrePrefixRecipeHandler.register();
 	}
 

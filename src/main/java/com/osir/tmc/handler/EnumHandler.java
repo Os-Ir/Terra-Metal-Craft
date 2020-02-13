@@ -2,6 +2,8 @@ package com.osir.tmc.handler;
 
 import java.util.function.Predicate;
 
+import com.osir.tmc.handler.recipe.OrePrefixRecipeHandler;
+
 import gregtech.api.GTValues;
 import gregtech.api.unification.material.MaterialIconType;
 import gregtech.api.unification.material.type.DustMaterial;
@@ -29,7 +31,8 @@ public class EnumHandler {
 				new Class[] { String.class, long.class, Material.class, MaterialIconType.class, long.class,
 						Predicate.class },
 				"Ore Cobble", -1, null, MaterialIconType.valueOf("oreCobble"),
-				OrePrefix.Flags.ENABLE_UNIFICATION | OrePrefix.Flags.DISALLOW_RECYCLING, OreHandler.PREDICATE_ORE);
+				OrePrefix.Flags.ENABLE_UNIFICATION | OrePrefix.Flags.DISALLOW_RECYCLING,
+				OrePrefixRecipeHandler.PREDICATE_ORE);
 	}
 
 	private static Predicate<Material> predicate(Predicate<Material> pre) {

@@ -33,6 +33,14 @@ item.heatable.state.workable=Can Work
 
 item.liquidContainer.state.capacity=Capacity:
 
+tmc.command.usage=/tmc <debug>
+tmc.command.usage.debug=/tmc debug <deposit>
+tmc.command.usage.debug.deposit=/tmc debug deposit <info>
+tmc.command.usage.debug.deposit.info=/tmc debug deposit info
+
+tmc.command.debug.deposit.info_1=Weight sum: %d
+tmc.command.debug.deposit.info_2=Ore: [%s]  Weight: [%s]
+
 tile.equipment.rated_power=Rated Power:
 tile.equipment.basin_1=Right click to add water using container
 tile.equipment.basin_2=Right click to clean the held item

@@ -30,37 +30,34 @@ public class PhysicalUnitLoader {
 		Path path = Loader.instance().getConfigDir().toPath().resolve(Main.MODID);
 		Path lock = path.resolve("physical_unit.lock");
 		TMCLog.logger.info("Unit config path: [" + path + "]");
-		if (!Files.exists(lock)) {
-			try {
-				Files.createDirectories(path);
-				Files.createFile(lock);
-			} catch (IOException e) {
-				e.printStackTrace();
+		try {
+			Files.createDirectories(path);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		FileSystem zip = null;
+		try {
+			URI sample = PhysicalUnitLoader.class.getResource("/assets/tmc/assets.root").toURI();
+			Path file;
+			if (sample.getScheme().equals("jar") || sample.getScheme().equals("zip")) {
+				zip = FileSystems.newFileSystem(sample, Collections.emptyMap());
+				file = zip.getPath("/assets/tmc/physical_unit.json");
+			} else if (sample.getScheme().equals("file")) {
+				file = Paths.get(PhysicalUnitLoader.class.getResource("/assets/tmc/physical_unit.json").toURI());
+			} else {
+				throw new IllegalStateException("Failed to load file by URI: [" + sample + "]");
 			}
-			FileSystem zip = null;
-			try {
-				URI sample = PhysicalUnitLoader.class.getResource("/assets/tmc/assets.root").toURI();
-				Path file;
-				if (sample.getScheme().equals("jar") || sample.getScheme().equals("zip")) {
-					zip = FileSystems.newFileSystem(sample, Collections.emptyMap());
-					file = zip.getPath("/assets/tmc/physical_unit.json");
-				} else if (sample.getScheme().equals("file")) {
-					file = Paths.get(PhysicalUnitLoader.class.getResource("/assets/tmc/physical_unit.json").toURI());
-				} else {
-					throw new IllegalStateException("Failed to load file by URI: [" + sample + "]");
-				}
-				if (!Files.exists(file)) {
-					throw new IOException("Assets physical unit file is nonexistent: [" + file + "]");
-				}
-				TMCLog.logger.info("Assets physical unit file: [" + file + "]");
-				Files.copy(file, path.resolve("physical_unit.json"), StandardCopyOption.REPLACE_EXISTING);
-			} catch (URISyntaxException e) {
-				throw new RuntimeException(e);
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				IOUtils.closeQuietly(zip);
+			if (!Files.exists(file)) {
+				throw new IOException("Assets physical unit file is nonexistent: [" + file + "]");
 			}
+			TMCLog.logger.info("Assets physical unit file: [" + file + "]");
+			Files.copy(file, path.resolve("physical_unit.json"), StandardCopyOption.REPLACE_EXISTING);
+		} catch (URISyntaxException e) {
+			throw new RuntimeException(e);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			IOUtils.closeQuietly(zip);
 		}
 	}
 

@@ -1,4 +1,4 @@
-package com.osir.tmc.api.util;
+package com.osir.tmc.api.util.registry;
 
 import java.util.Iterator;
 import java.util.List;
@@ -28,23 +28,23 @@ public class UnorderedRegistry<V> {
 		this.frozen = true;
 	}
 
-	public Iterator iterator() {
-		return list.iterator();
+	public Iterator<V> iterator() {
+		return this.list.iterator();
 	}
 
 	public void register(V value) {
 		if (this.frozen) {
 			throw new IllegalStateException("This registry is already forzen");
 		}
-		if (list.contains(value)) {
+		if (this.list.contains(value)) {
 			throw new IllegalStateException("This value has been registered");
 		}
-		list.add(value);
+		this.list.add(value);
 	}
 
 	public void delete(V value) {
-		if (list.contains(value)) {
-			list.remove(value);
+		if (this.list.contains(value)) {
+			this.list.remove(value);
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package com.osir.tmc;
 
+import com.osir.tmc.command.TMCCommand;
 import com.osir.tmc.handler.EnumHandler;
 
 import net.minecraftforge.fml.common.Mod;
@@ -9,6 +10,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 @Mod(modid = Main.MODID, name = Main.NAME, version = Main.VERSION, dependencies = Main.DEPENDENCIED)
 public class Main {
@@ -40,5 +42,10 @@ public class Main {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent e) {
 		proxy.postInit(e);
+	}
+
+	@EventHandler
+	public void onServerLoad(FMLServerStartingEvent event) {
+		event.registerServerCommand(new TMCCommand());
 	}
 }

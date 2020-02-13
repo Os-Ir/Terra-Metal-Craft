@@ -111,6 +111,9 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 		}
 		ScalableRecipe recipe = (ScalableRecipe) ModRecipeMap.MAP_HEAT.findRecipe(1, Arrays.asList(stack),
 				new ArrayList(), 0);
+		if (recipe.getOutputs().size() == 0) {
+			return ItemStack.EMPTY;
+		}
 		ItemStack output = recipe.getOutputs().get(0);
 		if (output.isEmpty()) {
 			return ItemStack.EMPTY;
