@@ -7,7 +7,10 @@ import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
 import com.osir.tmc.api.gui.CapabilitySyncedUIFactory;
 import com.osir.tmc.api.gui.SimpleUIHolder;
+import com.osir.tmc.api.render.ICustomModel;
 import com.osir.tmc.api.util.MathTool;
+import com.osir.tmc.handler.BlockHandler;
+import com.osir.tmc.handler.ItemHandler;
 import com.osir.tmc.te.TEOriginalForge;
 
 import net.minecraft.block.BlockContainer;
@@ -17,12 +20,14 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
@@ -34,10 +39,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockOriginalForge extends BlockContainer {
+public class BlockOriginalForge extends BlockContainer implements ICustomModel {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	public static final PropertyBool BURN = PropertyBool.create("burn");
 
@@ -51,6 +57,8 @@ public class BlockOriginalForge extends BlockContainer {
 		this.setCreativeTab(CreativeTabList.tabEquipment);
 		this.setDefaultState(
 				this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(BURN, false));
+		BlockHandler.BLOCK_REGISTRY.register(this);
+		ItemHandler.ITEM_REGISTRY.register(new ItemBlock(this).setRegistryName(Main.MODID, "original_forge"));
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -149,5 +157,15 @@ public class BlockOriginalForge extends BlockContainer {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TEOriginalForge();
+	}
+
+	@Override
+	public ModelResourceLocation getBlockModel(ModelRegistryEvent e) {
+		return new ModelResourceLocation(Main.MODID + ":original_forge", "inventory");
+	}
+
+	@Override
+	public int getMetaData(ModelRegistryEvent e) {
+		return 0;
 	}
 }

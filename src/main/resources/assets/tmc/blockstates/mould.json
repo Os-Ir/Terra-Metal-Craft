@@ -1,5 +1,10 @@
 {
+  "forge_marker": 1,
+  "defaults": {
+    "model": "tmc:mould"
+  },
   "variants": {
-    "normal": { "model": "tmc:mould" }
+    "normal": [{}],
+    "inventory": [{}]
   }
 }

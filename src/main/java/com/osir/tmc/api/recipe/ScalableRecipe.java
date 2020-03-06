@@ -28,7 +28,7 @@ public class ScalableRecipe extends Recipe {
 		if (format.size() != value.size()) {
 			throw new IllegalStateException("Extra format and value length mismatch");
 		}
-		this.value = new HashMap();
+		this.value = new HashMap<RecipeValueFormat, Object>();
 		Set<String> cache = new HashSet<String>();
 		int cnt = 0;
 		for (int i = 0; i < format.size(); i++) {
@@ -96,7 +96,7 @@ public class ScalableRecipe extends Recipe {
 	}
 
 	public List<Object> getValueList() {
-		List<Object> obj = new ArrayList();
+		List<Object> obj = new ArrayList<Object>();
 		Iterator<Entry<RecipeValueFormat, Object>> ite = this.value.entrySet().iterator();
 		while (ite.hasNext()) {
 			Entry<RecipeValueFormat, Object> entry = ite.next();

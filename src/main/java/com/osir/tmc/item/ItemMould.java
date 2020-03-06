@@ -1,8 +1,8 @@
 package com.osir.tmc.item;
 
 import com.osir.tmc.Main;
-import com.osir.tmc.handler.BlockHandler;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -14,13 +14,13 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 public class ItemMould extends ItemBlock {
-	public ItemMould() {
-		super(BlockHandler.MOULD);
+	public ItemMould(Block block) {
+		super(block);
 		this.setRegistryName(Main.MODID, "mould");
 	}
 
 	@Override
-	public ActionResult onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack mould = player.getHeldItem(hand);
 		if (mould.getCount() != 1) {
 			return new ActionResult<ItemStack>(EnumActionResult.FAIL, player.getHeldItem(hand));

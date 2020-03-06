@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.BiMap;
@@ -41,9 +40,9 @@ public class WeightedRegistry<K, V> extends RegistrySimple<K, V> {
 	}
 
 	public List<Pair<V, Integer>> getValueWeightList() {
-		List<Pair<V, Integer>> list = new ArrayList();
+		List<Pair<V, Integer>> list = new ArrayList<Pair<V, Integer>>();
 		for (V value : this.inversedRegistry.keySet()) {
-			list.add(new ImmutablePair(value, this.weightList[this.getIdForObject(value)]));
+			list.add(Pair.of(value, this.weightList[this.getIdForObject(value)]));
 		}
 		return list;
 	}

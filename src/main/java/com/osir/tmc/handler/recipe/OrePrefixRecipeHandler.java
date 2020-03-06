@@ -31,7 +31,7 @@ public class OrePrefixRecipeHandler {
 
 	public static void processHeat(OrePrefix prefix, Material material) {
 		if (ModRegistry.REGISTRY_HEATABLE_MATERIAL.containsKey(material)
-				&& !OreDictUnifier.get(OrePrefix.valueOf("oreCobble"), material).isEmpty()) {
+				&& !OreDictUnifier.get(prefix, material).isEmpty()) {
 			HeatMaterial heat = ModRegistry.REGISTRY_HEATABLE_MATERIAL.getObject(material);
 			ModRecipeMap.MAP_HEAT.recipeBuilder().setValue("temp", heat.getMeltTemp())
 					.setValue("material",

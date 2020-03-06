@@ -2,6 +2,10 @@ package com.osir.tmc.block;
 
 import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
+import com.osir.tmc.api.render.ICustomModel;
+import com.osir.tmc.api.render.IStateMapperModel;
+import com.osir.tmc.handler.BlockHandler;
+import com.osir.tmc.handler.ItemHandler;
 import com.osir.tmc.te.TEAnvil;
 
 import net.minecraft.block.BlockContainer;
@@ -10,9 +14,11 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
@@ -22,9 +28,9 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 
-public class BlockAnvil extends BlockContainer {
+public class BlockAnvil extends BlockContainer implements ICustomModel, IStateMapperModel {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	private static final AxisAlignedBB ANVIL_AABB_A = new AxisAlignedBB(0, 0, 0.125, 1, 0.6875, 0.875);
 	private static final AxisAlignedBB ANVIL_AABB_B = new AxisAlignedBB(0.125, 0, 0, 0.875, 0.6875, 1);
@@ -40,6 +46,9 @@ public class BlockAnvil extends BlockContainer {
 		this.setHarvestLevel("pickaxe", (material.getLevel() < 2) ? 1 : 2);
 		this.setCreativeTab(CreativeTabList.tabEquipment);
 		this.setSoundType(SoundType.ANVIL);
+		BlockHandler.BLOCK_REGISTRY.register(this);
+		ItemHandler.ITEM_REGISTRY
+				.register(new ItemBlock(this).setRegistryName(Main.MODID, "anvil." + material.getAnvilMaterial()));
 	}
 
 	public AnvilMaterialList getAnvilMaterial() {
@@ -108,12 +117,23 @@ public class BlockAnvil extends BlockContainer {
 		return new TEAnvil(this.material.getLevel());
 	}
 
-	public void registerModel() {
-		ModelLoader.setCustomStateMapper(this, new StateMapperBase() {
+	@Override
+	public ModelResourceLocation getBlockModel(ModelRegistryEvent e) {
+		return new ModelResourceLocation(Main.MODID + ":anvil", "inventory");
+	}
+
+	@Override
+	public int getMetaData(ModelRegistryEvent e) {
+		return 0;
+	}
+
+	@Override
+	public IStateMapper getStateMapper(ModelRegistryEvent e) {
+		return new StateMapperBase() {
 			@Override
 			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
 				return new ModelResourceLocation(Main.MODID + ":anvil", this.getPropertyString(state.getProperties()));
 			}
-		});
+		};
 	}
 }

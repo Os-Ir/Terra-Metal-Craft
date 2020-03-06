@@ -97,7 +97,7 @@ public class EventHandlerClient {
 			return;
 		}
 		ILiquidContainer cap = stack.getCapability(CapabilityList.LIQUID_CONTAINER, null);
-		List tooltip = e.getToolTip();
+		List<String> tooltip = e.getToolTip();
 		tooltip.add(TextFormatting.BLUE + I18n.format("item.liquidContainer.state.capacity") + " " + TextFormatting.GOLD
 				+ cap.getCapacity() + TextFormatting.GREEN + I18n.format("item.unit.volume"));
 	}

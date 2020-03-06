@@ -10,7 +10,7 @@ import net.minecraftforge.common.capabilities.Capability.IStorage;
 
 public class StorageHeat implements IStorage<IHeatable> {
 	@Override
-	public NBTBase writeNBT(Capability capability, IHeatable instance, EnumFacing side) {
+	public NBTBase writeNBT(Capability<IHeatable> capability, IHeatable instance, EnumFacing side) {
 		NBTTagCompound nbt = new NBTTagCompound();
 		boolean flag = false;
 		if (instance.getEnergy() != 0) {
@@ -28,7 +28,7 @@ public class StorageHeat implements IStorage<IHeatable> {
 	}
 
 	@Override
-	public void readNBT(Capability capability, IHeatable instance, EnumFacing side, NBTBase base) {
+	public void readNBT(Capability<IHeatable> capability, IHeatable instance, EnumFacing side, NBTBase base) {
 		NBTTagCompound nbt = (NBTTagCompound) base;
 		if (nbt == null) {
 			return;

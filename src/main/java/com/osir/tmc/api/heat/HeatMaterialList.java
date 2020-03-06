@@ -8,6 +8,7 @@ import com.osir.tmc.api.recipe.ScalableRecipe;
 
 import gregtech.api.unification.material.Materials;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 
 public class HeatMaterialList {
 	public static final HeatMaterial EMPTY = new HeatMaterial(Materials._NULL, 1F, 20);
@@ -28,7 +29,7 @@ public class HeatMaterialList {
 
 	public static MaterialStack findMaterial(ItemStack stack) {
 		ScalableRecipe recipe = (ScalableRecipe) ModRecipeMap.MAP_MATERIAL.findRecipe(1, Arrays.asList(stack),
-				new ArrayList(), 0);
+				new ArrayList<FluidStack>(), 0);
 		if (recipe != null) {
 			return (MaterialStack) recipe.getValue("material");
 		}
@@ -36,6 +37,7 @@ public class HeatMaterialList {
 	}
 
 	public static ScalableRecipe findRecipe(ItemStack stack) {
-		return (ScalableRecipe) ModRecipeMap.MAP_HEAT.findRecipe(1, Arrays.asList(stack), new ArrayList(), 0);
+		return (ScalableRecipe) ModRecipeMap.MAP_HEAT.findRecipe(1, Arrays.asList(stack), new ArrayList<FluidStack>(),
+				0);
 	}
 }

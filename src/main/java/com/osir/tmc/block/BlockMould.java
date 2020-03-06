@@ -7,12 +7,17 @@ import com.osir.tmc.Main;
 import com.osir.tmc.api.capability.CapabilityLiquidContainer;
 import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.ILiquidContainer;
+import com.osir.tmc.api.render.ICustomModel;
+import com.osir.tmc.handler.BlockHandler;
 import com.osir.tmc.handler.ItemHandler;
+import com.osir.tmc.item.ItemMould;
 import com.osir.tmc.te.TELiquidContainer;
 
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
@@ -27,12 +32,14 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class BlockMould extends TEBlock {
+public class BlockMould extends BlockContainer implements ICustomModel {
 	public static final AxisAlignedBB MOULD_AABB = new AxisAlignedBB(0.125, 0, 0.125, 0.875, 0.25, 0.875);
 
 	public BlockMould() {
@@ -43,6 +50,8 @@ public class BlockMould extends TEBlock {
 		this.setSoundType(SoundType.STONE);
 		this.setHarvestLevel("pickaxe", 0);
 		this.setCreativeTab(CreativeTabList.tabEquipment);
+		BlockHandler.BLOCK_REGISTRY.register(this);
+		ItemHandler.ITEM_REGISTRY.register(new ItemMould(this));
 	}
 
 	@Override
@@ -52,16 +61,16 @@ public class BlockMould extends TEBlock {
 		IItemHandlerModifiable handler = (IItemHandlerModifiable) te
 				.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 		ILiquidContainer liquid = te.getCapability(CapabilityList.LIQUID_CONTAINER, null);
-		ItemStack stack = new ItemStack(ItemHandler.ITEM_MOULD);
+		ItemStack stack = new ItemStack(BlockHandler.MOULD);
 		IItemHandlerModifiable handlerStack = (IItemHandlerModifiable) stack
 				.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 		ILiquidContainer liquidStack = stack.getCapability(CapabilityList.LIQUID_CONTAINER, null);
-		IStorage storage = CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.getStorage();
-		storage.readNBT(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, handlerStack, null,
-				storage.writeNBT(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, handler, null));
-		storage = CapabilityList.LIQUID_CONTAINER.getStorage();
-		storage.readNBT(CapabilityList.LIQUID_CONTAINER, liquidStack, null,
-				storage.writeNBT(CapabilityList.LIQUID_CONTAINER, liquid, null));
+		IStorage<IItemHandler> storageHandler = CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.getStorage();
+		storageHandler.readNBT(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, handlerStack, null,
+				storageHandler.writeNBT(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, handler, null));
+		IStorage<ILiquidContainer> storageLiquid = CapabilityList.LIQUID_CONTAINER.getStorage();
+		storageLiquid.readNBT(CapabilityList.LIQUID_CONTAINER, liquidStack, null,
+				storageLiquid.writeNBT(CapabilityList.LIQUID_CONTAINER, liquid, null));
 		drops.add(stack);
 	}
 
@@ -123,7 +132,7 @@ public class BlockMould extends TEBlock {
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, World world, List tooltip, ITooltipFlag flag) {
+	public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag) {
 		tooltip.add(I18n.format("item.mould.description"));
 		tooltip.add(I18n.format("item.mould.developing"));
 	}
@@ -151,5 +160,15 @@ public class BlockMould extends TEBlock {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TELiquidContainer();
+	}
+
+	@Override
+	public ModelResourceLocation getBlockModel(ModelRegistryEvent e) {
+		return new ModelResourceLocation(Main.MODID + ":mould", "inventory");
+	}
+
+	@Override
+	public int getMetaData(ModelRegistryEvent e) {
+		return 0;
 	}
 }

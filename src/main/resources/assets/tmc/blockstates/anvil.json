@@ -1,8 +1,22 @@
 {
+  "forge_marker": 1,
+  "defaults": {
+    "model": "tmc:anvil"
+  },
   "variants": {
-	"facing=north": { "model": "tmc:anvil" },
-	"facing=east": { "model": "tmc:anvil", "y": 90 },
-	"facing=south": { "model": "tmc:anvil", "y": 180 },
-	"facing=west": { "model": "tmc:anvil", "y": 270 }
+    "normal": [{}],
+    "inventory": [{}],
+	"facing": {
+	  "north": {},
+      "east": {
+        "y": 90
+      },
+      "south": {
+	    "y": 180
+      },
+      "west": {
+        "y": 270
+      }
+    }
   }
 }

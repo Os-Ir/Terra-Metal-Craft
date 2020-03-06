@@ -35,7 +35,7 @@ public class ScalableRecipeBuilder extends RecipeBuilder<ScalableRecipeBuilder> 
 	}
 
 	public ScalableRecipeBuilder() {
-		this.value = new HashMap();
+		this.value = new HashMap<RecipeValueFormat, Object>();
 	}
 
 	public RecipeValueFormat findFormat(String name) {
@@ -143,7 +143,7 @@ public class ScalableRecipeBuilder extends RecipeBuilder<ScalableRecipeBuilder> 
 	}
 
 	public List<Object> getValueList() {
-		List<Object> obj = new ArrayList();
+		List<Object> obj = new ArrayList<Object>();
 		Iterator<Entry<RecipeValueFormat, Object>> ite = this.value.entrySet().iterator();
 		while (ite.hasNext()) {
 			Entry<RecipeValueFormat, Object> entry = ite.next();

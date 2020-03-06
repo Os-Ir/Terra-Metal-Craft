@@ -76,7 +76,6 @@ public class WorldOreDepositData extends WorldSavedData {
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		NBTTagCompound nbt = new NBTTagCompound();
 		NBTTagList list = new NBTTagList();
 		for (Entry<ChunkPos, OreDepositInfo> entry : this.oreByChunk.entrySet()) {
 			NBTTagCompound info = new NBTTagCompound();
@@ -87,7 +86,7 @@ public class WorldOreDepositData extends WorldSavedData {
 			info.setInteger("id", OreDepositInfo.REGISTRY.getIdForObject(ore));
 			list.appendTag(info);
 		}
-		nbt.setTag("deposit", list);
-		return nbt;
+		compound.setTag("deposit", list);
+		return compound;
 	}
 }
