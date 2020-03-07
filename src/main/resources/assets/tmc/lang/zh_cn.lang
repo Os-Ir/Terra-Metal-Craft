@@ -42,6 +42,8 @@ tmc.command.debug.deposit.info_1=权重和: %d
 tmc.command.debug.deposit.info_2=矿物: [%s]  权重: [%s]
 
 tile.gui.anvil.weld=焊接
+tile.gui.anvil.twine=缠绕
+tile.gui.anvil.bend=弯曲
 
 tile.equipment.rated_power=额定功率:
 tile.equipment.basin_1=使用容器右击添加水

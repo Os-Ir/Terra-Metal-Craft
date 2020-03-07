@@ -31,15 +31,46 @@ public class OrePrefixRecipeHandler {
 		}
 		OrePrefix.ingot.addProcessingHandler(DustMaterial.class, OrePrefixRecipeHandler::processWeld);
 		OrePrefix.plate.addProcessingHandler(DustMaterial.class, OrePrefixRecipeHandler::processWeld);
+		OrePrefix.stick.addProcessingHandler(DustMaterial.class, OrePrefixRecipeHandler::processWeld);
+		OrePrefix.stick.addProcessingHandler(DustMaterial.class, OrePrefixRecipeHandler::processTwine);
 	}
 
 	public static void processWeld(OrePrefix prefix, Material material) {
-		OrePrefix outputPrefix = prefix == OrePrefix.ingot ? OrePrefix.valueOf("ingotDouble")
-				: OrePrefix.valueOf("plateDouble");
+		OrePrefix outputPrefix = null;
+		switch (prefix) {
+		case ingot:
+			outputPrefix = OrePrefix.valueOf("ingotDouble");
+			break;
+		case plate:
+			outputPrefix = OrePrefix.valueOf("plateDouble");
+			break;
+		case stick:
+			outputPrefix = OrePrefix.stickLong;
+			break;
+		default:
+			break;
+		}
 		if (ModRegistry.REGISTRY_HEATABLE_MATERIAL.containsKey(material)
 				&& !OreDictUnifier.get(prefix, material).isEmpty()
 				&& !OreDictUnifier.get(outputPrefix, material).isEmpty()) {
 			ModRecipeMap.MAP_ANVIL.recipeBuilder().setValue("type", AnvilRecipeType.WELD).input(prefix, material, 2)
+					.outputs(OreDictUnifier.get(outputPrefix, material)).buildAndRegister();
+		}
+	}
+
+	public static void processTwine(OrePrefix prefix, Material material) {
+		OrePrefix outputPrefix = null;
+		switch (prefix) {
+		case stick:
+			outputPrefix = OrePrefix.ring;
+			break;
+		default:
+			break;
+		}
+		if (ModRegistry.REGISTRY_HEATABLE_MATERIAL.containsKey(material)
+				&& !OreDictUnifier.get(prefix, material).isEmpty()
+				&& !OreDictUnifier.get(outputPrefix, material).isEmpty()) {
+			ModRecipeMap.MAP_ANVIL.recipeBuilder().setValue("type", AnvilRecipeType.TWINE).input(prefix, material)
 					.outputs(OreDictUnifier.get(outputPrefix, material)).buildAndRegister();
 		}
 	}

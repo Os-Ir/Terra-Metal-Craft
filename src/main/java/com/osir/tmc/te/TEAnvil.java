@@ -33,6 +33,8 @@ public class TEAnvil extends TileEntity implements ITickable, SimpleUIHolder {
 
 	public static final TextureArea BACKGROUND = TextureHelper.fullImage("textures/gui/anvil/background.png");
 	public static final TextureArea BUTTON_WELD = TextureHelper.fullImage("textures/gui/anvil/button_weld.png");
+	public static final TextureArea BUTTON_TWINE = TextureHelper.fullImage("textures/gui/anvil/button_twine.png");
+	public static final TextureArea BUTTON_BEND = TextureHelper.fullImage("textures/gui/anvil/button_bend.png");
 
 	protected ItemStackHandler inventory;
 	protected int level;
@@ -109,6 +111,85 @@ public class TEAnvil extends TileEntity implements ITickable, SimpleUIHolder {
 		}
 	}
 
+	public void onTwine(ClickData data) {
+		if (!this.inventory.getStackInSlot(0).isEmpty()) {
+			if (!this.inventory.getStackInSlot(0).hasCapability(CapabilityList.HEATABLE, null)) {
+				return;
+			}
+			if (!this.inventory.getStackInSlot(0).getCapability(CapabilityList.HEATABLE, null).isWorkable()) {
+				return;
+			}
+		}
+		List<Recipe> recipes = ModRecipeMap.MAP_ANVIL.getRecipeList().stream()
+				.filter((recipe) -> ((ScalableRecipe) recipe).getValue("type") == AnvilRecipeType.TWINE)
+				.filter((recipe) -> recipe.matches(false, Arrays.asList(this.inventory.getStackInSlot(0)),
+						new ArrayList<FluidStack>()))
+				.collect(Collectors.toList());
+		if (recipes.isEmpty()) {
+			System.out.println(ModRecipeMap.MAP_ANVIL.getRecipeList().size());
+			return;
+		}
+		ScalableRecipe recipe = (ScalableRecipe) recipes.get(0);
+		List<ItemStack> output = recipe.getOutputs();
+		int surplusSlot = 0;
+		for (int i = 4; i < 8; i++) {
+			if (this.inventory.getStackInSlot(i).isEmpty()) {
+				surplusSlot++;
+			}
+		}
+		if (surplusSlot < output.size()) {
+			return;
+		}
+		recipe.matches(true, Arrays.asList(this.inventory.getStackInSlot(0)), new ArrayList<FluidStack>());
+		for (int i = 0; i < output.size(); i++) {
+			for (int j = 4; i < 8; j++) {
+				if (this.inventory.getStackInSlot(j).isEmpty()) {
+					this.inventory.setStackInSlot(j, output.get(i).copy());
+					break;
+				}
+			}
+		}
+	}
+
+	public void onBend(ClickData data) {
+		if (!this.inventory.getStackInSlot(3).isEmpty()) {
+			if (!this.inventory.getStackInSlot(3).hasCapability(CapabilityList.HEATABLE, null)) {
+				return;
+			}
+			if (!this.inventory.getStackInSlot(3).getCapability(CapabilityList.HEATABLE, null).isWorkable()) {
+				return;
+			}
+		}
+		List<Recipe> recipes = ModRecipeMap.MAP_ANVIL.getRecipeList().stream()
+				.filter((recipe) -> ((ScalableRecipe) recipe).getValue("type") == AnvilRecipeType.BEND)
+				.filter((recipe) -> recipe.matches(false, Arrays.asList(this.inventory.getStackInSlot(3)),
+						new ArrayList<FluidStack>()))
+				.collect(Collectors.toList());
+		if (recipes.isEmpty()) {
+			return;
+		}
+		ScalableRecipe recipe = (ScalableRecipe) recipes.get(0);
+		List<ItemStack> output = recipe.getOutputs();
+		int surplusSlot = 0;
+		for (int i = 4; i < 8; i++) {
+			if (this.inventory.getStackInSlot(i).isEmpty()) {
+				surplusSlot++;
+			}
+		}
+		if (surplusSlot < output.size()) {
+			return;
+		}
+		recipe.matches(true, Arrays.asList(this.inventory.getStackInSlot(3)), new ArrayList<FluidStack>());
+		for (int i = 0; i < output.size(); i++) {
+			for (int j = 4; i < 8; j++) {
+				if (this.inventory.getStackInSlot(j).isEmpty()) {
+					this.inventory.setStackInSlot(j, output.get(i).copy());
+					break;
+				}
+			}
+		}
+	}
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		this.inventory.deserializeNBT((NBTTagCompound) nbt.getTag("inventory"));
@@ -140,13 +221,17 @@ public class TEAnvil extends TileEntity implements ITickable, SimpleUIHolder {
 	@Override
 	public ModularUI createUI(EntityPlayer player) {
 		return ModularUI.builder(BACKGROUND, 208, 200)
+				.widget(new SlotWidget(this.inventory, 0, 8, 8).setBackgroundTexture(GuiTextures.SLOT))
 				.widget(new SlotWidget(this.inventory, 1, 30, 8).setBackgroundTexture(GuiTextures.SLOT))
 				.widget(new SlotWidget(this.inventory, 2, 52, 8).setBackgroundTexture(GuiTextures.SLOT))
+				.widget(new SlotWidget(this.inventory, 3, 74, 8).setBackgroundTexture(GuiTextures.SLOT))
 				.widget(new SlotWidget(this.inventory, 4, 8, 52).setBackgroundTexture(GuiTextures.SLOT))
 				.widget(new SlotWidget(this.inventory, 5, 30, 52).setBackgroundTexture(GuiTextures.SLOT))
 				.widget(new SlotWidget(this.inventory, 6, 52, 52).setBackgroundTexture(GuiTextures.SLOT))
 				.widget(new SlotWidget(this.inventory, 7, 74, 52).setBackgroundTexture(GuiTextures.SLOT))
 				.widget(new ClickButtonWidget(31, 31, 38, 16, "", this::onWeld).setButtonTexture(BUTTON_WELD))
+				.widget(new ClickButtonWidget(9, 31, 16, 16, "", this::onTwine).setButtonTexture(BUTTON_TWINE))
+				.widget(new ClickButtonWidget(75, 31, 16, 16, "", this::onBend).setButtonTexture(BUTTON_BEND))
 				.bindPlayerInventory(player.inventory, GuiTextures.SLOT, 24, 118).build(this, player);
 	}
 }

@@ -32,6 +32,9 @@ public class HeatRecipeHandler {
 		ModRegistry.REGISTRY_HEATABLE_PREFIX.register(3, "plate", OrePrefix.plate);
 		ModRegistry.REGISTRY_HEATABLE_PREFIX.register(4, "ingotDouble", OrePrefix.valueOf("ingotDouble"));
 		ModRegistry.REGISTRY_HEATABLE_PREFIX.register(5, "plateDouble", OrePrefix.valueOf("plateDouble"));
+		ModRegistry.REGISTRY_HEATABLE_PREFIX.register(6, "stick", OrePrefix.stick);
+		ModRegistry.REGISTRY_HEATABLE_PREFIX.register(7, "stickLong", OrePrefix.stickLong);
+		ModRegistry.REGISTRY_HEATABLE_PREFIX.register(8, "ring", OrePrefix.ring);
 
 		ModRecipeMap.MAP_HEAT.recipeBuilder().setValue("temp", 820).setValue("material", MaterialStack.EMPTY)
 				.input("sand", 1).outputs(new ItemStack(Blocks.GLASS)).buildAndRegister();

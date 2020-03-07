@@ -42,6 +42,8 @@ tmc.command.debug.deposit.info_1=Weight sum: %d
 tmc.command.debug.deposit.info_2=Ore: [%s]  Weight: [%s]
 
 tile.gui.anvil.weld=Weld
+tile.gui.anvil.twine=Twine
+tile.gui.anvil.bend=Bend
 
 tile.equipment.rated_power=Rated Power:
 tile.equipment.basin_1=Right click to add water using container
