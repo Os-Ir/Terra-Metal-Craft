@@ -4,6 +4,7 @@ import java.util.function.Predicate;
 
 import com.osir.tmc.api.heat.HeatMaterial;
 import com.osir.tmc.api.heat.MaterialStack;
+import com.osir.tmc.api.recipe.AnvilRecipeType;
 import com.osir.tmc.api.recipe.ModRecipeMap;
 import com.osir.tmc.api.recipe.ModRegistry;
 
@@ -23,9 +24,23 @@ public class OrePrefixRecipeHandler {
 	public static void register() {
 		OrePrefix.valueOf("oreCobble").addProcessingHandler(DustMaterial.class,
 				OrePrefixRecipeHandler::processOreCobble);
-		OrePrefix.dustImpure.addProcessingHandler(DustMaterial.class, OrePrefixRecipeHandler::processDustImpure);
+		OrePrefix.dustImpure.addProcessingHandler(DustMaterial.class, OrePrefixRecipeHandler::processCleanDust);
+		OrePrefix.dustPure.addProcessingHandler(DustMaterial.class, OrePrefixRecipeHandler::processCleanDust);
 		for (OrePrefix prefix : ModRegistry.REGISTRY_HEATABLE_PREFIX) {
 			prefix.addProcessingHandler(DustMaterial.class, OrePrefixRecipeHandler::processHeat);
+		}
+		OrePrefix.ingot.addProcessingHandler(DustMaterial.class, OrePrefixRecipeHandler::processWeld);
+		OrePrefix.plate.addProcessingHandler(DustMaterial.class, OrePrefixRecipeHandler::processWeld);
+	}
+
+	public static void processWeld(OrePrefix prefix, Material material) {
+		OrePrefix outputPrefix = prefix == OrePrefix.ingot ? OrePrefix.valueOf("ingotDouble")
+				: OrePrefix.valueOf("plateDouble");
+		if (ModRegistry.REGISTRY_HEATABLE_MATERIAL.containsKey(material)
+				&& !OreDictUnifier.get(prefix, material).isEmpty()
+				&& !OreDictUnifier.get(outputPrefix, material).isEmpty()) {
+			ModRecipeMap.MAP_ANVIL.recipeBuilder().setValue("type", AnvilRecipeType.WELD).input(prefix, material, 2)
+					.outputs(OreDictUnifier.get(outputPrefix, material)).buildAndRegister();
 		}
 	}
 
@@ -52,7 +67,7 @@ public class OrePrefixRecipeHandler {
 		}
 	}
 
-	public static void processDustImpure(OrePrefix prefix, Material material) {
+	public static void processCleanDust(OrePrefix prefix, Material material) {
 		ModRecipeMap.MAP_CLEAN.recipeBuilder().input(prefix, material)
 				.outputs(OreDictUnifier.get(OrePrefix.dust, material)).buildAndRegister();
 	}

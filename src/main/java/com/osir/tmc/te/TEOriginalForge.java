@@ -112,7 +112,7 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 		}
 		ScalableRecipe recipe = (ScalableRecipe) ModRecipeMap.MAP_HEAT.findRecipe(1, Arrays.asList(stack),
 				new ArrayList<FluidStack>(), 0);
-		if (recipe.getOutputs().size() == 0) {
+		if (recipe.getOutputs().isEmpty()) {
 			return ItemStack.EMPTY;
 		}
 		ItemStack output = recipe.getOutputs().get(0);
@@ -277,8 +277,9 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 				.widget(new SlotWidget(this.inventory, 4, 84, 21).setBackgroundTexture(GuiTextures.SLOT, OVERLAY_INGOT))
 				.widget(new SlotWidget(this.inventory, 5, 118, 21).setBackgroundTexture(GuiTextures.SLOT,
 						OVERLAY_INGOT))
-				.widget(new SlotWidget(this.inventory, 6, 152, 21)).widget(new SlotWidget(this.inventory, 7, 152, 42))
-				.widget(new SlotWidget(this.inventory, 8, 152, 63))
+				.widget(new SlotWidget(this.inventory, 6, 152, 21).setBackgroundTexture(GuiTextures.SLOT))
+				.widget(new SlotWidget(this.inventory, 7, 152, 42).setBackgroundTexture(GuiTextures.SLOT))
+				.widget(new SlotWidget(this.inventory, 8, 152, 63).setBackgroundTexture(GuiTextures.SLOT))
 				.widget(new ImageWidget(49, 67, 77, 9, TEMPERATURE_PROGRESS))
 				.widget(new PointerWidget(this::getTemperatureProgress, 47, 63, 5, 17).setPointer(76, POINTER,
 						PointerWidget.MoveType.HORIZONTAL))
