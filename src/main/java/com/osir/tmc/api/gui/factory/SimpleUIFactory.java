@@ -1,6 +1,7 @@
-package com.osir.tmc.api.gui;
+package com.osir.tmc.api.gui.factory;
 
 import com.osir.tmc.Main;
+import com.osir.tmc.api.gui.SimpleUIHolder;
 
 import gregtech.api.gui.ModularUI;
 import gregtech.api.gui.UIFactory;

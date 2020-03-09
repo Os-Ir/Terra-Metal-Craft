@@ -5,8 +5,8 @@ import java.util.Random;
 
 import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
-import com.osir.tmc.api.gui.CapabilitySyncedUIFactory;
 import com.osir.tmc.api.gui.SimpleUIHolder;
+import com.osir.tmc.api.gui.factory.CapabilitySyncedUIFactory;
 import com.osir.tmc.api.render.ICustomModel;
 import com.osir.tmc.api.util.MathTool;
 import com.osir.tmc.handler.BlockHandler;

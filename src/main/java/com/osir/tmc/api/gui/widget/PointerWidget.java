@@ -1,4 +1,4 @@
-package com.osir.tmc.api.gui;
+package com.osir.tmc.api.gui.widget;
 
 import java.util.function.DoubleSupplier;
 

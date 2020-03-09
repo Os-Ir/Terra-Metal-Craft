@@ -7,8 +7,12 @@ import java.util.stream.Collectors;
 
 import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
+import com.osir.tmc.api.gui.PlanUIHolder;
+import com.osir.tmc.api.gui.PlanUIProvider;
 import com.osir.tmc.api.gui.SimpleUIHolder;
 import com.osir.tmc.api.gui.TextureHelper;
+import com.osir.tmc.api.gui.factory.CapabilitySyncedUIFactory;
+import com.osir.tmc.api.gui.factory.PlanUIFactory;
 import com.osir.tmc.api.recipe.AnvilRecipeType;
 import com.osir.tmc.api.recipe.ModRecipeMap;
 import com.osir.tmc.api.recipe.ScalableRecipe;
@@ -20,7 +24,11 @@ import gregtech.api.gui.widgets.ClickButtonWidget;
 import gregtech.api.gui.widgets.ClickButtonWidget.ClickData;
 import gregtech.api.gui.widgets.SlotWidget;
 import gregtech.api.recipes.Recipe;
+import gregtech.api.util.Position;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -28,16 +36,19 @@ import net.minecraft.util.ITickable;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class TEAnvil extends TileEntity implements ITickable, SimpleUIHolder {
+public class TEAnvil extends TileEntity implements ITickable, SimpleUIHolder, PlanUIProvider {
 	public static final float COOLING_RATE = 0.02F;
 
 	public static final TextureArea BACKGROUND = TextureHelper.fullImage("textures/gui/anvil/background.png");
 	public static final TextureArea BUTTON_WELD = TextureHelper.fullImage("textures/gui/anvil/button_weld.png");
 	public static final TextureArea BUTTON_TWINE = TextureHelper.fullImage("textures/gui/anvil/button_twine.png");
 	public static final TextureArea BUTTON_BEND = TextureHelper.fullImage("textures/gui/anvil/button_bend.png");
+	public static final TextureArea BUTTON_PLAN = TextureHelper.fullImage("textures/gui/anvil/button_plan.png");
+
+	public static final RenderItem ITEM_RENDERER = Minecraft.getMinecraft().getRenderItem();
 
 	protected ItemStackHandler inventory;
-	protected int level;
+	protected int level, plan;
 
 	public TEAnvil() {
 		this(0);
@@ -45,6 +56,7 @@ public class TEAnvil extends TileEntity implements ITickable, SimpleUIHolder {
 
 	public TEAnvil(int level) {
 		this.level = level;
+		this.plan = -1;
 		this.inventory = new ItemStackHandler(10);
 	}
 
@@ -190,11 +202,61 @@ public class TEAnvil extends TileEntity implements ITickable, SimpleUIHolder {
 		}
 	}
 
+	public List<Recipe> findWorkRecipes() {
+		if (!this.inventory.getStackInSlot(1).isEmpty()) {
+			if (!this.inventory.getStackInSlot(1).hasCapability(CapabilityList.HEATABLE, null)) {
+				return new ArrayList<Recipe>();
+			}
+			if (!this.inventory.getStackInSlot(1).getCapability(CapabilityList.HEATABLE, null).isWorkable()) {
+				return new ArrayList<Recipe>();
+			}
+		}
+		if (!this.inventory.getStackInSlot(2).isEmpty()) {
+			if (!this.inventory.getStackInSlot(2).hasCapability(CapabilityList.HEATABLE, null)) {
+				return new ArrayList<Recipe>();
+			}
+			if (!this.inventory.getStackInSlot(2).getCapability(CapabilityList.HEATABLE, null).isWorkable()) {
+				return new ArrayList<Recipe>();
+			}
+		}
+		return ModRecipeMap.MAP_ANVIL.getRecipeList().stream()
+				.filter((recipe) -> ((ScalableRecipe) recipe).getValue("type") == AnvilRecipeType.WORK)
+				.filter((recipe) -> recipe.matches(false,
+						Arrays.asList(this.inventory.getStackInSlot(1), this.inventory.getStackInSlot(2)),
+						new ArrayList<FluidStack>()))
+				.collect(Collectors.toList());
+	}
+
+	public void openPlanUI(ClickData data, EntityPlayer player) {
+		PlanUIFactory.INSTANCE.openUI(this.createHolder(), (EntityPlayerMP) player);
+	}
+
+	public void receivePlan(int id) {
+		List<Recipe> recipes = this.findWorkRecipes();
+		if (recipes.size() <= id) {
+			this.plan = -1;
+		} else {
+			this.plan = id;
+		}
+	}
+
+	public void onWorkSlotChanged() {
+		this.plan = -1;
+	}
+
+	public void onPlanCallback(EntityPlayer player) {
+		CapabilitySyncedUIFactory.INSTANCE.openSyncedUI((SimpleUIHolder) this.world.getTileEntity(this.pos),
+				(EntityPlayerMP) player);
+	}
+
+	public void renderPlanButton(Position pos, int id) {
+
+	}
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		this.inventory.deserializeNBT((NBTTagCompound) nbt.getTag("inventory"));
 		super.readFromNBT(nbt);
-
 	}
 
 	@Override
@@ -232,6 +294,14 @@ public class TEAnvil extends TileEntity implements ITickable, SimpleUIHolder {
 				.widget(new ClickButtonWidget(31, 31, 38, 16, "", this::onWeld).setButtonTexture(BUTTON_WELD))
 				.widget(new ClickButtonWidget(9, 31, 16, 16, "", this::onTwine).setButtonTexture(BUTTON_TWINE))
 				.widget(new ClickButtonWidget(75, 31, 16, 16, "", this::onBend).setButtonTexture(BUTTON_BEND))
+				.widget(new ClickButtonWidget(168, 45, 16, 16, "", (data) -> this.openPlanUI(data, player))
+						.setButtonTexture(BUTTON_PLAN))
 				.bindPlayerInventory(player.inventory, GuiTextures.SLOT, 24, 118).build(this, player);
+	}
+
+	@Override
+	public PlanUIHolder createHolder() {
+		return new PlanUIHolder(this, this.findWorkRecipes().size(), this::onPlanCallback, this::receivePlan,
+				this::renderPlanButton);
 	}
 }

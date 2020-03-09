@@ -1,9 +1,10 @@
-package com.osir.tmc.api.gui;
+package com.osir.tmc.api.gui.factory;
 
 import java.util.ArrayList;
 
 import com.osir.tmc.Main;
 import com.osir.tmc.api.container.CapabilitySyncedModularUIContainer;
+import com.osir.tmc.api.gui.SimpleUIHolder;
 
 import gregtech.api.gui.ModularUI;
 import gregtech.api.gui.UIFactory;
@@ -35,13 +36,13 @@ public class CapabilitySyncedUIFactory extends UIFactory<SimpleUIHolder> {
 		if (player instanceof FakePlayer) {
 			return;
 		}
-		ModularUI uiTemplate = createUITemplate(holder, player);
+		ModularUI uiTemplate = this.createUITemplate(holder, player);
 		uiTemplate.initWidgets();
 		player.getNextWindowId();
 		player.closeContainer();
 		int currentWindowId = player.currentWindowId;
 		PacketBuffer serializedHolder = new PacketBuffer(Unpooled.buffer());
-		writeHolderToSyncData(serializedHolder, holder);
+		this.writeHolderToSyncData(serializedHolder, holder);
 		int uiFactoryId = FACTORY_REGISTRY.getIDForObject(this);
 		CapabilitySyncedModularUIContainer container = new CapabilitySyncedModularUIContainer(uiTemplate);
 		container.windowId = currentWindowId;
