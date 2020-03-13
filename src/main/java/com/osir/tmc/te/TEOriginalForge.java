@@ -196,9 +196,15 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		this.burnTime = nbt.getInteger("burnTime");
-		this.cap.deserializeNBT(nbt.getCompoundTag("capability"));
-		this.inventory.deserializeNBT((NBTTagCompound) nbt.getTag("inventory"));
+		if (nbt.hasKey("burnTime")) {
+			this.burnTime = nbt.getInteger("burnTime");
+		}
+		if (nbt.hasKey("capability")) {
+			this.cap.deserializeNBT(nbt.getCompoundTag("capability"));
+		}
+		if (nbt.hasKey("inventory")) {
+			this.inventory.deserializeNBT((NBTTagCompound) nbt.getTag("inventory"));
+		}
 		super.readFromNBT(nbt);
 	}
 
@@ -272,20 +278,20 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 	@Override
 	public ModularUI createUI(EntityPlayer player) {
 		return ModularUI.builder(GuiTextures.BACKGROUND, 176, 166)
-				.widget(new SlotWidget(this.inventory, 0, 8, 63).setBackgroundTexture(GuiTextures.SLOT, OVERLAY_COAL))
-				.widget(new SlotWidget(this.inventory, 3, 50, 21).setBackgroundTexture(GuiTextures.SLOT, OVERLAY_INGOT))
-				.widget(new SlotWidget(this.inventory, 4, 84, 21).setBackgroundTexture(GuiTextures.SLOT, OVERLAY_INGOT))
-				.widget(new SlotWidget(this.inventory, 5, 118, 21).setBackgroundTexture(GuiTextures.SLOT,
+				.widget(new SlotWidget(this.inventory, 0, 7, 62).setBackgroundTexture(GuiTextures.SLOT, OVERLAY_COAL))
+				.widget(new SlotWidget(this.inventory, 3, 49, 20).setBackgroundTexture(GuiTextures.SLOT, OVERLAY_INGOT))
+				.widget(new SlotWidget(this.inventory, 4, 83, 20).setBackgroundTexture(GuiTextures.SLOT, OVERLAY_INGOT))
+				.widget(new SlotWidget(this.inventory, 5, 117, 20).setBackgroundTexture(GuiTextures.SLOT,
 						OVERLAY_INGOT))
-				.widget(new SlotWidget(this.inventory, 6, 152, 21).setBackgroundTexture(GuiTextures.SLOT))
-				.widget(new SlotWidget(this.inventory, 7, 152, 42).setBackgroundTexture(GuiTextures.SLOT))
-				.widget(new SlotWidget(this.inventory, 8, 152, 63).setBackgroundTexture(GuiTextures.SLOT))
+				.widget(new SlotWidget(this.inventory, 6, 151, 20).setBackgroundTexture(GuiTextures.SLOT))
+				.widget(new SlotWidget(this.inventory, 7, 151, 41).setBackgroundTexture(GuiTextures.SLOT))
+				.widget(new SlotWidget(this.inventory, 8, 151, 62).setBackgroundTexture(GuiTextures.SLOT))
 				.widget(new ImageWidget(49, 67, 77, 9, TEMPERATURE_PROGRESS))
 				.widget(new PointerWidget(this::getTemperatureProgress, 47, 63, 5, 17).setPointer(76, POINTER,
 						PointerWidget.MoveType.HORIZONTAL))
 				.widget(new ProgressWidget(this::getBurnProgress, 31, 65, 14, 14).setProgressBar(FUEL, FUEL_FULL,
 						ProgressWidget.MoveType.VERTICAL))
 				.widget(new UpdatableTextWidget(this::getTemperatureString, () -> 0x404040, 49, 54))
-				.bindPlayerInventory(player.inventory).build(this, player);
+				.bindPlayerInventory(player.inventory, GuiTextures.SLOT, 7, 83).build(this, player);
 	}
 }
