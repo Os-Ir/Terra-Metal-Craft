@@ -88,6 +88,14 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 		this.plan = -1;
 		this.inventory = new ItemStackHandler(10) {
 			@Override
+			public int getSlotLimit(int slot) {
+				if (slot >= 0 && slot < 4) {
+					return 1;
+				}
+				return 64;
+			}
+
+			@Override
 			public void onContentsChanged(int slot) {
 				if (slot == 1 || slot == 2) {
 					TEAnvil.this.onWorkSlotChanged();
@@ -408,12 +416,8 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		if (nbt.hasKey("inventory")) {
-			this.inventory.deserializeNBT((NBTTagCompound) nbt.getTag("inventory"));
-		}
-		if (nbt.hasKey("plan")) {
-			this.plan = nbt.getInteger("plan");
-		}
+		this.inventory.deserializeNBT((NBTTagCompound) nbt.getTag("inventory"));
+		this.plan = nbt.getInteger("plan");
 		super.readFromNBT(nbt);
 	}
 

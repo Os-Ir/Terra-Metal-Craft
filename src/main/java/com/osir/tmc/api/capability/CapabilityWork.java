@@ -50,16 +50,12 @@ public class CapabilityWork implements IWorkable, ICapabilitySerializable<NBTTag
 	@Override
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
-		if (this.workProgress > 0) {
-			nbt.setInteger("progress", this.workProgress);
-		}
+		nbt.setInteger("progress", this.workProgress);
 		return nbt;
 	}
 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
-		if (nbt.hasKey("progress")) {
-			this.workProgress = nbt.getInteger("progress");
-		}
+		this.workProgress = nbt.getInteger("progress");
 	}
 }

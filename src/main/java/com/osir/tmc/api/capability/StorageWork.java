@@ -10,17 +10,13 @@ public class StorageWork implements IStorage<IWorkable> {
 	@Override
 	public NBTBase writeNBT(Capability<IWorkable> capability, IWorkable instance, EnumFacing side) {
 		NBTTagCompound nbt = new NBTTagCompound();
-		if (instance.isWorked()) {
-			nbt.setInteger("progress", instance.getWorkProgress());
-		}
+		nbt.setInteger("progress", instance.getWorkProgress());
 		return nbt;
 	}
 
 	@Override
 	public void readNBT(Capability<IWorkable> capability, IWorkable instance, EnumFacing side, NBTBase nbt) {
 		NBTTagCompound tag = (NBTTagCompound) nbt;
-		if (tag.hasKey("progress")) {
-			instance.setWorkProgress(tag.getInteger("progress"));
-		}
+		instance.setWorkProgress(tag.getInteger("progress"));
 	}
 }

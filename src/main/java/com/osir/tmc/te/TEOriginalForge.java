@@ -195,15 +195,9 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		if (nbt.hasKey("burnTime")) {
-			this.burnTime = nbt.getInteger("burnTime");
-		}
-		if (nbt.hasKey("capability")) {
-			this.cap.deserializeNBT(nbt.getCompoundTag("capability"));
-		}
-		if (nbt.hasKey("inventory")) {
-			this.inventory.deserializeNBT((NBTTagCompound) nbt.getTag("inventory"));
-		}
+		this.burnTime = nbt.getInteger("burnTime");
+		this.cap.deserializeNBT(nbt.getCompoundTag("capability"));
+		this.inventory.deserializeNBT((NBTTagCompound) nbt.getTag("inventory"));
 		super.readFromNBT(nbt);
 	}
 

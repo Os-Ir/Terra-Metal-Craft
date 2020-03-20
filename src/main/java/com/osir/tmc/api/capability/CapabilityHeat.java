@@ -109,26 +109,15 @@ public class CapabilityHeat implements IHeatable, ICapabilitySerializable<NBTTag
 	@Override
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
-		if (this.energy != 0) {
-			nbt.setFloat("energy", this.energy);
-		}
-		if (this.overEnergy != 0) {
-			nbt.setFloat("overEnergy", this.overEnergy);
-		}
+		nbt.setFloat("energy", this.energy);
+		nbt.setFloat("overEnergy", this.overEnergy);
 		return nbt;
 	}
 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
-		if (nbt == null) {
-			return;
-		}
-		if (nbt.hasKey("energy")) {
-			this.energy = nbt.getFloat("energy");
-		}
-		if (nbt.hasKey("overEnergy")) {
-			this.overEnergy = nbt.getFloat("overEnergy");
-		}
+		this.energy = nbt.getFloat("energy");
+		this.overEnergy = nbt.getFloat("overEnergy");
 	}
 
 	@Override
