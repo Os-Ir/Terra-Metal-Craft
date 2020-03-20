@@ -1,6 +1,4 @@
-package com.osir.tmc.capability;
-
-import com.osir.tmc.api.capability.IHeatable;
+package com.osir.tmc.api.capability;
 
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;

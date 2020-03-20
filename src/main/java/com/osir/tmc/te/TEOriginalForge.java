@@ -63,7 +63,7 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 			@Override
 			public int getSlotLimit(int slot) {
 				if (slot > 0 && slot < 6) {
-					return 4;
+					return 1;
 				}
 				return 64;
 			}
@@ -91,7 +91,7 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 			ItemStack stack = this.inventory.getStackInSlot(i);
 			if (stack.hasCapability(CapabilityList.HEATABLE, null)) {
 				IHeatable heat = stack.getCapability(CapabilityList.HEATABLE, null);
-				this.heatExchange(heat, stack.getCount());
+				this.heatExchange(heat);
 				stack = this.getRecipeResult(stack);
 				this.inventory.setStackInSlot(i, stack);
 			}
@@ -120,7 +120,6 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 			return ItemStack.EMPTY;
 		}
 		ItemStack result = output.copy();
-		result.setCount(stack.getCount());
 		return result;
 	}
 
@@ -162,21 +161,21 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 		}
 	}
 
-	public void heatExchange(IHeatable cap, int count) {
+	public void heatExchange(IHeatable cap) {
 		if (cap == null) {
 			return;
 		}
 		float exchange = (this.cap.getTemp() - cap.getTemp()) * RATE;
 		this.increaseHeat(-exchange);
-		cap.increaseEnergy(exchange / count);
+		cap.increaseEnergy(exchange);
 	}
 
 	public double getBurnProgress() {
 		return ((double) this.burnTime) / COAL_BURN_TIME;
 	}
 
-	public double getTemperatureProgress() {
-		return Math.min(((double) this.cap.getTemp()) / 1500, 1);
+	public int getTemperaturePointer() {
+		return Math.min(this.cap.getTemp(), 1500) / 20;
 	}
 
 	public String getTemperatureString() {
@@ -287,7 +286,7 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 				.widget(new SlotWidget(this.inventory, 7, 151, 41).setBackgroundTexture(GuiTextures.SLOT))
 				.widget(new SlotWidget(this.inventory, 8, 151, 62).setBackgroundTexture(GuiTextures.SLOT))
 				.widget(new ImageWidget(49, 67, 77, 9, TEMPERATURE_PROGRESS))
-				.widget(new PointerWidget(this::getTemperatureProgress, 47, 63, 5, 17).setPointer(76, POINTER,
+				.widget(new PointerWidget(this::getTemperaturePointer, 47, 63, 5, 17).setPointer(POINTER,
 						PointerWidget.MoveType.HORIZONTAL))
 				.widget(new ProgressWidget(this::getBurnProgress, 31, 65, 14, 14).setProgressBar(FUEL, FUEL_FULL,
 						ProgressWidget.MoveType.VERTICAL))

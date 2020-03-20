@@ -21,6 +21,8 @@ public class RenderButtonWidget extends ClickButtonWidget {
 	public void drawInBackground(int mouseX, int mouseY, IRenderContext context) {
 		super.drawInBackground(mouseX, mouseY, context);
 		Position position = this.getPosition();
-		this.renderer.accept(position, this.id);
+		if (this.renderer != null) {
+			this.renderer.accept(position, this.id);
+		}
 	}
 }

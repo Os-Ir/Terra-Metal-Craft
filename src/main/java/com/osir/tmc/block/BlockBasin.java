@@ -21,7 +21,6 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -82,7 +81,7 @@ public class BlockBasin extends BlockContainer implements ICustomModel {
 			if (!result.isEmpty()) {
 				player.inventory.addItemStackToInventory(result);
 				if (!result.isEmpty()) {
-					InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), result);
+					player.dropItem(result, false, false);
 				}
 			}
 		}

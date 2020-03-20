@@ -12,7 +12,7 @@ public class ModRecipeMap {
 	public static final RecipeValueFormat FORMAT_ANVIL = new RecipeValueFormat("type",
 			(obj) -> obj instanceof AnvilRecipeType, AnvilRecipeType.WELD);
 	public static final RecipeValueFormat FORMAT_ANVIL_WORK = new RecipeValueFormat("info",
-			(obj) -> obj instanceof Integer, 0x96000);
+			(obj) -> obj instanceof Integer, AnvilRecipeHelper.buildWorkInfo(75));
 	public static final RecipeValueFormat FORMAT_TEMP = new RecipeValueFormat("temp", (obj) -> obj instanceof Integer,
 			20);
 	public static final RecipeValueFormat FORMAT_MATERIAL = new RecipeValueFormat("material",

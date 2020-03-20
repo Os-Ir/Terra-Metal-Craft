@@ -13,7 +13,7 @@ public enum AnvilMaterialList {
 	private String anvilMaterial;
 	private int level, color;
 
-	private AnvilMaterialList(Material material, String anvilMaterial, int level, int color) {
+	AnvilMaterialList(Material material, String anvilMaterial, int level, int color) {
 		this.material = material;
 		this.anvilMaterial = anvilMaterial;
 		this.level = level;

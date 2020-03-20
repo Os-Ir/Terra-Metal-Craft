@@ -6,6 +6,7 @@ import com.osir.tmc.Main;
 import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.capability.ILiquidContainer;
+import com.osir.tmc.api.capability.IWorkable;
 import com.osir.tmc.api.heat.HeatMaterial;
 import com.osir.tmc.api.util.DividedInfoBuilder;
 import com.osir.tmc.api.util.InfoBuf;
@@ -87,6 +88,20 @@ public class EventHandlerClient {
 		tooltip.add(I18n.format("item.heatable.material"));
 		tooltip.add(String.format(TextFormatting.BLUE + "%.3f" + TextFormatting.YELLOW, ((float) cap.getUnit()) / 144)
 				+ " " + material.getLocalizedName() + TextFormatting.RESET + " ( " + builder.build() + " )");
+	}
+
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public static void onWorkableItemTooltip(ItemTooltipEvent e) {
+		ItemStack stack = e.getItemStack();
+		if (!stack.hasCapability(CapabilityList.WORKABLE, null)) {
+			return;
+		}
+		IWorkable cap = stack.getCapability(CapabilityList.WORKABLE, null);
+		List<String> tooltip = e.getToolTip();
+		if (cap.isWorked()) {
+			tooltip.add(I18n.format("item.workable.worked"));
+		}
 	}
 
 	@SubscribeEvent

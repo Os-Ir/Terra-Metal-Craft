@@ -60,7 +60,7 @@ public class WeightedRegistry<K, V> extends RegistrySimple<K, V> {
 
 	@Override
 	public void putObject(K key, V value) {
-		throw new UnsupportedOperationException("Use #register(K, V, int)");
+		throw new UnsupportedOperationException("Use #register(id, key, value, weight)");
 	}
 
 	public void register(int id, K key, V value, int weight) {

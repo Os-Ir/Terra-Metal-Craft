@@ -25,11 +25,11 @@ item.heatable.color.white=白
 item.heatable.color.brilliantWhite=炽白
 
 item.heatable.material=材料属性:
-
 item.heatable.state.melt=熔化进度:
 item.heatable.state.danger=**危险**
 item.heatable.state.weldable=可焊接
 item.heatable.state.workable=可加工
+item.workable.worked=已加工
 
 item.liquidContainer.state.capacity=容量:
 

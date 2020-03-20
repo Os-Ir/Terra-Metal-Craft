@@ -21,11 +21,11 @@ public class PlanUIHolder implements SimpleUIHolder {
 	protected TileEntity te;
 	protected int size;
 	protected Consumer<EntityPlayer> callback;
-	protected Consumer<Integer> recipient;
+	protected BiConsumer<EntityPlayer, Integer> recipient;
 	protected BiConsumer<Position, Integer> renderer;
 
-	public PlanUIHolder(TileEntity te, int size, Consumer<EntityPlayer> callback, Consumer<Integer> recipient,
-			BiConsumer<Position, Integer> renderer) {
+	public PlanUIHolder(TileEntity te, int size, Consumer<EntityPlayer> callback,
+			BiConsumer<EntityPlayer, Integer> recipient, BiConsumer<Position, Integer> renderer) {
 		if (!(te instanceof PlanUIProvider)) {
 			throw new IllegalStateException("This TileEntity is not a PlanUIProvider");
 		}
@@ -65,7 +65,7 @@ public class PlanUIHolder implements SimpleUIHolder {
 			int y = i / 9;
 			builder.widget(
 					new RenderButtonWidget(i, x * 18 + 3, y * 18 + 3, 18, 18, "", this.renderer::accept, (data, id) -> {
-						this.recipient.accept(id - 1);
+						this.recipient.accept(player, id - 1);
 						this.callback.accept(player);
 					}).setButtonTexture(BUTTON));
 		}

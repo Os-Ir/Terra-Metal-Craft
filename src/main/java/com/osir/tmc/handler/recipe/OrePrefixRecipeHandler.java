@@ -1,10 +1,10 @@
 package com.osir.tmc.handler.recipe;
 
-import java.util.Random;
 import java.util.function.Predicate;
 
 import com.osir.tmc.api.heat.HeatMaterial;
 import com.osir.tmc.api.heat.MaterialStack;
+import com.osir.tmc.api.recipe.AnvilRecipeHelper;
 import com.osir.tmc.api.recipe.AnvilRecipeType;
 import com.osir.tmc.api.recipe.ModRecipeMap;
 import com.osir.tmc.api.recipe.ModRegistry;
@@ -39,29 +39,16 @@ public class OrePrefixRecipeHandler {
 
 	public static void processWork(OrePrefix prefix, Material material) {
 		OrePrefix outputPrefix = null;
-		int progress = progressHash(prefix);
+		int progress = AnvilRecipeHelper.progressHash(prefix);
 		if (prefix == OrePrefix.valueOf("ingotDouble")) {
 			outputPrefix = OrePrefix.plate;
 		}
 		if (ModRegistry.REGISTRY_HEATABLE_MATERIAL.containsKey(material)
 				&& !OreDictUnifier.get(prefix, material).isEmpty()
 				&& !OreDictUnifier.get(outputPrefix, material).isEmpty()) {
-			ModRecipeMap.MAP_ANVIL_WORK.recipeBuilder().setValue("info", buildWorkInfo(progress))
+			ModRecipeMap.MAP_ANVIL_WORK.recipeBuilder().setValue("info", AnvilRecipeHelper.buildWorkInfo(progress))
 					.input(prefix, material).outputs(OreDictUnifier.get(outputPrefix, material)).buildAndRegister();
 		}
-	}
-
-	public static int buildWorkInfo(int progress) {
-		return buildWorkInfo(progress, 0, 0, 0);
-	}
-
-	public static int buildWorkInfo(int progress, int a, int b, int c) {
-		return progress << 12 | a << 8 | b << 4 | c;
-	}
-
-	public static int progressHash(OrePrefix prefix) {
-		Random rand = new Random(prefix.name().hashCode());
-		return Math.abs(rand.nextInt() ^ rand.nextInt()) % 110 + 20;
 	}
 
 	public static void processWeld(OrePrefix prefix, Material material) {

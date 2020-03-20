@@ -3,6 +3,7 @@ package com.osir.tmc.handler;
 import com.osir.tmc.Main;
 import com.osir.tmc.api.capability.CapabilityHeat;
 import com.osir.tmc.api.capability.CapabilityList;
+import com.osir.tmc.api.capability.CapabilityWork;
 import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.container.ContainerListenerCapability;
 import com.osir.tmc.api.heat.HeatMaterialList;
@@ -44,6 +45,7 @@ public class EventHandler {
 		if (mat != null && recipe != null) {
 			e.addCapability(CapabilityHeat.KEY,
 					new CapabilityHeat(mat.getMaterial(), mat.getAmount(), (int) recipe.getValue("temp")));
+			e.addCapability(CapabilityWork.KEY, new CapabilityWork());
 		}
 	}
 

@@ -1,6 +1,6 @@
 package com.osir.tmc.api.gui.widget;
 
-import java.util.function.DoubleSupplier;
+import java.util.function.IntSupplier;
 
 import gregtech.api.gui.IRenderContext;
 import gregtech.api.gui.Widget;
@@ -14,27 +14,24 @@ public class PointerWidget extends Widget {
 		HORIZONTAL, HORIZONTAL_INVERTED, VERTICAL, VERTICAL_INVERTED
 	}
 
-	protected DoubleSupplier supplier;
-	protected int length;
-	protected double progress;
+	protected IntSupplier supplier;
+	protected int progress;
 	protected MoveType moveType;
 	protected TextureArea texture;
 
-	public PointerWidget(DoubleSupplier progress, int x, int y, int width, int height) {
+	public PointerWidget(IntSupplier progress, int x, int y, int width, int height) {
 		super(new Position(x, y), new Size(width, height));
 		this.supplier = progress;
 	}
 
-	public PointerWidget(DoubleSupplier progress, int x, int y, int width, int height, int length, TextureArea texture,
+	public PointerWidget(IntSupplier progress, int x, int y, int width, int height, TextureArea texture,
 			MoveType moveType) {
 		this(progress, x, y, width, height);
-		this.length = length;
 		this.texture = texture;
 		this.moveType = moveType;
 	}
 
-	public PointerWidget setPointer(int length, TextureArea texture, MoveType moveType) {
-		this.length = length;
+	public PointerWidget setPointer(TextureArea texture, MoveType moveType) {
 		this.texture = texture;
 		this.moveType = moveType;
 		return this;
@@ -49,20 +46,16 @@ public class PointerWidget extends Widget {
 		Size size = this.getSize();
 		switch (this.moveType) {
 		case HORIZONTAL:
-			this.texture.drawSubArea((int) (pos.x + this.progress * this.length), pos.y, size.width, size.height, 0, 0,
-					1, 1);
+			this.texture.drawSubArea((int) (pos.x + this.progress), pos.y, size.width, size.height, 0, 0, 1, 1);
 			break;
 		case HORIZONTAL_INVERTED:
-			this.texture.drawSubArea((int) (pos.x - this.progress * this.length), pos.y, size.width, size.height, 0, 0,
-					1, 1);
+			this.texture.drawSubArea((int) (pos.x - this.progress), pos.y, size.width, size.height, 0, 0, 1, 1);
 			break;
 		case VERTICAL:
-			this.texture.drawSubArea(pos.x, (int) (pos.y + this.progress * this.length), size.width, size.height, 0, 0,
-					1, 1);
+			this.texture.drawSubArea(pos.x, (int) (pos.y + this.progress), size.width, size.height, 0, 0, 1, 1);
 			break;
 		case VERTICAL_INVERTED:
-			this.texture.drawSubArea(pos.x, (int) (pos.y - this.progress * this.length), size.width, size.height, 0, 0,
-					1, 1);
+			this.texture.drawSubArea(pos.x, (int) (pos.y - this.progress), size.width, size.height, 0, 0, 1, 1);
 			break;
 		default:
 			break;
@@ -71,17 +64,17 @@ public class PointerWidget extends Widget {
 
 	@Override
 	public void detectAndSendChanges() {
-		double actual = this.supplier.getAsDouble();
-		if (Math.abs(this.progress - actual) > 0.005) {
+		int actual = this.supplier.getAsInt();
+		if (actual != this.progress) {
 			this.progress = actual;
-			this.writeUpdateInfo(0, (buffer) -> buffer.writeDouble(actual));
+			this.writeUpdateInfo(0, (buffer) -> buffer.writeInt(actual));
 		}
 	}
 
 	@Override
 	public void readUpdateInfo(int id, PacketBuffer buffer) {
 		if (id == 0) {
-			this.progress = buffer.readDouble();
+			this.progress = buffer.readInt();
 		}
 	}
 }
