@@ -1,5 +1,7 @@
 package com.osir.tmc.block;
 
+import java.util.List;
+
 import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
 import com.osir.tmc.api.gui.SimpleUIHolder;
@@ -18,6 +20,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -32,6 +36,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockAnvil extends BlockContainer implements ICustomModel, IStateMapperModel {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
@@ -56,6 +62,12 @@ public class BlockAnvil extends BlockContainer implements ICustomModel, IStateMa
 
 	public AnvilMaterialList getAnvilMaterial() {
 		return this.material;
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {
+		tooltip.add(I18n.format("tile.equipment.anvil"));
 	}
 
 	@Override

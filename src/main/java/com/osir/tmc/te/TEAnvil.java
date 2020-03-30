@@ -11,6 +11,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
+import com.osir.tmc.api.capability.IWorkable;
 import com.osir.tmc.api.gui.PlanUIHolder;
 import com.osir.tmc.api.gui.PlanUIProvider;
 import com.osir.tmc.api.gui.SimpleUIHolder;
@@ -19,6 +20,7 @@ import com.osir.tmc.api.gui.factory.CapabilitySyncedUIFactory;
 import com.osir.tmc.api.gui.factory.PlanUIFactory;
 import com.osir.tmc.api.gui.widget.PointerWidget;
 import com.osir.tmc.api.gui.widget.RenderButtonWidget;
+import com.osir.tmc.api.gui.widget.RendererWidget;
 import com.osir.tmc.api.recipe.AnvilRecipeHelper;
 import com.osir.tmc.api.recipe.AnvilRecipeType;
 import com.osir.tmc.api.recipe.AnvilWorkType;
@@ -71,6 +73,7 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 	public static final TextureArea WORK_BUTTON_RED = TextureHelper.fullImage("textures/gui/anvil/work_button_red.png");
 	public static final TextureArea WORK_BUTTON_OVERLAY = TextureHelper
 			.fullImage("textures/gui/anvil/work_button_overlay.png");
+	public static final TextureArea STEP_BOARD = TextureHelper.fullImage("textures/gui/anvil/step_board.png");
 
 	public static final RenderItem ITEM_RENDERER = Minecraft.getMinecraft().getRenderItem();
 
@@ -288,8 +291,8 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 		if (recipes.size() <= id) {
 			this.setPlan(-1);
 		} else {
-			this.onWork(AnvilWorkType.NONE, player);
 			this.setPlan(id);
+			this.onWork(AnvilWorkType.NONE, player);
 		}
 	}
 
@@ -339,6 +342,53 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 		}
 	}
 
+	public void renderStepBoard(Position pos, int id) {
+		ItemStack stackA = this.inventory.getStackInSlot(1);
+		ItemStack stackB = this.inventory.getStackInSlot(2);
+		boolean flagA = stackA.hasCapability(CapabilityList.WORKABLE, null);
+		boolean flagB = stackB.hasCapability(CapabilityList.WORKABLE, null);
+		IWorkable capA = stackA.getCapability(CapabilityList.WORKABLE, null);
+		IWorkable capB = stackB.getCapability(CapabilityList.WORKABLE, null);
+		if (!this.validateWorkItem(capA, capB)) {
+			return;
+		}
+		AnvilWorkType[] step = null;
+		if (flagA) {
+			step = capA.getLastSteps().toArray(new AnvilWorkType[0]);
+		} else if (flagB) {
+			step = capB.getLastSteps().toArray(new AnvilWorkType[0]);
+		}
+		for (int i = 0; i < 3; i++) {
+			if (step[i] == null || step[i] == AnvilWorkType.NONE) {
+				continue;
+			}
+			int ord = step[i].ordinal();
+			if (ord <= 4) {
+				WORK_BUTTON_OVERLAY.drawSubArea(22 * i + pos.x + 2, pos.y + 21, 16, 16, 0.25 * ord - 0.25, 0, 0.25,
+						0.5);
+			} else {
+				WORK_BUTTON_OVERLAY.drawSubArea(22 * i + pos.x + 2, pos.y + 21, 16, 16, 0.25 * ord - 1.25, 0.5, 0.25,
+						0.5);
+			}
+		}
+		List<Recipe> recipes = this.getWorkRecipes();
+		if (this.plan != -1 && recipes.size() > this.plan) {
+			step = AnvilRecipeHelper.getRecipeTypes((int) ((ScalableRecipe) recipes.get(this.plan)).getValue("info"));
+			for (int i = 0; i < 3; i++) {
+				if (step[i] == null || step[i] == AnvilWorkType.NONE) {
+					continue;
+				}
+				int ord = step[i].ordinal();
+				if (ord <= 4) {
+					WORK_BUTTON_OVERLAY.drawSubArea(22 * i + pos.x + 2, pos.y, 16, 16, 0.25 * ord - 0.25, 0, 0.25, 0.5);
+				} else {
+					WORK_BUTTON_OVERLAY.drawSubArea(22 * i + pos.x + 2, pos.y, 16, 16, 0.25 * ord - 1.25, 0.5, 0.25,
+							0.5);
+				}
+			}
+		}
+	}
+
 	public int getTargetPointer() {
 		List<Recipe> recipes = this.getWorkRecipes();
 		if (this.plan >= 0 && this.plan < recipes.size()) {
@@ -347,17 +397,69 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 		return 0;
 	}
 
+	public boolean validateWorkItem(IWorkable capA, IWorkable capB) {
+		if (capA == null && capB == null) {
+			return false;
+		}
+		if (capA == null ^ capB == null) {
+			return true;
+		}
+		if (capA.getWorkProgress() != capB.getWorkProgress()) {
+			return false;
+		}
+		AnvilWorkType[] stepA = capA.getLastSteps().toArray(new AnvilWorkType[0]);
+		AnvilWorkType[] stepB = capB.getLastSteps().toArray(new AnvilWorkType[0]);
+		for (int i = 0; i < 3; i++) {
+			if (stepA[i] != stepB[i]) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public boolean checkWorkStep(IWorkable capA, IWorkable capB) {
+		if (this.plan == -1) {
+			return false;
+		}
+		if (!this.validateWorkItem(capA, capB)) {
+			return false;
+		}
+		AnvilWorkType[] step = null;
+		if (capA != null) {
+			step = capA.getLastSteps().toArray(new AnvilWorkType[0]);
+		} else if (capB != null) {
+			step = capB.getLastSteps().toArray(new AnvilWorkType[0]);
+		}
+		List<Recipe> recipes = this.getWorkRecipes();
+		if (recipes.size() <= this.plan) {
+			return false;
+		}
+		AnvilWorkType[] target = AnvilRecipeHelper
+				.getRecipeTypes((int) ((ScalableRecipe) recipes.get(this.plan)).getValue("info"));
+		for (int i = 0; i < 3; i++) {
+			if (target[i] != null && target[i] != AnvilWorkType.NONE && step[i] != target[i]) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public int getProgressPointer() {
 		int progressA = 0, progressB = 0;
 		ItemStack stackA = this.inventory.getStackInSlot(1);
 		ItemStack stackB = this.inventory.getStackInSlot(2);
 		boolean flagA = stackA.hasCapability(CapabilityList.WORKABLE, null);
 		boolean flagB = stackB.hasCapability(CapabilityList.WORKABLE, null);
+		IWorkable capA = stackA.getCapability(CapabilityList.WORKABLE, null);
+		IWorkable capB = stackB.getCapability(CapabilityList.WORKABLE, null);
+		if (!this.validateWorkItem(capA, capB)) {
+			return 0;
+		}
 		if (flagA) {
-			progressA = stackA.getCapability(CapabilityList.WORKABLE, null).getWorkProgress();
+			progressA = capA.getWorkProgress();
 		}
 		if (flagB) {
-			progressB = stackB.getCapability(CapabilityList.WORKABLE, null).getWorkProgress();
+			progressB = capB.getWorkProgress();
 		}
 		if (flagA) {
 			if (flagB) {
@@ -376,21 +478,35 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 		ItemStack stackB = this.inventory.getStackInSlot(2);
 		boolean flagA = stackA.hasCapability(CapabilityList.WORKABLE, null);
 		boolean flagB = stackB.hasCapability(CapabilityList.WORKABLE, null);
-		if (flagA && flagB && stackA.getCapability(CapabilityList.WORKABLE, null).getWorkProgress() != stackB
-				.getCapability(CapabilityList.WORKABLE, null).getWorkProgress()) {
+		IWorkable capA = stackA.getCapability(CapabilityList.WORKABLE, null);
+		IWorkable capB = stackB.getCapability(CapabilityList.WORKABLE, null);
+		if (!this.validateWorkItem(capA, capB)) {
 			return;
 		}
 		int progress = 0;
 		if (flagA) {
-			stackA.getCapability(CapabilityList.WORKABLE, null).addWorkProgress(type.getProgress());
-			progress = stackA.getCapability(CapabilityList.WORKABLE, null).getWorkProgress();
+			if (!stackA.getCapability(CapabilityList.HEATABLE, null).isWorkable()) {
+				return;
+			}
+			if (type != AnvilWorkType.NONE) {
+				capA.addWorkProgress(type.getProgress());
+				capA.putStep(type);
+			}
+			progress = capA.getWorkProgress();
 		}
 		if (flagB) {
-			stackB.getCapability(CapabilityList.WORKABLE, null).addWorkProgress(type.getProgress());
-			progress = stackB.getCapability(CapabilityList.WORKABLE, null).getWorkProgress();
+			if (!stackB.getCapability(CapabilityList.HEATABLE, null).isWorkable()) {
+				return;
+			}
+			if (type != AnvilWorkType.NONE) {
+				capB.addWorkProgress(type.getProgress());
+				capB.putStep(type);
+			}
+			progress = capB.getWorkProgress();
 		}
 		List<Recipe> recipes = this.getWorkRecipes();
-		if (this.plan != -1 && progress == this.getTargetPointer()) {
+		if (this.plan != -1 && recipes.size() > this.plan && progress == this.getTargetPointer()
+				&& this.checkWorkStep(capA, capB)) {
 			if (recipes.get(this.plan).matches(true, Arrays.asList(stackA, stackB), new ArrayList<FluidStack>())) {
 				List<ItemStack> output = recipes.get(this.plan).getOutputs();
 				for (ItemStack result : output) {
@@ -515,6 +631,8 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 						(data, id) -> this.onWork(AnvilWorkType.UPSET, player)).setButtonTexture(WORK_BUTTON_GREEN))
 				.widget(new RenderButtonWidget(8, 173, 82, 16, 16, "", this::renderWorkButton,
 						(data, id) -> this.onWork(AnvilWorkType.SHRINK, player)).setButtonTexture(WORK_BUTTON_GREEN))
+				.widget(new ImageWidget(122, 6, 64, 37, STEP_BOARD))
+				.widget(new RendererWidget(0, 122, 6, 64, 37, this::renderStepBoard))
 				.bindPlayerInventory(player.inventory, GuiTextures.SLOT, 23, 117).build(this, player);
 	}
 

@@ -44,6 +44,7 @@ tmc.command.debug.deposit.info_2=矿物: [%s]  权重: [%s]
 tile.equipment.rated_power=额定功率:
 tile.equipment.basin_1=使用容器右击添加水
 tile.equipment.basin_2=右击以清洗手持物品
+tile.equipment.anvil=它也许是莉莉白的
 
 tile.original_forge.name=原始锻造炉
 tile.mould.name=模具

@@ -248,8 +248,8 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 	}
 
 	protected void scheduleChunkForRenderUpdate() {
-		BlockPos pos = this.getPos();
-		this.getWorld().markBlockRangeForRenderUpdate(pos.getX() - 1, pos.getY() - 1, pos.getZ() - 1, pos.getX() + 1,
+		BlockPos pos = this.pos;
+		this.world.markBlockRangeForRenderUpdate(pos.getX() - 1, pos.getY() - 1, pos.getZ() - 1, pos.getX() + 1,
 				pos.getY() + 1, pos.getZ() + 1);
 	}
 

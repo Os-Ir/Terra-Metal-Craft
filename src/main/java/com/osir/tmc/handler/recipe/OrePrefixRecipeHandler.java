@@ -6,6 +6,7 @@ import com.osir.tmc.api.heat.HeatMaterial;
 import com.osir.tmc.api.heat.MaterialStack;
 import com.osir.tmc.api.recipe.AnvilRecipeHelper;
 import com.osir.tmc.api.recipe.AnvilRecipeType;
+import com.osir.tmc.api.recipe.AnvilWorkType;
 import com.osir.tmc.api.recipe.ModRecipeMap;
 import com.osir.tmc.api.recipe.ModRegistry;
 
@@ -40,13 +41,18 @@ public class OrePrefixRecipeHandler {
 	public static void processWork(OrePrefix prefix, Material material) {
 		OrePrefix outputPrefix = null;
 		int progress = AnvilRecipeHelper.progressHash(prefix);
+		AnvilWorkType typeA = AnvilWorkType.NONE, typeB = AnvilWorkType.NONE, typeC = AnvilWorkType.NONE;
 		if (prefix == OrePrefix.valueOf("ingotDouble")) {
 			outputPrefix = OrePrefix.plate;
+			typeA = AnvilWorkType.LIGTH_HIT;
+			typeB = AnvilWorkType.LIGTH_HIT;
+			typeC = AnvilWorkType.LIGTH_HIT;
 		}
 		if (ModRegistry.REGISTRY_HEATABLE_MATERIAL.containsKey(material)
 				&& !OreDictUnifier.get(prefix, material).isEmpty()
 				&& !OreDictUnifier.get(outputPrefix, material).isEmpty()) {
-			ModRecipeMap.MAP_ANVIL_WORK.recipeBuilder().setValue("info", AnvilRecipeHelper.buildWorkInfo(progress))
+			ModRecipeMap.MAP_ANVIL_WORK.recipeBuilder()
+					.setValue("info", AnvilRecipeHelper.buildWorkInfo(progress, typeA, typeB, typeC))
 					.input(prefix, material).outputs(OreDictUnifier.get(outputPrefix, material)).buildAndRegister();
 		}
 	}
