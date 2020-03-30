@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 public class Main {
 	public static final String MODID = "tmc";
 	public static final String NAME = "Terra Metal Craft";
-	public static final String VERSION = "1.3.1.1";
+	public static final String VERSION = "1.3.2.1";
 	public static final String DEPENDENCIED = "required-after:gregtech@[1.9.0.481,)";
 
 	public Main() {
