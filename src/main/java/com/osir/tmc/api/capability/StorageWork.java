@@ -23,10 +23,10 @@ public class StorageWork implements IStorage<IWorkable> {
 	}
 
 	@Override
-	public void readNBT(Capability<IWorkable> capability, IWorkable instance, EnumFacing side, NBTBase nbt) {
-		NBTTagCompound tag = (NBTTagCompound) nbt;
-		instance.setWorkProgress(tag.getInteger("progress"));
-		int[] steps = tag.getIntArray("lastStep");
+	public void readNBT(Capability<IWorkable> capability, IWorkable instance, EnumFacing side, NBTBase base) {
+		NBTTagCompound nbt = (NBTTagCompound) base;
+		instance.setWorkProgress(nbt.getInteger("progress"));
+		int[] steps = nbt.getIntArray("lastStep");
 		for (int i = 0; i < 3; i++) {
 			instance.putStep(AnvilWorkType.values()[steps[i]]);
 		}

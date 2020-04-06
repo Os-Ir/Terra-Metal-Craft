@@ -3,6 +3,7 @@ package com.osir.tmc.api.capability;
 import com.osir.tmc.Main;
 import com.osir.tmc.api.heat.HeatMaterial;
 import com.osir.tmc.api.heat.HeatMaterialList;
+import com.osir.tmc.api.heat.MaterialStack;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -13,48 +14,88 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 public class CapabilityHeat implements IHeatable, ICapabilitySerializable<NBTTagCompound> {
 	public static final ResourceLocation KEY = new ResourceLocation(Main.MODID, "heatable_item");
 
-	protected HeatMaterial material;
-	protected int maxTemp, unit;
-	protected float maxEnergy, energy, overEnergy;
+	protected MaterialStack material;
+	protected int meltTemp;
+	protected float energy;
 
 	public CapabilityHeat() {
-		this(HeatMaterialList.EMPTY, 1, 20);
+		this(HeatMaterialList.EMPTY, 1);
 	}
 
 	public CapabilityHeat(HeatMaterial material, int unit) {
 		this(material, unit, material.getMeltTemp());
 	}
 
-	public CapabilityHeat(HeatMaterial material, int unit, int maxTemp) {
-		this.material = material;
-		this.unit = unit;
-		this.maxTemp = maxTemp;
-		this.maxEnergy = material.getSpecificHeat() * (this.maxTemp - 20) * unit;
+	public CapabilityHeat(HeatMaterial material, int unit, int meltTemp) {
+		this(new MaterialStack(material, unit), meltTemp);
+	}
+
+	public CapabilityHeat(MaterialStack stack) {
+		this(stack, stack.getMaterial().getMeltTemp());
+	}
+
+	public CapabilityHeat(MaterialStack stack, int meltTemp) {
+		this.material = stack;
+		this.meltTemp = meltTemp;
+	}
+
+	protected float getMeltEnergy() {
+		return (this.meltTemp - 20) * this.getSpecificHeat() * this.getUnit();
+	}
+
+	protected float getSpecificHeat() {
+		return this.material.getMaterial().getSpecificHeat();
 	}
 
 	@Override
 	public HeatMaterial getMaterial() {
-		return this.material;
+		return this.material.getMaterial();
 	}
 
 	@Override
-	public int getMaxTemp() {
-		return this.maxTemp;
+	public void setMeltTemp(int temp) {
+		this.meltTemp = temp;
 	}
 
 	@Override
 	public int getTemp() {
-		return (int) ((this.energy / this.maxEnergy) * (this.maxTemp - 20) + 20);
+		float meltEnergy = this.getMeltEnergy();
+		if (this.energy < meltEnergy) {
+			return (int) (this.energy / this.getSpecificHeat() / this.getUnit() + 20);
+		} else if (this.energy < meltEnergy * 1.1) {
+			return this.meltTemp;
+		} else {
+			return (int) ((this.energy - meltEnergy * 1.1) / this.getSpecificHeat() / this.getUnit() + this.meltTemp);
+		}
 	}
 
 	@Override
 	public int getUnit() {
-		return this.unit;
+		return this.material.getAmount();
 	}
 
 	@Override
-	public float getProgress() {
-		return Math.max(Math.min(this.overEnergy / this.maxEnergy * 10, 1), 0);
+	public void setUnit(int unit, boolean lockTemp) {
+		if (lockTemp) {
+			this.energy *= ((float) unit) / this.getUnit();
+		}
+		this.material.setAmount(unit);
+	}
+
+	@Override
+	public void increaseUnit(int unit, boolean lockTemp) {
+		this.setUnit(this.getUnit() + unit, lockTemp);
+	}
+
+	@Override
+	public int getMeltTemp() {
+		return this.meltTemp;
+	}
+
+	@Override
+	public float getMeltProgress() {
+		float meltEnergy = this.getMeltEnergy();
+		return Math.max(Math.min((this.energy - meltEnergy) / meltEnergy * 10, 1), 0);
 	}
 
 	@Override
@@ -68,29 +109,18 @@ public class CapabilityHeat implements IHeatable, ICapabilitySerializable<NBTTag
 	}
 
 	@Override
-	public float getOverEnergy() {
-		return this.overEnergy;
-	}
-
-	@Override
-	public float getMaxEnergy() {
-		return this.maxEnergy;
-	}
-
-	@Override
 	public void setEnergy(float energy) {
-		this.energy = Math.max(Math.min(energy, this.maxEnergy), 0);
+		this.energy = Math.max(energy, 0);
 	}
 
 	@Override
 	public void increaseEnergy(float energy) {
-		if (energy + this.energy > this.maxEnergy) {
-			this.overEnergy += energy + this.energy - this.maxEnergy;
-			this.energy = this.maxEnergy;
-		} else {
-			this.energy += energy;
-		}
-		this.energy = Math.max(this.energy, 0);
+		this.setEnergy(this.energy + energy);
+	}
+
+	@Override
+	public boolean isMelt() {
+		return this.energy > this.getMeltEnergy();
 	}
 
 	@Override
@@ -110,33 +140,11 @@ public class CapabilityHeat implements IHeatable, ICapabilitySerializable<NBTTag
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setFloat("energy", this.energy);
-		nbt.setFloat("overEnergy", this.overEnergy);
 		return nbt;
 	}
 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
 		this.energy = nbt.getFloat("energy");
-		this.overEnergy = nbt.getFloat("overEnergy");
-	}
-
-	@Override
-	public boolean isWorkable() {
-		return ((float) (this.getTemp() - 20)) / (this.maxTemp - 20) >= 0.6;
-	}
-
-	@Override
-	public boolean isSoft() {
-		return ((float) (this.getTemp() - 20)) / (this.maxTemp - 20) >= 0.7;
-	}
-
-	@Override
-	public boolean isWeldable() {
-		return ((float) (this.getTemp() - 20)) / (this.maxTemp - 20) >= 0.8;
-	}
-
-	@Override
-	public boolean isDanger() {
-		return ((float) (this.getTemp() - 20)) / (this.maxTemp - 20) >= 0.9;
 	}
 }

@@ -9,33 +9,45 @@ import net.minecraft.client.resources.I18n;
 public interface IHeatable {
 	HeatMaterial getMaterial();
 
-	int getMaxTemp();
+	int getMeltTemp();
 
 	int getTemp();
 
+	void setMeltTemp(int temp);
+
 	int getUnit();
 
-	float getProgress();
+	void setUnit(int unit, boolean lockTemp);
+
+	void increaseUnit(int unit, boolean lockTemp);
+
+	float getMeltProgress();
 
 	boolean hasEnergy();
 
 	float getEnergy();
 
-	float getOverEnergy();
-
-	float getMaxEnergy();
-
 	void setEnergy(float energy);
 
 	void increaseEnergy(float energy);
 
-	boolean isWorkable();
+	boolean isMelt();
 
-	boolean isSoft();
+	default boolean isWorkable() {
+		return ((float) (this.getTemp() - 20)) / (this.getMeltTemp() - 20) >= 0.6;
+	}
 
-	boolean isWeldable();
+	default boolean isSoft() {
+		return ((float) (this.getTemp() - 20)) / (this.getMeltTemp() - 20) >= 0.7;
+	}
 
-	boolean isDanger();
+	default boolean isWeldable() {
+		return ((float) (this.getTemp() - 20)) / (this.getMeltTemp() - 20) >= 0.8;
+	}
+
+	default boolean isDanger() {
+		return ((float) (this.getTemp() - 20)) / (this.getMeltTemp() - 20) >= 0.9;
+	}
 
 	default int getKelvinTemp() {
 		return this.getTemp() + 273;

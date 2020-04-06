@@ -9,8 +9,6 @@ itemGroup.tmc.item=群峦金属工艺-物品
 
 metaitem.coin.tmc.name=TMC纪念币
 metaitem.coin.tmc.tooltip=发行于2019/7/21的Terra Metal Craft纪念币
-item.mould.description=用于制造锭的模具
-item.mould.developing=仍在开发中
 
 item.heatable.color.warming=暖
 item.heatable.color.hot=烫
@@ -32,6 +30,7 @@ item.heatable.state.workable=可加工
 item.workable.worked=已加工
 
 item.liquidContainer.state.capacity=容量:
+item.liquidContainer.material=包含材料:
 
 tmc.command.usage=/tmc <debug>
 tmc.command.usage.debug=/tmc debug <deposit>

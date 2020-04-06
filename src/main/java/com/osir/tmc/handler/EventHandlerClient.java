@@ -75,19 +75,20 @@ public class EventHandlerClient {
 					+ I18n.format("item.heatable.state.danger");
 		}
 		tooltip.add(str);
-		if (cap.getProgress() > 0) {
-			tooltip.add(
-					I18n.format("item.heatable.state.melt") + " " + String.format("%.1f%%", cap.getProgress() * 100));
+		if (cap.getMeltProgress() > 0) {
+			tooltip.add(I18n.format("item.heatable.state.melt") + " "
+					+ String.format("%.1f%%", cap.getMeltProgress() * 100));
 		}
 		HeatMaterial material = cap.getMaterial();
 		DividedInfoBuilder builder = new DividedInfoBuilder();
 		builder.addInfo(new DividedInfoBuilder.InfoBuf("M", material.getMeltTemp(), TextFormatting.RED, "\u2103"));
 		builder.addInfo(
-				new DividedInfoBuilder.InfoBuf("C", material.getSpecificHeat(), TextFormatting.AQUA, "J/(kg*\u2103)")
+				new DividedInfoBuilder.InfoBuf("C", material.getSpecificHeat(), TextFormatting.AQUA, "J/(L*\u2103)")
 						.setAccuracy(2));
 		tooltip.add(I18n.format("item.heatable.material"));
-		tooltip.add(String.format(TextFormatting.BLUE + "%.3f" + TextFormatting.YELLOW, ((float) cap.getUnit()) / 144)
-				+ " " + material.getLocalizedName() + TextFormatting.RESET + " ( " + builder.build() + " )");
+		tooltip.add(
+				String.format(TextFormatting.BLUE + "%.3f", ((float) cap.getUnit()) / 144) + " " + TextFormatting.YELLOW
+						+ material.getLocalizedName() + TextFormatting.RESET + " ( " + builder.build() + " )");
 	}
 
 	@SubscribeEvent
@@ -114,6 +115,19 @@ public class EventHandlerClient {
 		ILiquidContainer cap = stack.getCapability(CapabilityList.LIQUID_CONTAINER, null);
 		List<String> tooltip = e.getToolTip();
 		tooltip.add(TextFormatting.BLUE + I18n.format("item.liquidContainer.state.capacity") + " " + TextFormatting.GOLD
-				+ cap.getCapacity() + TextFormatting.GREEN + I18n.format("item.unit.volume"));
+				+ cap.getCapacity() + TextFormatting.GREEN + "L");
+		if (!cap.getMaterial().isEmpty()) {
+			tooltip.add(I18n.format("item.liquidContainer.material"));
+		}
+		for (IHeatable heat : cap.getMaterial()) {
+			DividedInfoBuilder builder = new DividedInfoBuilder();
+			builder.addInfo(new DividedInfoBuilder.InfoBuf("M", heat.getMeltTemp(), TextFormatting.RED, "\u2103"));
+			builder.addInfo(new DividedInfoBuilder.InfoBuf("C", heat.getMaterial().getSpecificHeat(),
+					TextFormatting.AQUA, "J/(L*\u2103)").setAccuracy(2));
+			builder.addInfo(new DividedInfoBuilder.InfoBuf("T", heat.getTemp(), TextFormatting.RED, "\u2103"));
+			tooltip.add(String.format(TextFormatting.BLUE + "%.3f", ((float) heat.getUnit()) / 144) + " "
+					+ TextFormatting.YELLOW + heat.getMaterial().getLocalizedName() + TextFormatting.RESET + " ( "
+					+ builder.build() + " )");
+		}
 	}
 }

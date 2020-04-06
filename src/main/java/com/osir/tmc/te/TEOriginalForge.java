@@ -6,13 +6,16 @@ import java.util.Arrays;
 import com.osir.tmc.api.capability.CapabilityHeat;
 import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
+import com.osir.tmc.api.capability.ILiquidContainer;
 import com.osir.tmc.api.gui.SimpleUIHolder;
 import com.osir.tmc.api.gui.TextureHelper;
 import com.osir.tmc.api.gui.widget.PointerWidget;
 import com.osir.tmc.api.gui.widget.UpdatableTextWidget;
 import com.osir.tmc.api.heat.HeatMaterialList;
+import com.osir.tmc.api.heat.MaterialStack;
 import com.osir.tmc.api.recipe.ModRecipeMap;
 import com.osir.tmc.api.recipe.ScalableRecipe;
+import com.osir.tmc.api.util.CapabilityUtil;
 import com.osir.tmc.block.BlockOriginalForge;
 import com.osir.tmc.handler.BlockHandler;
 
@@ -41,8 +44,8 @@ import net.minecraftforge.items.ItemStackHandler;
 public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, SimpleUIHolder {
 	public static final int COAL_BURN_TIME = 1600;
 	public static final int POWER = 200;
-	public static final float RATE = 0.5F;
-	public static final float COOLING_RATE = 0.05F;
+	public static final float RESISTANCE = 5;
+	public static final float COOLING_RESISTANCE = 50;
 	public static final int MAX_TEMP = 900;
 
 	public static final TextureArea OVERLAY_INGOT = TextureHelper.fullImage("textures/gui/heat/overlay_ingot.png");
@@ -62,7 +65,7 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 		this.inventory = new ItemStackHandler(9) {
 			@Override
 			public int getSlotLimit(int slot) {
-				if (slot > 0 && slot < 6) {
+				if (slot > 0) {
 					return 1;
 				}
 				return 64;
@@ -82,7 +85,7 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 			this.consumeCoal();
 		}
 		this.updateBuring(this.burnTime > 0 || this.cap.getTemp() >= 500);
-		this.cooling();
+		CapabilityUtil.heatExchange(this.cap, 20, COOLING_RESISTANCE);
 		if (this.burnTime > 0) {
 			this.burnTime--;
 			this.increaseHeat(POWER);
@@ -91,7 +94,7 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 			ItemStack stack = this.inventory.getStackInSlot(i);
 			if (stack.hasCapability(CapabilityList.HEATABLE, null)) {
 				IHeatable heat = stack.getCapability(CapabilityList.HEATABLE, null);
-				this.heatExchange(heat);
+				CapabilityUtil.heatExchange(this.cap, heat, RESISTANCE);
 				stack = this.getRecipeResult(stack);
 				this.inventory.setStackInSlot(i, stack);
 			}
@@ -107,11 +110,15 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 			return stack;
 		}
 		IHeatable cap = stack.getCapability(CapabilityList.HEATABLE, null);
-		if (cap.getProgress() < 1) {
+		if (cap.getMeltProgress() < 1) {
 			return stack;
 		}
 		ScalableRecipe recipe = (ScalableRecipe) ModRecipeMap.MAP_HEAT.findRecipe(1, Arrays.asList(stack),
 				new ArrayList<FluidStack>(), 0);
+		MaterialStack material = (MaterialStack) recipe.getValue("material");
+		if (material != null && !material.isEmpty()) {
+			this.meltMaterial(material);
+		}
 		if (recipe.getOutputs().isEmpty()) {
 			return ItemStack.EMPTY;
 		}
@@ -123,10 +130,21 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 		return result;
 	}
 
-	public void cooling() {
-		float exchange = (this.cap.getTemp() - 20) * COOLING_RATE;
-		exchange = Math.max(exchange, 5);
-		this.increaseHeat(-exchange);
+	public void meltMaterial(MaterialStack material) {
+		IHeatable melt = new CapabilityHeat(material);
+		melt.setEnergy(material.getAmount() * material.getMaterial().getSpecificHeat()
+				* (material.getMaterial().getMeltTemp() - 20) * 1.1F);
+		for (int i = 6; i < 9; i++) {
+			ItemStack stack = this.inventory.getStackInSlot(i);
+			if (stack.hasCapability(CapabilityList.LIQUID_CONTAINER, null)) {
+				ILiquidContainer liquid = stack.getCapability(CapabilityList.LIQUID_CONTAINER, null);
+				int surplus = liquid.addMaterial(melt);
+				if (surplus == 0) {
+					break;
+				}
+				melt.setUnit(surplus, true);
+			}
+		}
 	}
 
 	public boolean consumeCoal() {
@@ -159,15 +177,6 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 		} else {
 			this.cap.increaseEnergy(energy);
 		}
-	}
-
-	public void heatExchange(IHeatable cap) {
-		if (cap == null) {
-			return;
-		}
-		float exchange = (this.cap.getTemp() - cap.getTemp()) * RATE;
-		this.increaseHeat(-exchange);
-		cap.increaseEnergy(exchange);
 	}
 
 	public double getBurnProgress() {

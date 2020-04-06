@@ -26,6 +26,7 @@ import com.osir.tmc.api.recipe.AnvilRecipeType;
 import com.osir.tmc.api.recipe.AnvilWorkType;
 import com.osir.tmc.api.recipe.ModRecipeMap;
 import com.osir.tmc.api.recipe.ScalableRecipe;
+import com.osir.tmc.api.util.CapabilityUtil;
 import com.osir.tmc.api.util.ItemIndex;
 
 import gregtech.api.gui.GuiTextures;
@@ -53,7 +54,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUIHolder, PlanUIProvider {
-	public static final float COOLING_RATE = 0.02F;
+	public static final float RESISTANCE = 0.02F;
 
 	public static final TextureArea BACKGROUND = TextureHelper.fullImage("textures/gui/anvil/background.png");
 	public static final TextureArea BUTTON_WELD = TextureHelper.fullImage("textures/gui/anvil/button_weld.png");
@@ -120,9 +121,7 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 				continue;
 			}
 			IHeatable cap = stack.getCapability(CapabilityList.HEATABLE, null);
-			float exchange = (cap.getTemp() - 20) * 0.02F;
-			exchange = Math.max(exchange, 5);
-			cap.increaseEnergy(-exchange);
+			CapabilityUtil.heatExchange(cap, 20, RESISTANCE);
 		}
 		if (this.world != null) {
 			this.world.markChunkDirty(this.pos, this);

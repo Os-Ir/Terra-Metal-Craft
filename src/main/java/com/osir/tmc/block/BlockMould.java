@@ -4,25 +4,27 @@ import java.util.List;
 
 import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
-import com.osir.tmc.api.capability.CapabilityLiquidContainer;
 import com.osir.tmc.api.capability.CapabilityList;
+import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.capability.ILiquidContainer;
+import com.osir.tmc.api.heat.HeatMaterial;
 import com.osir.tmc.api.render.ICustomModel;
 import com.osir.tmc.handler.BlockHandler;
 import com.osir.tmc.handler.ItemHandler;
 import com.osir.tmc.item.ItemMould;
-import com.osir.tmc.te.TELiquidContainer;
+import com.osir.tmc.te.TEMould;
 
+import gregtech.api.unification.OreDictUnifier;
+import gregtech.api.unification.ore.OrePrefix;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -34,10 +36,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemStackHandler;
 
 public class BlockMould extends BlockContainer implements ICustomModel {
 	public static final AxisAlignedBB MOULD_AABB = new AxisAlignedBB(0.125, 0, 0.125, 0.875, 0.25, 0.875);
@@ -55,41 +53,26 @@ public class BlockMould extends BlockContainer implements ICustomModel {
 	}
 
 	@Override
-	public final void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state,
+	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state,
 			int fortune) {
-		TELiquidContainer te = (TELiquidContainer) world.getTileEntity(pos);
-		IItemHandlerModifiable handler = (IItemHandlerModifiable) te
-				.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-		ILiquidContainer liquid = te.getCapability(CapabilityList.LIQUID_CONTAINER, null);
 		ItemStack stack = new ItemStack(BlockHandler.MOULD);
-		IItemHandlerModifiable handlerStack = (IItemHandlerModifiable) stack
-				.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-		ILiquidContainer liquidStack = stack.getCapability(CapabilityList.LIQUID_CONTAINER, null);
-		IStorage<IItemHandler> storageHandler = CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.getStorage();
-		storageHandler.readNBT(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, handlerStack, null,
-				storageHandler.writeNBT(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, handler, null));
-		IStorage<ILiquidContainer> storageLiquid = CapabilityList.LIQUID_CONTAINER.getStorage();
-		storageLiquid.readNBT(CapabilityList.LIQUID_CONTAINER, liquidStack, null,
-				storageLiquid.writeNBT(CapabilityList.LIQUID_CONTAINER, liquid, null));
-		drops.add(stack);
+		TileEntity te = world.getTileEntity(pos);
+		if (te.hasCapability(CapabilityList.LIQUID_CONTAINER, null)
+				&& stack.hasCapability(CapabilityList.LIQUID_CONTAINER, null)) {
+			IStorage<ILiquidContainer> storage = CapabilityList.LIQUID_CONTAINER.getStorage();
+			NBTBase nbt = storage.writeNBT(CapabilityList.LIQUID_CONTAINER,
+					te.getCapability(CapabilityList.LIQUID_CONTAINER, null), null);
+			storage.readNBT(CapabilityList.LIQUID_CONTAINER, stack.getCapability(CapabilityList.LIQUID_CONTAINER, null),
+					null, nbt);
+		}
 	}
 
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer,
 			ItemStack stack) {
-		IItemHandlerModifiable handler;
-		ILiquidContainer liquid;
-		if (stack.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
-			handler = (IItemHandlerModifiable) stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-		} else {
-			handler = new ItemStackHandler(1);
-		}
 		if (stack.hasCapability(CapabilityList.LIQUID_CONTAINER, null)) {
-			liquid = stack.getCapability(CapabilityList.LIQUID_CONTAINER, null);
-		} else {
-			liquid = new CapabilityLiquidContainer(1, 144, 230);
+			world.setTileEntity(pos, new TEMould(stack.getCapability(CapabilityList.LIQUID_CONTAINER, null)));
 		}
-		world.setTileEntity(pos, new TELiquidContainer(liquid, (ItemStackHandler) handler));
 	}
 
 	@Override
@@ -115,26 +98,26 @@ public class BlockMould extends BlockContainer implements ICustomModel {
 			return true;
 		}
 		TileEntity te = world.getTileEntity(pos);
-		if (te instanceof TELiquidContainer) {
-			if (te.hasCapability(CapabilityList.LIQUID_CONTAINER, null)) {
-				IItemHandlerModifiable handler = (IItemHandlerModifiable) te
-						.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-				ItemStack stack = handler.getStackInSlot(0);
-				if (stack != null && !stack.isEmpty()) {
-					System.out.println("saved: " + stack);
-				} else {
-					System.out.println("empty");
+		if (te.hasCapability(CapabilityList.LIQUID_CONTAINER, null)) {
+			ILiquidContainer cap = te.getCapability(CapabilityList.LIQUID_CONTAINER, null);
+			List<IHeatable> list = cap.getMaterial();
+			if (!list.isEmpty()) {
+				IHeatable heat = list.get(0);
+				HeatMaterial material = heat.getMaterial();
+				ItemStack stack = OreDictUnifier.get(OrePrefix.ingot, material.getMaterial());
+				if (heat.getUnit() >= 144 && !heat.isMelt() && !stack.isEmpty()) {
+					heat.increaseUnit(-144, true);
+					if (heat.getUnit() == 0) {
+						list.remove(0);
+					}
+					player.addItemStackToInventory(stack);
+					if (!stack.isEmpty()) {
+						player.dropItem(stack, false, false);
+					}
 				}
-				ILiquidContainer liquid = te.getCapability(CapabilityList.LIQUID_CONTAINER, null);
 			}
 		}
 		return true;
-	}
-
-	@Override
-	public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag) {
-		tooltip.add(I18n.format("item.mould.description"));
-		tooltip.add(I18n.format("item.mould.developing"));
 	}
 
 	@Override
@@ -159,7 +142,7 @@ public class BlockMould extends BlockContainer implements ICustomModel {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TELiquidContainer();
+		return new TEMould();
 	}
 
 	@Override

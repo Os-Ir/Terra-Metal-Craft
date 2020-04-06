@@ -19,10 +19,14 @@ public class HeatRecipeHandler {
 		ModRegistry.REGISTRY_HEATABLE_MATERIAL.register(4, Materials.Antimony, HeatMaterialList.ANTIMONY);
 		ModRegistry.REGISTRY_HEATABLE_MATERIAL.register(5, Materials.Gold, HeatMaterialList.GOLD);
 		ModRegistry.REGISTRY_HEATABLE_MATERIAL.register(6, Materials.Lead, HeatMaterialList.LEAD);
+		ModRegistry.REGISTRY_HEATABLE_MATERIAL.register(7, Materials.Bismuth, HeatMaterialList.BISMUTH);
 
 		ModRegistry.REGISTRY_HEATABLE_MATERIAL.register(100, Materials.WroughtIron, HeatMaterialList.WROUGHT_IRON);
 		ModRegistry.REGISTRY_HEATABLE_MATERIAL.register(101, Materials.PigIron, HeatMaterialList.PIG_IRON);
 		ModRegistry.REGISTRY_HEATABLE_MATERIAL.register(102, Materials.Steel, HeatMaterialList.STEEL);
+		ModRegistry.REGISTRY_HEATABLE_MATERIAL.register(103, Materials.Bronze, HeatMaterialList.BRONZE);
+		ModRegistry.REGISTRY_HEATABLE_MATERIAL.register(104, Materials.BlackBronze, HeatMaterialList.BLACK_BRONZE);
+		ModRegistry.REGISTRY_HEATABLE_MATERIAL.register(105, Materials.BismuthBronze, HeatMaterialList.BISMUTH_BRONZE);
 
 		ModRegistry.REGISTRY_HEATABLE_MATERIAL.register(200, Materials.Glass, HeatMaterialList.GLASS);
 

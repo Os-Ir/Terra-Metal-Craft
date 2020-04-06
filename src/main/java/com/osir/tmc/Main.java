@@ -45,7 +45,7 @@ public class Main {
 	}
 
 	@EventHandler
-	public void onServerLoad(FMLServerStartingEvent event) {
-		event.registerServerCommand(new TMCCommand());
+	public void onServerLoad(FMLServerStartingEvent e) {
+		e.registerServerCommand(new TMCCommand());
 	}
 }

@@ -1,38 +1,74 @@
 package com.osir.tmc.api.capability;
 
-import com.osir.tmc.Main;
+import java.util.Iterator;
+import java.util.List;
 
+import com.osir.tmc.Main;
+import com.osir.tmc.api.heat.HeatMaterial;
+import com.osir.tmc.api.recipe.ModRegistry;
+
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 
 public class CapabilityLiquidContainer implements ILiquidContainer, ICapabilitySerializable<NBTTagCompound> {
 	public static final ResourceLocation KEY = new ResourceLocation(Main.MODID, "liquid_container");
 
-	public float rate;
-	private String metal;
-	private int unit, capacity, specificHeat;
+	private int capacity;
+	private List<IHeatable> materials;
 
 	public CapabilityLiquidContainer() {
-		this(1, 144, 100);
+		this(144);
 	}
 
-	public CapabilityLiquidContainer(float rate, int capacity, int specificHeat) {
-		this.rate = rate;
+	public CapabilityLiquidContainer(int capacity) {
 		this.capacity = capacity;
-		this.specificHeat = specificHeat;
+		this.materials = NonNullList.create();
 	}
 
 	@Override
-	public void setRate(float rate) {
-		this.rate = rate;
+	public List<IHeatable> getMaterial() {
+		return this.materials;
 	}
 
 	@Override
-	public float getRate() {
-		return this.rate;
+	public boolean hasMaterial(HeatMaterial material) {
+		for (IHeatable heat : this.materials) {
+			if (heat.getMaterial().equals(material)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public int addMaterial(IHeatable material) {
+		if (material.getUnit() == 0) {
+			return 0;
+		}
+		int unit = Math.min(this.capacity - this.getUsedCapacity(), material.getUnit());
+		for (int i = 0; i < this.materials.size(); i++) {
+			IHeatable heat = this.materials.get(i);
+			if (heat.getMaterial().equals(material.getMaterial())) {
+				float energy = heat.getEnergy() + material.getEnergy() * unit / material.getUnit();
+				heat.increaseUnit(unit, false);
+				heat.setEnergy(energy);
+				if (heat.getUnit() == 0) {
+					this.materials.remove(i);
+				}
+				return material.getUnit() - unit;
+			}
+		}
+		IHeatable copy = new CapabilityHeat(material.getMaterial(), unit);
+		copy.setEnergy(material.getEnergy() * unit / material.getUnit());
+		this.materials.add(copy);
+		return material.getUnit() - unit;
 	}
 
 	@Override
@@ -46,23 +82,12 @@ public class CapabilityLiquidContainer implements ILiquidContainer, ICapabilityS
 	}
 
 	@Override
-	public String getMetal() {
-		return this.metal;
-	}
-
-	@Override
-	public void setMetal(String metal) {
-		this.metal = metal;
-	}
-
-	@Override
-	public int getUnit() {
-		return this.unit;
-	}
-
-	@Override
-	public void setUnit(int unit) {
-		this.unit = unit;
+	public int getUsedCapacity() {
+		int used = 0;
+		for (IHeatable heat : this.materials) {
+			used += heat.getUnit();
+		}
+		return used;
 	}
 
 	@Override
@@ -81,22 +106,31 @@ public class CapabilityLiquidContainer implements ILiquidContainer, ICapabilityS
 	@Override
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
-		if (this.metal != null && !this.metal.isEmpty()) {
-			nbt.setString("metal", this.metal);
+		NBTTagList list = new NBTTagList();
+		IStorage<IHeatable> storage = CapabilityList.HEATABLE.getStorage();
+		for (IHeatable heat : this.materials) {
+			NBTTagCompound tag = new NBTTagCompound();
+			tag.setInteger("material", ModRegistry.REGISTRY_HEATABLE_MATERIAL.getIDForObject(heat.getMaterial()));
+			tag.setInteger("unit", heat.getUnit());
+			tag.setTag("capability", storage.writeNBT(CapabilityList.HEATABLE, heat, null));
+			list.appendTag(tag);
 		}
-		if (this.unit != 0) {
-			nbt.setInteger("unit", this.unit);
-		}
+		nbt.setTag("material", list);
 		return nbt;
 	}
 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
-		if (nbt.hasKey("metal")) {
-			this.metal = nbt.getString("metal");
-		}
-		if (nbt.hasKey("unit")) {
-			this.unit = nbt.getInteger("unit");
+		NBTTagList list = nbt.getTagList("material", 10);
+		Iterator<NBTBase> ite = list.iterator();
+		IStorage<IHeatable> storage = CapabilityList.HEATABLE.getStorage();
+		this.materials.clear();
+		while (ite.hasNext()) {
+			NBTTagCompound tag = (NBTTagCompound) ite.next();
+			HeatMaterial material = ModRegistry.REGISTRY_HEATABLE_MATERIAL.getObjectById(tag.getInteger("material"));
+			IHeatable heat = new CapabilityHeat(material, tag.getInteger("unit"));
+			storage.readNBT(CapabilityList.HEATABLE, heat, null, tag.getTag("capability"));
+			this.materials.add(heat);
 		}
 	}
 }

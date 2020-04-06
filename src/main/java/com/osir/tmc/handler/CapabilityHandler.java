@@ -23,5 +23,6 @@ public class CapabilityHandler {
 
 		ContainerListenerCapability.register(CapabilityHeat.KEY.toString(), CapabilityList.HEATABLE);
 		ContainerListenerCapability.register(CapabilityWork.KEY.toString(), CapabilityList.WORKABLE);
+		ContainerListenerCapability.register(CapabilityLiquidContainer.KEY.toString(), CapabilityList.LIQUID_CONTAINER);
 	}
 }

@@ -9,8 +9,6 @@ itemGroup.tmc.item=Terra Metal Craft-Item
 
 metaitem.coin.tmc.name=TMC Coin
 metaitem.coin.tmc.tooltip=Commemorative coin for Terra Metal Craft released on 2019/7/21
-item.mould.description=Moulds for Ingots
-item.mould.developing=Still Developing
 
 item.heatable.color.warming=Warming
 item.heatable.color.hot=Hot
@@ -32,6 +30,7 @@ item.heatable.state.workable=Can Work
 item.workable.worked=Worked
 
 item.liquidContainer.state.capacity=Capacity:
+item.liquidContainer.material=Contained Material:
 
 tmc.command.usage=/tmc <debug>
 tmc.command.usage.debug=/tmc debug <deposit>

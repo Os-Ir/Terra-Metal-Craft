@@ -1,19 +1,19 @@
 package com.osir.tmc.api.capability;
 
-public interface ILiquidContainer {
-	void setRate(float rate);
+import java.util.List;
 
-	float getRate();
+import com.osir.tmc.api.heat.HeatMaterial;
+
+public interface ILiquidContainer {
+	List<IHeatable> getMaterial();
+
+	boolean hasMaterial(HeatMaterial material);
+
+	int addMaterial(IHeatable material);
 
 	int getCapacity();
 
 	void setCapacity(int capacity);
 
-	String getMetal();
-
-	void setMetal(String metal);
-
-	int getUnit();
-
-	void setUnit(int unit);
+	int getUsedCapacity();
 }

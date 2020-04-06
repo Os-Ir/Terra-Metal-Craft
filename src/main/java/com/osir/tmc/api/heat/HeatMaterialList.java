@@ -20,10 +20,14 @@ public class HeatMaterialList {
 	public static final HeatMaterial ANTIMONY = new HeatMaterial(Materials.Antimony, 0.21F, 631);
 	public static final HeatMaterial GOLD = new HeatMaterial(Materials.Gold, 0.13F, 1064);
 	public static final HeatMaterial LEAD = new HeatMaterial(Materials.Lead, 0.13F, 328);
+	public static final HeatMaterial BISMUTH = new HeatMaterial(Materials.Bismuth, 0.21F, 271);
 
 	public static final HeatMaterial WROUGHT_IRON = new HeatMaterial(Materials.WroughtIron, 0.47F, 1530);
 	public static final HeatMaterial PIG_IRON = new HeatMaterial(Materials.PigIron, 0.53F, 1480);
 	public static final HeatMaterial STEEL = new HeatMaterial(Materials.Steel, 0.49F, 1520);
+	public static final HeatMaterial BRONZE = new HeatMaterial(Materials.Bronze, 0.34F, 960);
+	public static final HeatMaterial BLACK_BRONZE = new HeatMaterial(Materials.BlackBronze, 0.34F, 960);
+	public static final HeatMaterial BISMUTH_BRONZE = new HeatMaterial(Materials.BismuthBronze, 0.34F, 960);
 
 	public static final HeatMaterial GLASS = new HeatMaterial(Materials.Glass, 0.96F, 1650);
 

@@ -2,15 +2,19 @@ package com.osir.tmc.handler;
 
 import com.osir.tmc.Main;
 import com.osir.tmc.api.capability.CapabilityHeat;
+import com.osir.tmc.api.capability.CapabilityLiquidContainer;
 import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.CapabilityWork;
 import com.osir.tmc.api.capability.IHeatable;
+import com.osir.tmc.api.capability.ILiquidContainer;
 import com.osir.tmc.api.container.ContainerListenerCapability;
 import com.osir.tmc.api.heat.HeatMaterialList;
 import com.osir.tmc.api.heat.MaterialStack;
 import com.osir.tmc.api.recipe.ScalableRecipe;
+import com.osir.tmc.api.util.CapabilityUtil;
 import com.osir.tmc.handler.recipe.HeatRecipeHandler;
 import com.osir.tmc.handler.recipe.OrePrefixRecipeHandler;
+import com.osir.tmc.item.ItemMould;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -35,7 +39,7 @@ public class EventHandler {
 	}
 
 	@SubscribeEvent
-	public static void onAttachCapabilitiesItem(AttachCapabilitiesEvent<ItemStack> e) {
+	public static void onAttachHeat(AttachCapabilitiesEvent<ItemStack> e) {
 		ItemStack stack = e.getObject();
 		if (stack.hasCapability(CapabilityList.HEATABLE, null)) {
 			return;
@@ -46,6 +50,17 @@ public class EventHandler {
 			e.addCapability(CapabilityHeat.KEY,
 					new CapabilityHeat(mat.getMaterial(), mat.getAmount(), (int) recipe.getValue("temp")));
 			e.addCapability(CapabilityWork.KEY, new CapabilityWork());
+		}
+	}
+
+	@SubscribeEvent
+	public static void onAttachLiquidContainer(AttachCapabilitiesEvent<ItemStack> e) {
+		ItemStack stack = e.getObject();
+		if (stack.hasCapability(CapabilityList.LIQUID_CONTAINER, null)) {
+			return;
+		}
+		if (stack.getItem() instanceof ItemMould) {
+			e.addCapability(CapabilityLiquidContainer.KEY, new CapabilityLiquidContainer(144));
 		}
 	}
 
@@ -80,13 +95,16 @@ public class EventHandler {
 			InventoryPlayer inv = player.inventory;
 			for (int i = 0; i < inv.getSizeInventory(); i++) {
 				ItemStack stack = inv.getStackInSlot(i);
-				if (!stack.hasCapability(CapabilityList.HEATABLE, null)) {
-					continue;
+				if (stack.hasCapability(CapabilityList.HEATABLE, null)) {
+					IHeatable cap = stack.getCapability(CapabilityList.HEATABLE, null);
+					CapabilityUtil.heatExchange(cap, 20, 50);
 				}
-				IHeatable cap = stack.getCapability(CapabilityList.HEATABLE, null);
-				float exchange = (cap.getTemp() - 20) * 0.02F;
-				exchange = Math.max(exchange, 5);
-				cap.increaseEnergy(-exchange);
+				if (stack.hasCapability(CapabilityList.LIQUID_CONTAINER, null)) {
+					ILiquidContainer liquid = stack.getCapability(CapabilityList.LIQUID_CONTAINER, null);
+					for (IHeatable cap : liquid.getMaterial()) {
+						CapabilityUtil.heatExchange(cap, 20, 100);
+					}
+				}
 			}
 		}
 	}
