@@ -47,7 +47,6 @@ public class BlockBasin extends BlockContainer implements ICustomModel {
 		this.setRegistryName(Main.MODID, "basin");
 		this.setHardness(1);
 		this.setSoundType(SoundType.WOOD);
-		this.setHarvestLevel("axe", 0);
 		this.setCreativeTab(CreativeTabList.tabEquipment);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(WATER, false));
 		BlockHandler.BLOCK_REGISTRY.register(this);
@@ -64,9 +63,6 @@ public class BlockBasin extends BlockContainer implements ICustomModel {
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,
 			EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (world.isRemote) {
-			return true;
-		}
 		TEBasin te = (TEBasin) world.getTileEntity(pos);
 		ItemStack held = player.getHeldItem(hand);
 		if (held.getItem() == Items.WATER_BUCKET) {

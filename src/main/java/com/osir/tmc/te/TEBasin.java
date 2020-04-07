@@ -3,6 +3,9 @@ package com.osir.tmc.te;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.osir.tmc.api.capability.CapabilityList;
+import com.osir.tmc.api.capability.IHeatable;
+import com.osir.tmc.api.capability.ILiquidContainer;
 import com.osir.tmc.api.recipe.ModRecipeMap;
 import com.osir.tmc.block.BlockBasin;
 import com.osir.tmc.handler.BlockHandler;
@@ -33,22 +36,48 @@ public class TEBasin extends SyncedTileEntityBase {
 		if (this.amount < 200) {
 			return ItemStack.EMPTY;
 		}
+		if (stack.hasCapability(CapabilityList.HEATABLE, null)) {
+			IHeatable cap = stack.getCapability(CapabilityList.HEATABLE, null);
+			if (cap.getEnergy() != 0) {
+				cap.setEnergy(0);
+				this.consumeWater();
+			}
+			return ItemStack.EMPTY;
+		}
+		if (stack.hasCapability(CapabilityList.LIQUID_CONTAINER, null)) {
+			ILiquidContainer cap = stack.getCapability(CapabilityList.LIQUID_CONTAINER, null);
+			boolean consume = false;
+			for (IHeatable heat : cap.getMaterial()) {
+				if (heat.getEnergy() != 0) {
+					heat.setEnergy(0);
+					consume = true;
+				}
+			}
+			if (consume) {
+				this.consumeWater();
+			}
+			return ItemStack.EMPTY;
+		}
 		Recipe recipe = ModRecipeMap.MAP_CLEAN.findRecipe(1, Arrays.asList(stack), new ArrayList<FluidStack>(), 0);
 		if (recipe == null) {
 			return ItemStack.EMPTY;
 		}
-		this.amount -= 200;
-		if (this.amount == 0) {
-			this.empty = true;
-			this.updateBlockState();
-			this.writeCustomData(100, (buf) -> buf.writeBoolean(true));
-		}
+		this.consumeWater();
 		recipe.matches(true, Arrays.asList(stack), new ArrayList<FluidStack>());
 		return recipe.getOutputs().get(0).copy();
 	}
 
 	public boolean isEmpty() {
 		return this.empty;
+	}
+
+	public void consumeWater() {
+		this.amount -= 200;
+		if (this.amount == 0) {
+			this.empty = true;
+			this.updateBlockState();
+			this.writeCustomData(100, (buf) -> buf.writeBoolean(true));
+		}
 	}
 
 	public boolean fillByBucket() {

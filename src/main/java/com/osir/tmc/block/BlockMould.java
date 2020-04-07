@@ -46,7 +46,6 @@ public class BlockMould extends BlockContainer implements ICustomModel {
 		this.setRegistryName(Main.MODID, "mould");
 		this.setHardness(0.5F);
 		this.setSoundType(SoundType.STONE);
-		this.setHarvestLevel("pickaxe", 0);
 		this.setCreativeTab(CreativeTabList.tabEquipment);
 		BlockHandler.BLOCK_REGISTRY.register(this);
 		ItemHandler.ITEM_REGISTRY.register(new ItemMould(this));
@@ -65,6 +64,7 @@ public class BlockMould extends BlockContainer implements ICustomModel {
 			storage.readNBT(CapabilityList.LIQUID_CONTAINER, stack.getCapability(CapabilityList.LIQUID_CONTAINER, null),
 					null, nbt);
 		}
+		drops.add(stack);
 	}
 
 	@Override

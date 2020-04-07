@@ -42,7 +42,7 @@ tmc.command.debug.deposit.info_2=Ore: [%s]  Weight: [%s]
 
 tile.equipment.rated_power=Rated Power:
 tile.equipment.basin_1=Right click to add water using container
-tile.equipment.basin_2=Right click to clean the held item
+tile.equipment.basin_2=Right click to clean/cool the held item
 tile.equipment.anvil=It may be Lily White's
 
 tile.original_forge.name=Original Forge

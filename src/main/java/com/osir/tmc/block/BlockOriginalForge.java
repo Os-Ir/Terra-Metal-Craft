@@ -53,7 +53,7 @@ public class BlockOriginalForge extends BlockContainer implements ICustomModel {
 		this.setRegistryName(Main.MODID, "original_forge");
 		this.setHardness(2);
 		this.setSoundType(SoundType.STONE);
-		this.setHarvestLevel("pickaxe", 1);
+		this.setHarvestLevel("pickaxe", 0);
 		this.setCreativeTab(CreativeTabList.tabEquipment);
 		this.setDefaultState(
 				this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(BURN, false));
