@@ -1,8 +1,13 @@
 package com.osir.tmc.item;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
 
+import gregtech.api.GregTechAPI;
 import gregtech.api.items.materialitem.MaterialMetaItem;
 import gregtech.api.items.metaitem.MetaItem;
 import gregtech.api.unification.ore.OrePrefix;
@@ -23,15 +28,27 @@ public class ModMetaItem extends MaterialMetaItem {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		super.getSubItems(tab, subItems);
-		if (tab != CreativeTabList.tabItem && tab != CreativeTabs.SEARCH) {
-			return;
-		}
-		for (MetaItem<?>.MetaValueItem metaItem : this.metaItems.valueCollection()) {
-			if (!metaItem.isVisible()) {
-				continue;
+		if (tab == GregTechAPI.TAB_GREGTECH_MATERIALS || tab == CreativeTabs.SEARCH) {
+			try {
+				Field fieldItem = Arrays.stream(MaterialMetaItem.class.getDeclaredFields())
+						.filter(field -> field.getName().equals("generatedItems")).findFirst()
+						.orElseThrow(ReflectiveOperationException::new);
+				fieldItem.setAccessible(true);
+				ArrayList<Short> item = (ArrayList<Short>) fieldItem.get(this);
+				for (short metadata : item) {
+					subItems.add(new ItemStack(this, 1, metadata));
+				}
+			} catch (ReflectiveOperationException exception) {
+				throw new RuntimeException(exception);
 			}
-			metaItem.getSubItemHandler().getSubItems(metaItem.getStackForm(), tab, subItems);
+		}
+		if (tab == CreativeTabList.tabItem || tab == CreativeTabs.SEARCH) {
+			for (MetaItem<?>.MetaValueItem metaItem : this.metaItems.valueCollection()) {
+				if (!metaItem.isVisible()) {
+					continue;
+				}
+				metaItem.getSubItemHandler().getSubItems(metaItem.getStackForm(), tab, subItems);
+			}
 		}
 	}
 
