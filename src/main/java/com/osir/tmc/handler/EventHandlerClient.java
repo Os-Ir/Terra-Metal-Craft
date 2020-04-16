@@ -8,6 +8,7 @@ import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.capability.ILiquidContainer;
 import com.osir.tmc.api.capability.IWorkable;
 import com.osir.tmc.api.heat.HeatMaterial;
+import com.osir.tmc.api.render.MetaTileEntityRenderer;
 import com.osir.tmc.api.util.DividedInfoBuilder;
 import com.osir.tmc.block.BlockAnvil;
 
@@ -19,6 +20,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -28,6 +30,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @EventBusSubscriber(modid = Main.MODID, value = Side.CLIENT)
 @SideOnly(Side.CLIENT)
 public class EventHandlerClient {
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void onModelsBake(ModelBakeEvent e) {
+		e.getModelRegistry().putObject(MetaTileEntityRenderer.LOCATION, MetaTileEntityRenderer.INSTANCE);
+	}
+
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public static void onModelColor(ColorHandlerEvent.Item e) {

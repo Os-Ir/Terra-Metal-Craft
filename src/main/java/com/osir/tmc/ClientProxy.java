@@ -1,5 +1,7 @@
 package com.osir.tmc;
 
+import com.osir.tmc.api.render.MetaTileEntityRenderer;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IThreadListener;
@@ -12,6 +14,7 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void preInit(FMLPreInitializationEvent e) {
 		super.preInit(e);
+		MetaTileEntityRenderer.INSTANCE.preInit();
 	}
 
 	@Override

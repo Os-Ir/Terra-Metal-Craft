@@ -6,7 +6,7 @@ import java.util.Arrays;
 import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.capability.ILiquidContainer;
-import com.osir.tmc.api.recipe.ModRecipeMap;
+import com.osir.tmc.api.recipe.RecipeMapList;
 import com.osir.tmc.block.BlockBasin;
 import com.osir.tmc.handler.BlockHandler;
 
@@ -58,7 +58,7 @@ public class TEBasin extends SyncedTileEntityBase {
 			}
 			return ItemStack.EMPTY;
 		}
-		Recipe recipe = ModRecipeMap.MAP_CLEAN.findRecipe(1, Arrays.asList(stack), new ArrayList<FluidStack>(), 0);
+		Recipe recipe = RecipeMapList.MAP_CLEAN.findRecipe(1, Arrays.asList(stack), new ArrayList<FluidStack>(), 0);
 		if (recipe == null) {
 			return ItemStack.EMPTY;
 		}

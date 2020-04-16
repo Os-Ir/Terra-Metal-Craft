@@ -3,12 +3,12 @@ package com.osir.tmc.handler.recipe;
 import java.util.function.Predicate;
 
 import com.osir.tmc.api.heat.HeatMaterial;
+import com.osir.tmc.api.heat.HeatMaterialList;
 import com.osir.tmc.api.heat.MaterialStack;
 import com.osir.tmc.api.recipe.AnvilRecipeHelper;
 import com.osir.tmc.api.recipe.AnvilRecipeType;
 import com.osir.tmc.api.recipe.AnvilWorkType;
-import com.osir.tmc.api.recipe.ModRecipeMap;
-import com.osir.tmc.api.recipe.ModRegistry;
+import com.osir.tmc.api.recipe.RecipeMapList;
 
 import gregtech.api.GTValues;
 import gregtech.api.recipes.ModHandler;
@@ -20,7 +20,7 @@ import gregtech.api.unification.stack.UnificationEntry;
 
 public class OrePrefixRecipeHandler {
 	public static final Predicate<Material> PREDICATE_ORE = (Material material) -> {
-		return ModRegistry.REGISTRY_ORE_MATERIAL.getNameForObject(material) != null;
+		return HeatMaterialList.REGISTRY_ORE_MATERIAL.getNameForObject(material) != null;
 	};
 
 	public static void register() {
@@ -28,7 +28,7 @@ public class OrePrefixRecipeHandler {
 				OrePrefixRecipeHandler::processOreCobble);
 		OrePrefix.dustImpure.addProcessingHandler(DustMaterial.class, OrePrefixRecipeHandler::processCleanDust);
 		OrePrefix.dustPure.addProcessingHandler(DustMaterial.class, OrePrefixRecipeHandler::processCleanDust);
-		for (OrePrefix prefix : ModRegistry.REGISTRY_HEATABLE_PREFIX) {
+		for (OrePrefix prefix : HeatMaterialList.REGISTRY_HEATABLE_PREFIX) {
 			prefix.addProcessingHandler(DustMaterial.class, OrePrefixRecipeHandler::processHeat);
 		}
 		OrePrefix.ingot.addProcessingHandler(DustMaterial.class, OrePrefixRecipeHandler::processWeld);
@@ -48,10 +48,10 @@ public class OrePrefixRecipeHandler {
 			typeB = AnvilWorkType.LIGTH_HIT;
 			typeC = AnvilWorkType.LIGTH_HIT;
 		}
-		if (ModRegistry.REGISTRY_HEATABLE_MATERIAL.containsKey(material)
+		if (HeatMaterialList.REGISTRY_HEATABLE_MATERIAL.containsKey(material)
 				&& !OreDictUnifier.get(prefix, material).isEmpty()
 				&& !OreDictUnifier.get(outputPrefix, material).isEmpty()) {
-			ModRecipeMap.MAP_ANVIL_WORK.recipeBuilder()
+			RecipeMapList.MAP_ANVIL_WORK.recipeBuilder()
 					.setValue("info", AnvilRecipeHelper.buildWorkInfo(progress, typeA, typeB, typeC))
 					.input(prefix, material).outputs(OreDictUnifier.get(outputPrefix, material)).buildAndRegister();
 		}
@@ -72,10 +72,10 @@ public class OrePrefixRecipeHandler {
 		default:
 			break;
 		}
-		if (ModRegistry.REGISTRY_HEATABLE_MATERIAL.containsKey(material)
+		if (HeatMaterialList.REGISTRY_HEATABLE_MATERIAL.containsKey(material)
 				&& !OreDictUnifier.get(prefix, material).isEmpty()
 				&& !OreDictUnifier.get(outputPrefix, material).isEmpty()) {
-			ModRecipeMap.MAP_ANVIL.recipeBuilder().setValue("type", AnvilRecipeType.WELD).input(prefix, material, 2)
+			RecipeMapList.MAP_ANVIL.recipeBuilder().setValue("type", AnvilRecipeType.WELD).input(prefix, material, 2)
 					.outputs(OreDictUnifier.get(outputPrefix, material)).buildAndRegister();
 		}
 	}
@@ -89,23 +89,23 @@ public class OrePrefixRecipeHandler {
 		default:
 			break;
 		}
-		if (ModRegistry.REGISTRY_HEATABLE_MATERIAL.containsKey(material)
+		if (HeatMaterialList.REGISTRY_HEATABLE_MATERIAL.containsKey(material)
 				&& !OreDictUnifier.get(prefix, material).isEmpty()
 				&& !OreDictUnifier.get(outputPrefix, material).isEmpty()) {
-			ModRecipeMap.MAP_ANVIL.recipeBuilder().setValue("type", AnvilRecipeType.TWINE).input(prefix, material)
+			RecipeMapList.MAP_ANVIL.recipeBuilder().setValue("type", AnvilRecipeType.TWINE).input(prefix, material)
 					.outputs(OreDictUnifier.get(outputPrefix, material)).buildAndRegister();
 		}
 	}
 
 	public static void processHeat(OrePrefix prefix, Material material) {
-		if (ModRegistry.REGISTRY_HEATABLE_MATERIAL.containsKey(material)
+		if (HeatMaterialList.REGISTRY_HEATABLE_MATERIAL.containsKey(material)
 				&& !OreDictUnifier.get(prefix, material).isEmpty()) {
-			HeatMaterial heat = ModRegistry.REGISTRY_HEATABLE_MATERIAL.getObject(material);
-			ModRecipeMap.MAP_HEAT.recipeBuilder().setValue("temp", heat.getMeltTemp())
+			HeatMaterial heat = HeatMaterialList.REGISTRY_HEATABLE_MATERIAL.getObject(material);
+			RecipeMapList.MAP_HEAT.recipeBuilder().setValue("temp", heat.getMeltTemp())
 					.setValue("material",
 							new MaterialStack(heat, (int) (((float) prefix.materialAmount) / GTValues.M * 144)))
 					.input(prefix, material).buildAndRegister();
-			ModRecipeMap.MAP_MATERIAL.recipeBuilder()
+			RecipeMapList.MAP_MATERIAL.recipeBuilder()
 					.setValue("material",
 							new MaterialStack(heat, (int) (((float) prefix.materialAmount) / GTValues.M * 144)))
 					.input(prefix, material).buildAndRegister();
@@ -121,7 +121,7 @@ public class OrePrefixRecipeHandler {
 	}
 
 	public static void processCleanDust(OrePrefix prefix, Material material) {
-		ModRecipeMap.MAP_CLEAN.recipeBuilder().input(prefix, material)
+		RecipeMapList.MAP_CLEAN.recipeBuilder().input(prefix, material)
 				.outputs(OreDictUnifier.get(OrePrefix.dust, material)).buildAndRegister();
 	}
 }

@@ -1,5 +1,7 @@
 package com.osir.tmc.api.capability;
 
+import com.osir.tmc.api.capability.te.IBlowable;
+
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 
@@ -12,4 +14,7 @@ public class CapabilityList {
 
 	@CapabilityInject(ILiquidContainer.class)
 	public static final Capability<ILiquidContainer> LIQUID_CONTAINER = null;
+
+	@CapabilityInject(IBlowable.class)
+	public static final Capability<IBlowable> BLOWABLE = null;
 }

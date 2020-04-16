@@ -7,14 +7,15 @@ import com.osir.tmc.api.capability.CapabilityHeat;
 import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.capability.ILiquidContainer;
+import com.osir.tmc.api.capability.te.IBlowable;
 import com.osir.tmc.api.gui.SimpleUIHolder;
-import com.osir.tmc.api.gui.TextureHelper;
 import com.osir.tmc.api.gui.widget.PointerWidget;
 import com.osir.tmc.api.gui.widget.UpdatableTextWidget;
 import com.osir.tmc.api.heat.HeatMaterialList;
 import com.osir.tmc.api.heat.MaterialStack;
-import com.osir.tmc.api.recipe.ModRecipeMap;
+import com.osir.tmc.api.recipe.RecipeMapList;
 import com.osir.tmc.api.recipe.ScalableRecipe;
+import com.osir.tmc.api.render.TextureHelper;
 import com.osir.tmc.api.util.CapabilityUtil;
 import com.osir.tmc.block.BlockOriginalForge;
 import com.osir.tmc.handler.BlockHandler;
@@ -41,7 +42,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, SimpleUIHolder {
+public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, SimpleUIHolder, IBlowable {
 	public static final int COAL_BURN_TIME = 1600;
 	public static final int POWER = 200;
 	public static final float RESISTANCE = 5;
@@ -58,7 +59,8 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 
 	protected ItemStackHandler inventory;
 	protected CapabilityHeat cap;
-	protected int burnTime, maxTemp;
+	protected int burnTime, blowUnit;
+	protected float maxTemp;
 	protected boolean burning;
 
 	public TEOriginalForge() {
@@ -76,6 +78,11 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 	}
 
 	@Override
+	public void onBlow(int unit) {
+		this.blowUnit += unit;
+	}
+
+	@Override
 	public void update() {
 		if (this.world.isRemote) {
 			return;
@@ -89,6 +96,18 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 		if (this.burnTime > 0) {
 			this.burnTime--;
 			this.increaseHeat(POWER);
+		}
+		if (this.blowUnit > 0) {
+			if (this.maxTemp < 1500) {
+				this.maxTemp++;
+			}
+			if (this.burnTime >= 10) {
+				this.burnTime--;
+				this.increaseHeat(POWER);
+			}
+			this.blowUnit -= 10;
+		} else if (this.maxTemp > MAX_TEMP) {
+			this.maxTemp -= 0.1;
 		}
 		for (int i = 3; i < 6; i++) {
 			ItemStack stack = this.inventory.getStackInSlot(i);
@@ -113,7 +132,7 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 		if (cap.getMeltProgress() < 1) {
 			return stack;
 		}
-		ScalableRecipe recipe = (ScalableRecipe) ModRecipeMap.MAP_HEAT.findRecipe(1, Arrays.asList(stack),
+		ScalableRecipe recipe = (ScalableRecipe) RecipeMapList.MAP_HEAT.findRecipe(1, Arrays.asList(stack),
 				new ArrayList<FluidStack>(), 0);
 		MaterialStack material = (MaterialStack) recipe.getValue("material");
 		if (material != null && !material.isEmpty()) {
@@ -172,9 +191,7 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 
 	public void increaseHeat(float energy) {
 		float maxEnergy = this.cap.getMaterial().getSpecificHeat() * this.cap.getUnit() * (this.maxTemp - 20);
-		if (maxEnergy < this.cap.getEnergy() + energy) {
-			this.cap.setEnergy(maxEnergy);
-		} else {
+		if (maxEnergy >= this.cap.getEnergy() + energy) {
 			this.cap.increaseEnergy(energy);
 		}
 	}
@@ -183,11 +200,11 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 		return ((double) this.burnTime) / COAL_BURN_TIME;
 	}
 
-	public int getTemperaturePointer() {
+	public int getTempPointer() {
 		return Math.min(this.cap.getTemp(), 1500) / 20;
 	}
 
-	public String getTemperatureString() {
+	public String getDisplayTemp() {
 		return this.cap.getTemp() + "\u2103";
 	}
 
@@ -205,6 +222,8 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		this.burnTime = nbt.getInteger("burnTime");
+		this.blowUnit = nbt.getInteger("blowUnit");
+		this.maxTemp = nbt.getFloat("maxTemp");
 		this.cap.deserializeNBT(nbt.getCompoundTag("capability"));
 		this.inventory.deserializeNBT((NBTTagCompound) nbt.getTag("inventory"));
 		super.readFromNBT(nbt);
@@ -213,6 +232,8 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		nbt.setFloat("burnTime", this.burnTime);
+		nbt.setInteger("blowUnit", this.blowUnit);
+		nbt.setFloat("maxTemp", this.maxTemp);
 		nbt.setTag("capability", this.cap.serializeNBT());
 		nbt.setTag("inventory", this.inventory.serializeNBT());
 		return super.writeToNBT(nbt);
@@ -239,7 +260,7 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 	@Override
 	public boolean hasCapability(Capability capability, EnumFacing facing) {
 		return super.hasCapability(capability, facing) || capability == CapabilityList.HEATABLE
-				|| capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
+				|| capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == CapabilityList.BLOWABLE;
 	}
 
 	@Override
@@ -252,6 +273,9 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 		}
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			return (T) this.inventory;
+		}
+		if (capability == CapabilityList.BLOWABLE) {
+			return (T) this;
 		}
 		return null;
 	}
@@ -289,11 +313,11 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 				.widget(new SlotWidget(this.inventory, 7, 151, 41).setBackgroundTexture(GuiTextures.SLOT))
 				.widget(new SlotWidget(this.inventory, 8, 151, 62).setBackgroundTexture(GuiTextures.SLOT))
 				.widget(new ImageWidget(49, 67, 77, 9, TEMPERATURE_PROGRESS))
-				.widget(new PointerWidget(this::getTemperaturePointer, 47, 63, 5, 17).setPointer(POINTER,
+				.widget(new PointerWidget(this::getTempPointer, 47, 63, 5, 17).setPointer(POINTER,
 						PointerWidget.MoveType.HORIZONTAL))
 				.widget(new ProgressWidget(this::getBurnProgress, 31, 65, 14, 14).setProgressBar(FUEL, FUEL_FULL,
 						ProgressWidget.MoveType.VERTICAL))
-				.widget(new UpdatableTextWidget(this::getTemperatureString, () -> 0x404040, 49, 54))
+				.widget(new UpdatableTextWidget(this::getDisplayTemp, () -> 0x404040, 49, 54))
 				.bindPlayerInventory(player.inventory, GuiTextures.SLOT, 7, 83).build(this, player);
 	}
 }

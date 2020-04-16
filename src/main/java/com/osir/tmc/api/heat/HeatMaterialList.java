@@ -3,14 +3,24 @@ package com.osir.tmc.api.heat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.osir.tmc.api.recipe.ModRecipeMap;
+import com.osir.tmc.api.recipe.RecipeMapList;
 import com.osir.tmc.api.recipe.ScalableRecipe;
 
 import gregtech.api.unification.material.Materials;
+import gregtech.api.unification.material.type.Material;
+import gregtech.api.unification.ore.OrePrefix;
+import gregtech.api.util.GTControlledRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 public class HeatMaterialList {
+	public static final GTControlledRegistry<Material, HeatMaterial> REGISTRY_HEATABLE_MATERIAL = new GTControlledRegistry<Material, HeatMaterial>(
+			1000);
+	public static final GTControlledRegistry<String, OrePrefix> REGISTRY_HEATABLE_PREFIX = new GTControlledRegistry<String, OrePrefix>(
+			1000);
+	public static final GTControlledRegistry<String, Material> REGISTRY_ORE_MATERIAL = new GTControlledRegistry<String, Material>(
+			1000);
+
 	public static final HeatMaterial EMPTY = new HeatMaterial(Materials._NULL, 1F, 20);
 
 	public static final HeatMaterial IRON = new HeatMaterial(Materials.Iron, 0.46F, 1535);
@@ -32,7 +42,7 @@ public class HeatMaterialList {
 	public static final HeatMaterial GLASS = new HeatMaterial(Materials.Glass, 0.96F, 1650);
 
 	public static MaterialStack findMaterial(ItemStack stack) {
-		ScalableRecipe recipe = (ScalableRecipe) ModRecipeMap.MAP_MATERIAL.findRecipe(1, Arrays.asList(stack),
+		ScalableRecipe recipe = (ScalableRecipe) RecipeMapList.MAP_MATERIAL.findRecipe(1, Arrays.asList(stack),
 				new ArrayList<FluidStack>(), 0);
 		if (recipe != null) {
 			return (MaterialStack) recipe.getValue("material");
@@ -41,7 +51,7 @@ public class HeatMaterialList {
 	}
 
 	public static ScalableRecipe findRecipe(ItemStack stack) {
-		return (ScalableRecipe) ModRecipeMap.MAP_HEAT.findRecipe(1, Arrays.asList(stack), new ArrayList<FluidStack>(),
+		return (ScalableRecipe) RecipeMapList.MAP_HEAT.findRecipe(1, Arrays.asList(stack), new ArrayList<FluidStack>(),
 				0);
 	}
 }

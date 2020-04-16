@@ -10,7 +10,9 @@ import com.osir.tmc.api.capability.IWorkable;
 import com.osir.tmc.api.capability.StorageHeat;
 import com.osir.tmc.api.capability.StorageLiquidContainer;
 import com.osir.tmc.api.capability.StorageWork;
+import com.osir.tmc.api.capability.te.IBlowable;
 import com.osir.tmc.api.container.ContainerListenerCapability;
+import com.osir.tmc.api.util.CapabilityUtil;
 
 import net.minecraftforge.common.capabilities.CapabilityManager;
 
@@ -20,6 +22,8 @@ public class CapabilityHandler {
 		CapabilityManager.INSTANCE.register(IWorkable.class, new StorageWork(), CapabilityWork::new);
 		CapabilityManager.INSTANCE.register(ILiquidContainer.class, new StorageLiquidContainer(),
 				CapabilityLiquidContainer::new);
+
+		CapabilityUtil.registerEmptyCapability(IBlowable.class);
 
 		ContainerListenerCapability.register(CapabilityHeat.KEY.toString(), CapabilityList.HEATABLE);
 		ContainerListenerCapability.register(CapabilityWork.KEY.toString(), CapabilityList.WORKABLE);

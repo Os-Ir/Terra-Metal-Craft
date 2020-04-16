@@ -15,7 +15,6 @@ import com.osir.tmc.api.capability.IWorkable;
 import com.osir.tmc.api.gui.PlanUIHolder;
 import com.osir.tmc.api.gui.PlanUIProvider;
 import com.osir.tmc.api.gui.SimpleUIHolder;
-import com.osir.tmc.api.gui.TextureHelper;
 import com.osir.tmc.api.gui.factory.CapabilitySyncedUIFactory;
 import com.osir.tmc.api.gui.factory.PlanUIFactory;
 import com.osir.tmc.api.gui.widget.PointerWidget;
@@ -24,8 +23,9 @@ import com.osir.tmc.api.gui.widget.RendererWidget;
 import com.osir.tmc.api.recipe.AnvilRecipeHelper;
 import com.osir.tmc.api.recipe.AnvilRecipeType;
 import com.osir.tmc.api.recipe.AnvilWorkType;
-import com.osir.tmc.api.recipe.ModRecipeMap;
+import com.osir.tmc.api.recipe.RecipeMapList;
 import com.osir.tmc.api.recipe.ScalableRecipe;
+import com.osir.tmc.api.render.TextureHelper;
 import com.osir.tmc.api.util.CapabilityUtil;
 import com.osir.tmc.api.util.ItemIndex;
 
@@ -141,7 +141,7 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 		if (!this.inventory.getStackInSlot(2).getCapability(CapabilityList.HEATABLE, null).isWeldable()) {
 			return;
 		}
-		List<Recipe> recipes = ModRecipeMap.MAP_ANVIL.getRecipeList().stream()
+		List<Recipe> recipes = RecipeMapList.MAP_ANVIL.getRecipeList().stream()
 				.filter((recipe) -> ((ScalableRecipe) recipe).getValue("type") == AnvilRecipeType.WELD)
 				.filter((recipe) -> recipe.matches(false,
 						Arrays.asList(this.inventory.getStackInSlot(1), this.inventory.getStackInSlot(2)),
@@ -180,7 +180,7 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 		if (!this.inventory.getStackInSlot(0).getCapability(CapabilityList.HEATABLE, null).isWorkable()) {
 			return;
 		}
-		List<Recipe> recipes = ModRecipeMap.MAP_ANVIL.getRecipeList().stream()
+		List<Recipe> recipes = RecipeMapList.MAP_ANVIL.getRecipeList().stream()
 				.filter((recipe) -> ((ScalableRecipe) recipe).getValue("type") == AnvilRecipeType.TWINE)
 				.filter((recipe) -> recipe.matches(false, Arrays.asList(this.inventory.getStackInSlot(0)),
 						new ArrayList<FluidStack>()))
@@ -217,7 +217,7 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 		if (!this.inventory.getStackInSlot(3).getCapability(CapabilityList.HEATABLE, null).isWorkable()) {
 			return;
 		}
-		List<Recipe> recipes = ModRecipeMap.MAP_ANVIL.getRecipeList().stream()
+		List<Recipe> recipes = RecipeMapList.MAP_ANVIL.getRecipeList().stream()
 				.filter((recipe) -> ((ScalableRecipe) recipe).getValue("type") == AnvilRecipeType.BEND)
 				.filter((recipe) -> recipe.matches(false, Arrays.asList(this.inventory.getStackInSlot(3)),
 						new ArrayList<FluidStack>()))
@@ -259,7 +259,7 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 	}
 
 	public List<Recipe> findWorkRecipes() {
-		return ModRecipeMap.MAP_ANVIL_WORK.getRecipeList().stream()
+		return RecipeMapList.MAP_ANVIL_WORK.getRecipeList().stream()
 				.filter((recipe) -> recipe.matches(false,
 						Arrays.asList(this.inventory.getStackInSlot(1), this.inventory.getStackInSlot(2)),
 						new ArrayList<FluidStack>()))

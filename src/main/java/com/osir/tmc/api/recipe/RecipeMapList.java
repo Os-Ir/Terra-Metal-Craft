@@ -8,7 +8,7 @@ import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.builders.SimpleRecipeBuilder;
 import net.minecraft.item.ItemStack;
 
-public class ModRecipeMap {
+public class RecipeMapList {
 	public static final RecipeValueFormat FORMAT_ANVIL = new RecipeValueFormat("type",
 			(obj) -> obj instanceof AnvilRecipeType, AnvilRecipeType.WELD);
 	public static final RecipeValueFormat FORMAT_ANVIL_WORK = new RecipeValueFormat("info",
