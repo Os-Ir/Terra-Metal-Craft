@@ -3,6 +3,7 @@ package com.osir.tmc.handler;
 import java.util.List;
 
 import com.osir.tmc.Main;
+import com.osir.tmc.api.TMCLog;
 import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.capability.ILiquidContainer;
@@ -32,7 +33,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class EventHandlerClient {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
-	public void onModelsBake(ModelBakeEvent e) {
+	public static void onModelsBake(ModelBakeEvent e) {
+		TMCLog.logger.info("Registering meta block model");
+		TMCLog.logger.info(e.getModelManager().getModel(MetaTileEntityRenderer.LOCATION) == null);
 		e.getModelRegistry().putObject(MetaTileEntityRenderer.LOCATION, MetaTileEntityRenderer.INSTANCE);
 	}
 

@@ -3,10 +3,10 @@ package com.osir.tmc.api.block;
 import java.util.Iterator;
 
 import com.osir.tmc.CreativeTabList;
-import com.osir.tmc.Main;
 import com.osir.tmc.api.TMCLog;
 import com.osir.tmc.api.item.MetaBlockItem;
 import com.osir.tmc.api.render.ICustomModel;
+import com.osir.tmc.api.render.IStateMapperModel;
 import com.osir.tmc.api.render.MetaTileEntityRenderer;
 import com.osir.tmc.api.te.MetaTileEntity;
 import com.osir.tmc.api.te.MetaTileEntityRegistry;
@@ -20,6 +20,8 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.DefaultStateMapper;
+import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -33,7 +35,7 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class MetaBlock extends BlockContainer implements ICustomModel {
+public class MetaBlock extends BlockContainer implements ICustomModel, IStateMapperModel {
 	protected String modid;
 
 	public MetaBlock(String modid) {
@@ -85,17 +87,16 @@ public class MetaBlock extends BlockContainer implements ICustomModel {
 		return true;
 	}
 
+	@Override
+	public boolean isOpaqueCube(IBlockState state) {
+		return false;
+	}
 
-    @Override
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
+	@Override
+	public boolean isFullCube(IBlockState state) {
+		return false;
+	}
 
-    @Override
-    public boolean isFullCube(IBlockState state) {
-        return false;
-    }
-	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public EnumBlockRenderType getRenderType(IBlockState state) {
@@ -109,11 +110,21 @@ public class MetaBlock extends BlockContainer implements ICustomModel {
 
 	@Override
 	public ModelResourceLocation getBlockModel(ModelRegistryEvent e) {
-		return new ModelResourceLocation(Main.MODID + ":meta_block", "inventory");
+		return MetaTileEntityRenderer.LOCATION;
 	}
 
 	@Override
 	public int getMetaData(ModelRegistryEvent e) {
 		return 0;
+	}
+
+	@Override
+	public IStateMapper getStateMapper(ModelRegistryEvent e) {
+		return new DefaultStateMapper() {
+			@Override
+			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
+				return MetaTileEntityRenderer.LOCATION;
+			}
+		};
 	}
 }

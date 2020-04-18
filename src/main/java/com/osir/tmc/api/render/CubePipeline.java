@@ -39,7 +39,10 @@ public class CubePipeline implements IRenderPipeline {
 
 	@Override
 	public IVertexOperation[] getPipeline(IVertexOperation[] pipeline, EnumFacing facing) {
-		Matrix4 translation = new Matrix4().translate(this.pos.getX(), this.pos.getY(), this.pos.getZ());
+		Matrix4 translation = new Matrix4();
+		if (this.pos != null) {
+			translation.translate(this.pos.getX(), this.pos.getY(), this.pos.getZ());
+		}
 		return ArrayUtils.addAll(pipeline, new TransformationList(translation),
 				new IconTransformation(this.texture.getOrDefault(facing, TextureUtils.getMissingSprite())));
 	}

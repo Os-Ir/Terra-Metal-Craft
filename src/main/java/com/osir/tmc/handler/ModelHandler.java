@@ -3,6 +3,8 @@ package com.osir.tmc.handler;
 import com.osir.tmc.Main;
 import com.osir.tmc.api.render.ICustomModel;
 import com.osir.tmc.api.render.IStateMapperModel;
+import com.osir.tmc.api.render.MetaTileEntityRenderer;
+import com.osir.tmc.api.te.MetaTileEntityRegistry;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -23,5 +25,7 @@ public class ModelHandler {
 						((ICustomModel) block).getMetaData(e), ((ICustomModel) block).getBlockModel(e)));
 		BlockHandler.BLOCK_REGISTRY.stream().filter((block) -> block instanceof IStateMapperModel).forEach(
 				(block) -> ModelLoader.setCustomStateMapper(block, ((IStateMapperModel) block).getStateMapper(e)));
+		MetaTileEntityRegistry.REGISTRY_BLOCK.forEach((modid, block) -> ModelLoader
+				.setCustomMeshDefinition(Item.getItemFromBlock(block), (stack) -> MetaTileEntityRenderer.LOCATION));
 	}
 }
