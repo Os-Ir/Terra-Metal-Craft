@@ -26,7 +26,7 @@ public class ScalableRecipe extends Recipe {
 			int duration, int EUt, boolean hidden, NonNullList<RecipeValueFormat> format, List<Object> value) {
 		super(inputs, outputs, chancedOutputs, fluidInputs, fluidOutputs, recipeProperties, duration, EUt, hidden);
 		if (format.size() != value.size()) {
-			throw new IllegalStateException("Extra format and value length mismatch");
+			throw new IllegalArgumentException("Extra format and value length mismatch");
 		}
 		this.value = new HashMap<RecipeValueFormat, Object>();
 		Set<String> cache = new HashSet<String>();

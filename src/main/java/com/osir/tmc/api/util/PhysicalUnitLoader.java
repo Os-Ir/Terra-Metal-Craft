@@ -45,7 +45,7 @@ public class PhysicalUnitLoader {
 			} else if (sample.getScheme().equals("file")) {
 				file = Paths.get(PhysicalUnitLoader.class.getResource("/assets/tmc/physical_unit.json").toURI());
 			} else {
-				throw new IllegalStateException("Failed to load file by URI: [" + sample + "]");
+				throw new IllegalArgumentException("Failed to load file by URI: [" + sample + "]");
 			}
 			if (!Files.exists(file)) {
 				throw new IOException("Assets physical unit file is nonexistent: [" + file + "]");

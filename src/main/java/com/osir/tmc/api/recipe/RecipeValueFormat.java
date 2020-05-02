@@ -17,7 +17,7 @@ public class RecipeValueFormat {
 		if (this.validate(def)) {
 			this.def = def;
 		} else {
-			throw new IllegalStateException("Default object is invalid");
+			throw new IllegalArgumentException("Default object is invalid");
 		}
 	}
 

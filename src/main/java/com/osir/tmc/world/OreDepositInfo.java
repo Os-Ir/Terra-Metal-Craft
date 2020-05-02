@@ -21,12 +21,12 @@ public class OreDepositInfo {
 		this.ore = new WeightedRegistry<String, Material>(1000);
 		int size = obj.length;
 		if (size % 2 != 0) {
-			throw new IllegalStateException("Material and weight length mismatch");
+			throw new IllegalArgumentException("Material and weight length mismatch");
 		}
 		size /= 2;
 		for (int i = 0; i < size; i++) {
 			if (!(obj[i * 2] instanceof Material && obj[i * 2 + 1] instanceof Integer)) {
-				throw new IllegalStateException("Wrong object type");
+				throw new IllegalArgumentException("Wrong object type");
 			}
 			this.ore.register(i, obj[i * 2].toString(), (Material) obj[i * 2], (int) obj[i * 2 + 1]);
 		}

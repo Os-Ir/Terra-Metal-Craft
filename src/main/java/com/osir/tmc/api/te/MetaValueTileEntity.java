@@ -101,7 +101,7 @@ public abstract class MetaValueTileEntity {
 		return false;
 	}
 
-	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+	public boolean hasCapability(Capability capability, EnumFacing facing) {
 		return false;
 	}
 

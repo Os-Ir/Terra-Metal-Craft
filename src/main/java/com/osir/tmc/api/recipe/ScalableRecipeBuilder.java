@@ -51,7 +51,7 @@ public class ScalableRecipeBuilder extends RecipeBuilder<ScalableRecipeBuilder> 
 
 	public ScalableRecipeBuilder addFormat(RecipeValueFormat format) {
 		if (this.value.containsKey(format)) {
-			throw new IllegalStateException("Extra format [" + format.getName() + "] has existed");
+			throw new IllegalArgumentException("Extra format [" + format.getName() + "] has existed");
 		} else {
 			this.value.put(format, format.getDefault());
 		}
@@ -66,7 +66,7 @@ public class ScalableRecipeBuilder extends RecipeBuilder<ScalableRecipeBuilder> 
 		if (this.value.containsKey(format)) {
 			this.value.remove(format);
 		} else {
-			throw new IllegalStateException("Extra format [" + format.getName() + "] undefined");
+			throw new IllegalArgumentException("Extra format [" + format.getName() + "] undefined");
 		}
 		return this;
 	}
@@ -76,13 +76,13 @@ public class ScalableRecipeBuilder extends RecipeBuilder<ScalableRecipeBuilder> 
 			if (obj instanceof Integer) {
 				this.EUt((int) obj);
 			} else {
-				throw new IllegalStateException("Extra format [EUt] doesn't match the object");
+				throw new IllegalArgumentException("Extra format [EUt] doesn't match the object");
 			}
 		} else if (name.equals("duration")) {
 			if (obj instanceof Integer) {
 				this.duration((int) obj);
 			} else {
-				throw new IllegalStateException("Extra format [duration] doesn't match the object");
+				throw new IllegalArgumentException("Extra format [duration] doesn't match the object");
 			}
 		} else {
 			RecipeValueFormat format = this.findFormat(name);
@@ -99,7 +99,8 @@ public class ScalableRecipeBuilder extends RecipeBuilder<ScalableRecipeBuilder> 
 		if (format != null) {
 			if (this.value.containsKey(format)) {
 				if (!format.validate(obj)) {
-					throw new IllegalStateException("Extra format [" + format.getName() + "] doesn't match the object");
+					throw new IllegalArgumentException(
+							"Extra format [" + format.getName() + "] doesn't match the object");
 				} else {
 					this.value.put(format, obj);
 				}

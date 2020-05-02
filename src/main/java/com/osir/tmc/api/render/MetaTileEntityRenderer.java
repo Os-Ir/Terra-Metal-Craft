@@ -17,6 +17,7 @@ import codechicken.lib.render.item.IItemRenderer;
 import codechicken.lib.render.pipeline.IVertexOperation;
 import codechicken.lib.texture.TextureUtils;
 import codechicken.lib.util.TransformUtils;
+import gregtech.api.util.ModCompatibility;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -83,7 +84,7 @@ public class MetaTileEntityRenderer implements ICCBlockRenderer, IItemRenderer {
 
 	@Override
 	public void renderItem(ItemStack stack, TransformType transformType) {
-		MetaValueTileEntity meta = MetaTileEntityRegistry.getMetaTileEntity(stack);
+		MetaValueTileEntity meta = MetaTileEntityRegistry.getMetaTileEntity(ModCompatibility.getRealItemStack(stack));
 		if (meta == null) {
 			return;
 		}

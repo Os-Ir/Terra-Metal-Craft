@@ -28,7 +28,7 @@ public class PlanUIHolder implements SimpleUIHolder {
 	public PlanUIHolder(TileEntity te, int size, Consumer<EntityPlayer> callback,
 			BiConsumer<EntityPlayer, Integer> recipient, BiConsumer<Position, Integer> renderer) {
 		if (!(te instanceof PlanUIProvider)) {
-			throw new IllegalStateException("This TileEntity is not a PlanUIProvider");
+			throw new IllegalArgumentException("This TileEntity is not a PlanUIProvider");
 		}
 		this.te = te;
 		this.size = size;

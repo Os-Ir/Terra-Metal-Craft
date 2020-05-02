@@ -17,8 +17,8 @@ public class MetaBlockItem extends ItemBlock {
 	public String getUnlocalizedName(ItemStack stack) {
 		MetaValueTileEntity meta = MetaTileEntityRegistry.getMetaTileEntity(stack);
 		if (meta != null) {
-			return "item." + meta.getName();
+			return "tile." + meta.getModid() + "." + meta.getName();
 		}
-		return "item.unnamed";
+		return "tile.unnamed";
 	}
 }
