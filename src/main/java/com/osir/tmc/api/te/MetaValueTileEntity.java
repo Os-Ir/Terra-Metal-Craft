@@ -58,7 +58,7 @@ public abstract class MetaValueTileEntity {
 	}
 
 	public boolean supportCreativeTab(CreativeTabs tab) {
-		return tab == CreativeTabList.tabEquipment;
+		return tab == CreativeTabList.tabEquipment || tab == CreativeTabs.SEARCH;
 	}
 
 	public void markDirty() {
@@ -96,7 +96,7 @@ public abstract class MetaValueTileEntity {
 
 	}
 
-	public boolean onWrenchClick(EntityPlayer playerIn, EnumHand hand, EnumFacing wrenchSide,
+	public boolean onWrenchClick(EntityPlayer player, EnumHand hand, EnumFacing wrenchSide,
 			CuboidRayTraceResult hitResult) {
 		return false;
 	}

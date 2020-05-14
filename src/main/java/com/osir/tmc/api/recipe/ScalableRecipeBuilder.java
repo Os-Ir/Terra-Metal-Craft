@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.common.collect.ImmutableMap;
-import com.osir.tmc.api.TMCLog;
+import com.osir.tmc.Main;
 
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeBuilder;
@@ -52,9 +52,8 @@ public class ScalableRecipeBuilder extends RecipeBuilder<ScalableRecipeBuilder> 
 	public ScalableRecipeBuilder addFormat(RecipeValueFormat format) {
 		if (this.value.containsKey(format)) {
 			throw new IllegalArgumentException("Extra format [" + format.getName() + "] has existed");
-		} else {
-			this.value.put(format, format.getDefault());
 		}
+		this.value.put(format, format.getDefault());
 		return this;
 	}
 
@@ -89,7 +88,7 @@ public class ScalableRecipeBuilder extends RecipeBuilder<ScalableRecipeBuilder> 
 			if (format != null) {
 				this.setValue(format, obj);
 			} else {
-				TMCLog.logger.warn("Extra format [" + name + "] undefined");
+				Main.getLogger().warn("Extra format [" + name + "] undefined");
 			}
 		}
 		return this;
@@ -101,11 +100,10 @@ public class ScalableRecipeBuilder extends RecipeBuilder<ScalableRecipeBuilder> 
 				if (!format.validate(obj)) {
 					throw new IllegalArgumentException(
 							"Extra format [" + format.getName() + "] doesn't match the object");
-				} else {
-					this.value.put(format, obj);
 				}
+				this.value.put(format, obj);
 			} else {
-				TMCLog.logger.warn("Extra format [" + format.getName() + "] undefined");
+				Main.getLogger().warn("Extra format [" + format.getName() + "] undefined");
 			}
 		}
 		return this;
@@ -135,7 +133,7 @@ public class ScalableRecipeBuilder extends RecipeBuilder<ScalableRecipeBuilder> 
 		while (ite.hasNext()) {
 			Entry<RecipeValueFormat, Object> entry = ite.next();
 			if (!entry.getKey().validate(entry.getValue())) {
-				TMCLog.logger.warn("Extra format [" + entry.getKey().getName() + "] doesn't match the object");
+				Main.getLogger().warn("Extra format [" + entry.getKey().getName() + "] doesn't match the object");
 				continue;
 			}
 			format.add(entry.getKey());
@@ -149,7 +147,7 @@ public class ScalableRecipeBuilder extends RecipeBuilder<ScalableRecipeBuilder> 
 		while (ite.hasNext()) {
 			Entry<RecipeValueFormat, Object> entry = ite.next();
 			if (!entry.getKey().validate(entry.getValue())) {
-				TMCLog.logger.warn("Extra format [" + entry.getKey().getName() + "] doesn't match the object");
+				Main.getLogger().warn("Extra format [" + entry.getKey().getName() + "] doesn't match the object");
 				continue;
 			}
 			obj.add(entry.getValue());

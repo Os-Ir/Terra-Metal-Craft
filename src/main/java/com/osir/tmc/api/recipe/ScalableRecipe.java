@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.osir.tmc.api.TMCLog;
+import com.osir.tmc.Main;
 
 import gregtech.api.recipes.CountableIngredient;
 import gregtech.api.recipes.Recipe;
@@ -34,11 +34,11 @@ public class ScalableRecipe extends Recipe {
 		for (int i = 0; i < format.size(); i++) {
 			RecipeValueFormat fmt = format.get(i);
 			if (cache.contains(fmt.getName())) {
-				TMCLog.logger.warn("Extra format [" + fmt.getName() + "] has existed");
+				Main.getLogger().warn("Extra format [" + fmt.getName() + "] has existed");
 				continue;
 			}
 			if (!fmt.validate(value.get(i))) {
-				TMCLog.logger.warn("Extra format [" + fmt.getName() + "] doesn't match the object");
+				Main.getLogger().warn("Extra format [" + fmt.getName() + "] doesn't match the object");
 				continue;
 			}
 			cache.add(fmt.getName());
@@ -87,7 +87,7 @@ public class ScalableRecipe extends Recipe {
 		while (ite.hasNext()) {
 			Entry<RecipeValueFormat, Object> entry = ite.next();
 			if (!entry.getKey().validate(entry.getValue())) {
-				TMCLog.logger.warn("Extra format [" + entry.getKey().getName() + "] doesn't match the object");
+				Main.getLogger().warn("Extra format [" + entry.getKey().getName() + "] doesn't match the object");
 				continue;
 			}
 			format.add(entry.getKey());
@@ -101,7 +101,7 @@ public class ScalableRecipe extends Recipe {
 		while (ite.hasNext()) {
 			Entry<RecipeValueFormat, Object> entry = ite.next();
 			if (!entry.getKey().validate(entry.getValue())) {
-				TMCLog.logger.warn("Extra format [" + entry.getKey().getName() + "] doesn't match the object");
+				Main.getLogger().warn("Extra format [" + entry.getKey().getName() + "] doesn't match the object");
 				continue;
 			}
 			obj.add(entry.getValue());

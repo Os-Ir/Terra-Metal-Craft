@@ -17,7 +17,6 @@ import java.util.Map.Entry;
 import org.apache.commons.io.IOUtils;
 
 import com.osir.tmc.Main;
-import com.osir.tmc.api.TMCLog;
 
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.Loader;
@@ -26,10 +25,10 @@ public class PhysicalUnitLoader {
 	public static final Map<String, Entry<String, TextFormatting>> UNIT = new HashMap<String, Entry<String, TextFormatting>>();
 
 	public static void load() {
-		TMCLog.logger.info("Loading physical units from config...");
+		Main.getLogger().info("Loading physical units from config...");
 		Path path = Loader.instance().getConfigDir().toPath().resolve(Main.MODID);
 		Path lock = path.resolve("physical_unit.lock");
-		TMCLog.logger.info("Unit config path: [" + path + "]");
+		Main.getLogger().info("Unit config path: [" + path + "]");
 		try {
 			Files.createDirectories(path);
 		} catch (IOException e) {
@@ -50,7 +49,7 @@ public class PhysicalUnitLoader {
 			if (!Files.exists(file)) {
 				throw new IOException("Assets physical unit file is nonexistent: [" + file + "]");
 			}
-			TMCLog.logger.info("Assets physical unit file: [" + file + "]");
+			Main.getLogger().info("Assets physical unit file: [" + file + "]");
 			Files.copy(file, path.resolve("physical_unit.json"), StandardCopyOption.REPLACE_EXISTING);
 		} catch (URISyntaxException e) {
 			throw new RuntimeException(e);

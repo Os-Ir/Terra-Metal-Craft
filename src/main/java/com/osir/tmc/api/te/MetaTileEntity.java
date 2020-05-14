@@ -18,8 +18,6 @@ public class MetaTileEntity extends SyncedTileEntityBase implements ITickable {
 	public void init(MetaValueTileEntity metaValue, MetaBlock block) {
 		this.metaValue = metaValue;
 		metaValue.holder = this;
-		metaValue.material = block.getMaterial(null);
-		metaValue.modid = block.getModid();
 	}
 
 	public MetaValueTileEntity getMetaValue() {

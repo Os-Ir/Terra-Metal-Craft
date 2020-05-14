@@ -9,6 +9,8 @@ itemGroup.tmc.item=群峦金属工艺-物品
 
 metaitem.coin.tmc.name=TMC纪念币
 metaitem.coin.tmc.tooltip=发行于2019/7/21的Terra Metal Craft纪念币
+metaitem.grinded_flint.name=磨制燧石
+metaitem.chipped_flint.name=打制燧石
 
 item.heatable.color.warming=暖
 item.heatable.color.hot=烫
@@ -53,3 +55,5 @@ tile.anvil.copper.name=铜砧
 tile.anvil.bronze.name=青铜砧
 tile.anvil.iron.name=铁砧
 tile.anvil.steel.name=钢砧
+
+tile.tmc.blower.name=鼓风机

@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 public class MetaBlockItem extends ItemBlock {
 	public MetaBlockItem(MetaBlock block) {
 		super(block);
-		this.setRegistryName(block.getModid(), "meta_block");
+		this.setRegistryName(block.getRegistryName());
 		this.setHasSubtypes(true);
 	}
 

@@ -1,5 +1,7 @@
 package com.osir.tmc.handler;
 
+import java.util.Random;
+
 import com.osir.tmc.Main;
 import com.osir.tmc.api.capability.CapabilityHeat;
 import com.osir.tmc.api.capability.CapabilityLiquidContainer;
@@ -12,19 +14,27 @@ import com.osir.tmc.api.heat.HeatMaterialList;
 import com.osir.tmc.api.heat.MaterialStack;
 import com.osir.tmc.api.recipe.ScalableRecipe;
 import com.osir.tmc.api.util.CapabilityUtil;
+import com.osir.tmc.api.util.NBTAdapter;
 import com.osir.tmc.handler.recipe.HeatRecipeHandler;
 import com.osir.tmc.handler.recipe.OrePrefixRecipeHandler;
 import com.osir.tmc.item.ItemMould;
+import com.osir.tmc.item.MetaItems;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumHand;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent.Open;
+import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -32,6 +42,32 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 
 @EventBusSubscriber(modid = Main.MODID)
 public class EventHandler {
+	@SubscribeEvent
+	public static void onStoneHarvestBlock(HarvestDropsEvent e) {
+		if (e.getHarvester() != null) {
+			EntityPlayer player = e.getHarvester();
+			ItemStack stack = player.getHeldItem(EnumHand.MAIN_HAND);
+			if (MetaItems.grindedFlint.isItemEqual(stack)) {
+				Block block = e.getState().getBlock();
+				Random rand = new Random(System.currentTimeMillis());
+				if (block == Blocks.LEAVES || block == Blocks.LEAVES2) {
+					if (rand.nextFloat() < 0.3) {
+						e.getDrops().add(new ItemStack(Items.STICK));
+					}
+				}
+				NBTTagCompound nbtStack = NBTAdapter.getItemStackCompound(stack);
+				NBTTagCompound nbtDamage = NBTAdapter.getTagCompound(nbtStack, "tmc.damage", new NBTTagCompound());
+				int maxDamage = NBTAdapter.getInteger(nbtDamage, "maxDamage", 16000);
+				int damage = NBTAdapter.getInteger(nbtDamage, "damage", 0);
+				if (damage + 100 >= maxDamage) {
+					player.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
+				} else {
+					nbtDamage.setInteger("damage", damage + 100);
+				}
+			}
+		}
+	}
+
 	@SubscribeEvent
 	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 		HeatRecipeHandler.register();

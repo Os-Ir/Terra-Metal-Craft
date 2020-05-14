@@ -9,7 +9,7 @@ import gregtech.api.unification.stack.UnificationEntry;
 
 public class CraftingRecipeHandler {
 	public static void register() {
-		ModHandler.addShapedRecipe("tmc_coin", MetaItems.COIN_TMC.getStackForm(), " h ", " PF", " k ", 'P',
+		ModHandler.addShapedRecipe("tmc_coin", MetaItems.coin.getStackForm(), " h ", " PF", " k ", 'P',
 				new UnificationEntry(OrePrefix.plate, Materials.Gold), 'F',
 				new UnificationEntry(OrePrefix.foil, Materials.Lead));
 	}

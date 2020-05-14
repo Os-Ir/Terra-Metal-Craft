@@ -9,6 +9,8 @@ itemGroup.tmc.item=Terra Metal Craft-Item
 
 metaitem.coin.tmc.name=TMC Coin
 metaitem.coin.tmc.tooltip=Commemorative coin for Terra Metal Craft released on 2019/7/21
+metaitem.grinded_flint.name=Grinded Flint
+metaitem.chipped_flint.name=Chipped Flint
 
 item.heatable.color.warming=Warming
 item.heatable.color.hot=Hot
@@ -53,3 +55,5 @@ tile.anvil.copper.name=Copper Anvil
 tile.anvil.bronze.name=Bronze Anvil
 tile.anvil.iron.name=Iron Anvil
 tile.anvil.steel.name=Steel Anvil
+
+tile.tmc.blower.name=Blower

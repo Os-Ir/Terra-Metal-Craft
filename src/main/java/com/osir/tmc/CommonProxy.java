@@ -1,8 +1,8 @@
 package com.osir.tmc;
 
-import com.osir.tmc.api.TMCLog;
 import com.osir.tmc.api.util.PhysicalUnitLoader;
 import com.osir.tmc.handler.CapabilityHandler;
+import com.osir.tmc.handler.EnumHandler;
 import com.osir.tmc.handler.GuiHandler;
 import com.osir.tmc.handler.NetworkHandler;
 import com.osir.tmc.handler.OreHandler;
@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class CommonProxy {
 	public void preInit(FMLPreInitializationEvent e) {
-		TMCLog.init(e.getModLog());
+		EnumHandler.register();
 		CreativeTabList.register();
 		TEHandler.register();
 		CapabilityHandler.register();

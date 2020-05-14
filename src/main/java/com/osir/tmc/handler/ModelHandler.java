@@ -25,7 +25,7 @@ public class ModelHandler {
 						((ICustomModel) block).getMetaData(e), ((ICustomModel) block).getBlockModel(e)));
 		BlockHandler.BLOCK_REGISTRY.stream().filter((block) -> block instanceof IStateMapperModel).forEach(
 				(block) -> ModelLoader.setCustomStateMapper(block, ((IStateMapperModel) block).getStateMapper(e)));
-		MetaTileEntityRegistry.REGISTRY_BLOCK.forEach((modid, block) -> ModelLoader
-				.setCustomMeshDefinition(Item.getItemFromBlock(block), (stack) -> MetaTileEntityRenderer.LOCATION));
+		MetaTileEntityRegistry.REGISTRY_BLOCK.forEach((modid, map) -> map.forEach((material, block) -> ModelLoader
+				.setCustomMeshDefinition(Item.getItemFromBlock(block), (stack) -> MetaTileEntityRenderer.LOCATION)));
 	}
 }

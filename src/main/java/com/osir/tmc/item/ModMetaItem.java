@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import com.osir.tmc.CreativeTabList;
 import com.osir.tmc.Main;
+import com.osir.tmc.api.item.DurabilityManager;
 
 import gregtech.api.GregTechAPI;
 import gregtech.api.items.materialitem.MaterialMetaItem;
@@ -31,7 +32,7 @@ public class ModMetaItem extends MaterialMetaItem {
 		if (tab == GregTechAPI.TAB_GREGTECH_MATERIALS || tab == CreativeTabs.SEARCH) {
 			try {
 				Field fieldItem = Arrays.stream(MaterialMetaItem.class.getDeclaredFields())
-						.filter(field -> field.getName().equals("generatedItems")).findFirst()
+						.filter((field) -> field.getName().equals("generatedItems")).findFirst()
 						.orElseThrow(ReflectiveOperationException::new);
 				fieldItem.setAccessible(true);
 				ArrayList<Short> item = (ArrayList<Short>) fieldItem.get(this);
@@ -54,6 +55,10 @@ public class ModMetaItem extends MaterialMetaItem {
 
 	@Override
 	public void registerSubItems() {
-		MetaItems.COIN_TMC = this.addItem(0, "coin.tmc");
+		MetaItems.coin = this.addItem(0, "coin.tmc");
+		MetaItems.grindedFlint = this.addItem(1, "grinded_flint").addComponents(DurabilityManager.INSTANCE)
+				.setMaxStackSize(1);
+		MetaItems.chippedFlint = this.addItem(2, "chipped_flint").addComponents(DurabilityManager.INSTANCE)
+				.setMaxStackSize(1);
 	}
 }

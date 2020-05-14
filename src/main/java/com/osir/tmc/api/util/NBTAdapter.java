@@ -90,7 +90,7 @@ public class NBTAdapter {
 		if (!nbt.hasKey(key, 10)) {
 			nbt.setTag(key, value);
 		}
-		return (NBTTagCompound) nbt.getTag(key);
+		return nbt.getCompoundTag(key);
 	}
 
 	public static int[] getIntArray(NBTTagCompound nbt, String key, int[] value) {

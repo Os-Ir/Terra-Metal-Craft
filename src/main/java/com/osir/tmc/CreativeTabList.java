@@ -20,7 +20,7 @@ public class CreativeTabList {
 		tabItem = new CreativeTabs(Main.MODID + ".item") {
 			@Override
 			public ItemStack getTabIconItem() {
-				return MetaItems.COIN_TMC.getStackForm();
+				return MetaItems.coin.getStackForm();
 			}
 		};
 	}

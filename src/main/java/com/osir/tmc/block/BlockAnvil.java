@@ -109,9 +109,8 @@ public class BlockAnvil extends BlockContainer implements ICustomModel, IStateMa
 		EnumFacing facing = state.getValue(FACING);
 		if (facing == EnumFacing.NORTH || facing == EnumFacing.SOUTH) {
 			return ANVIL_AABB_A;
-		} else {
-			return ANVIL_AABB_B;
 		}
+		return ANVIL_AABB_B;
 	}
 
 	@Override

@@ -463,9 +463,8 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 		if (flagA) {
 			if (flagB) {
 				return progressA == progressB ? progressA : 0;
-			} else {
-				return progressA;
 			}
+			return progressA;
 		} else if (flagB) {
 			return progressB;
 		}

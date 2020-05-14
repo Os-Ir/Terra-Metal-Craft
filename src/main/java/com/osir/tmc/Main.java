@@ -1,7 +1,8 @@
 package com.osir.tmc;
 
+import org.apache.logging.log4j.Logger;
+
 import com.osir.tmc.command.TMCCommand;
-import com.osir.tmc.handler.EnumHandler;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -19,18 +20,21 @@ public class Main {
 	public static final String VERSION = "1.3.2.1";
 	public static final String DEPENDENCIED = "required-after:gregtech@[1.9.0.481,)";
 
-	public Main() {
-		EnumHandler.register();
-	}
-
 	@Instance
 	public static Main instance = new Main();
 
 	@SidedProxy(clientSide = "com.osir.tmc.ClientProxy", serverSide = "com.osir.tmc.CommonProxy")
 	public static CommonProxy proxy = new CommonProxy();
 
+	private static Logger logger;
+
+	public static Logger getLogger() {
+		return logger;
+	}
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e) {
+		logger = e.getModLog();
 		proxy.preInit(e);
 	}
 
