@@ -1,4 +1,4 @@
-package com.osir.tmc.api.render;
+package com.osir.tmc.api.texture;
 
 import com.osir.tmc.Main;
 

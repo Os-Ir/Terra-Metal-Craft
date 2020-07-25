@@ -3,8 +3,8 @@ package com.osir.tmc.block;
 import java.util.List;
 
 import com.osir.tmc.ModCreativeTab;
+import com.osir.tmc.api.model.ICustomModel;
 import com.osir.tmc.Main;
-import com.osir.tmc.api.render.ICustomModel;
 import com.osir.tmc.handler.BlockHandler;
 import com.osir.tmc.handler.ItemHandler;
 import com.osir.tmc.te.TEBasin;

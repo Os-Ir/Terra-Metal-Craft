@@ -8,7 +8,7 @@ import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.capability.ILiquidContainer;
 import com.osir.tmc.api.capability.ModCapabilities;
 import com.osir.tmc.api.heat.HeatMaterial;
-import com.osir.tmc.api.render.ICustomModel;
+import com.osir.tmc.api.model.ICustomModel;
 import com.osir.tmc.handler.BlockHandler;
 import com.osir.tmc.handler.ItemHandler;
 import com.osir.tmc.item.ItemMould;

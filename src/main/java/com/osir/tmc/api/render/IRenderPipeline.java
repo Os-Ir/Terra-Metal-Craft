@@ -1,5 +1,7 @@
 package com.osir.tmc.api.render;
 
+import com.osir.tmc.api.model.IIndexModel;
+
 import codechicken.lib.render.BlockRenderer.BlockFace;
 import codechicken.lib.render.pipeline.IVertexOperation;
 import net.minecraft.util.EnumFacing;

@@ -1,4 +1,4 @@
-package com.osir.tmc.api.render;
+package com.osir.tmc.api.model;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;

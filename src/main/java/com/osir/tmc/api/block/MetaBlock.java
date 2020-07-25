@@ -6,11 +6,11 @@ import java.util.Random;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.osir.tmc.ModCreativeTab;
 import com.osir.tmc.Main;
+import com.osir.tmc.ModCreativeTab;
 import com.osir.tmc.api.item.MetaBlockItem;
-import com.osir.tmc.api.render.ICustomModel;
-import com.osir.tmc.api.render.IStateMapperModel;
+import com.osir.tmc.api.model.ICustomModel;
+import com.osir.tmc.api.model.IStateMapperModel;
 import com.osir.tmc.api.render.MetaTileEntityRenderer;
 import com.osir.tmc.api.te.MetaTileEntity;
 import com.osir.tmc.api.te.MetaTileEntityRegistry;
@@ -44,6 +44,7 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
@@ -191,8 +192,7 @@ public class MetaBlock extends BlockContainer implements ICustomModel, IStateMap
 			EntityPlayer player) {
 		MetaValueTileEntity meta = ((MetaTileEntity) world.getTileEntity(pos)).getMetaValue();
 		if (meta != null) {
-			GTControlledRegistry<String, MetaValueTileEntity> registry = MetaTileEntityRegistry.getMTERegistry(this);
-			return new ItemStack(this, 1, registry.getIDForObject(meta));
+			return new ItemStack(this, 1, MetaTileEntityRegistry.getId(meta));
 		}
 		return ItemStack.EMPTY;
 	}
@@ -200,6 +200,15 @@ public class MetaBlock extends BlockContainer implements ICustomModel, IStateMap
 	@Override
 	public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer) {
 		return true;
+	}
+
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
+		MetaValueTileEntity meta = this.getMetaTileEntity(world, pos);
+		if (meta != null) {
+			return meta.getBoundingBox(state, world, pos);
+		}
+		return FULL_BLOCK_AABB;
 	}
 
 	@Override

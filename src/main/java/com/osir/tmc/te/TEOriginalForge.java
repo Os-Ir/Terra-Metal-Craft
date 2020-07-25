@@ -15,7 +15,7 @@ import com.osir.tmc.api.heat.HeatMaterialList;
 import com.osir.tmc.api.heat.MaterialStack;
 import com.osir.tmc.api.recipe.RecipeMapList;
 import com.osir.tmc.api.recipe.ScalableRecipe;
-import com.osir.tmc.api.render.TextureHelper;
+import com.osir.tmc.api.texture.TextureHelper;
 import com.osir.tmc.api.util.CapabilityUtil;
 import com.osir.tmc.block.BlockOriginalForge;
 import com.osir.tmc.handler.BlockHandler;

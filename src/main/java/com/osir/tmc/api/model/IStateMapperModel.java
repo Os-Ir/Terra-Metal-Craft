@@ -1,4 +1,4 @@
-package com.osir.tmc.api.render;
+package com.osir.tmc.api.model;
 
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraftforge.client.event.ModelRegistryEvent;

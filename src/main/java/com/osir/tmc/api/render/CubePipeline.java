@@ -7,6 +7,9 @@ import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import com.osir.tmc.api.model.BlockIndexModel;
+import com.osir.tmc.api.model.IIndexModel;
+
 import codechicken.lib.render.BlockRenderer.BlockFace;
 import codechicken.lib.render.pipeline.IVertexOperation;
 import codechicken.lib.texture.TextureUtils;
@@ -34,6 +37,14 @@ public class CubePipeline implements IRenderPipeline {
 		this.bounds = bounds;
 		this.texture = new HashMap<EnumFacing, TextureAtlasSprite>();
 		this.operation = new HashMap<EnumFacing, List<IVertexOperation>>();
+	}
+
+	public CubePipeline addSideTexture(TextureAtlasSprite texture) {
+		this.addTexture(EnumFacing.NORTH, texture);
+		this.addTexture(EnumFacing.SOUTH, texture);
+		this.addTexture(EnumFacing.WEST, texture);
+		this.addTexture(EnumFacing.EAST, texture);
+		return this;
 	}
 
 	public CubePipeline addTexture(EnumFacing facing, TextureAtlasSprite texture) {

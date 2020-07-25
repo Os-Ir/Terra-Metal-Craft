@@ -6,6 +6,7 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.osir.tmc.Main;
+import com.osir.tmc.api.model.IIndexModel;
 import com.osir.tmc.api.te.MetaTileEntity;
 import com.osir.tmc.api.te.MetaTileEntityRegistry;
 import com.osir.tmc.api.te.MetaValueTileEntity;

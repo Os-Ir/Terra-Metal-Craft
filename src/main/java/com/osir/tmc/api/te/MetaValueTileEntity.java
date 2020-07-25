@@ -113,7 +113,7 @@ public abstract class MetaValueTileEntity implements IPaintable {
 		return this.holder == null ? null : this.holder.getPos();
 	}
 
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
 		return new AxisAlignedBB(0, 0, 0, 1, 1, 1);
 	}
 
@@ -128,10 +128,6 @@ public abstract class MetaValueTileEntity implements IPaintable {
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand,
 			EnumFacing facing, float hitX, float hitY, float hitZ) {
 		return false;
-	}
-
-	public boolean dropsBlock() {
-		return true;
 	}
 
 	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state,
@@ -170,6 +166,12 @@ public abstract class MetaValueTileEntity implements IPaintable {
 	@SideOnly(Side.CLIENT)
 	public Pair<TextureAtlasSprite, Integer> getParticleTexture(World world, BlockPos pos) {
 		return Pair.of(TextureUtils.getMissingSprite(), 0xffffff);
+	}
+
+	protected void scheduleChunkForRenderUpdate() {
+		BlockPos pos = this.getPos();
+		this.getWorld().markBlockRangeForRenderUpdate(pos.getX() - 1, pos.getY() - 1, pos.getZ() - 1, pos.getX() + 1,
+				pos.getY() + 1, pos.getZ() + 1);
 	}
 
 	public NBTTagCompound writeItemStackNBT(NBTTagCompound nbt) {

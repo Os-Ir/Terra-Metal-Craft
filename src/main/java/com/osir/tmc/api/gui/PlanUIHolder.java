@@ -4,7 +4,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import com.osir.tmc.api.gui.widget.RenderButtonWidget;
-import com.osir.tmc.api.render.TextureHelper;
+import com.osir.tmc.api.texture.TextureHelper;
 
 import gregtech.api.gui.ModularUI;
 import gregtech.api.gui.resources.TextureArea;

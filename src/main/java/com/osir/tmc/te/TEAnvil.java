@@ -26,7 +26,7 @@ import com.osir.tmc.api.recipe.AnvilRecipeType;
 import com.osir.tmc.api.recipe.AnvilWorkType;
 import com.osir.tmc.api.recipe.RecipeMapList;
 import com.osir.tmc.api.recipe.ScalableRecipe;
-import com.osir.tmc.api.render.TextureHelper;
+import com.osir.tmc.api.texture.TextureHelper;
 import com.osir.tmc.api.util.CapabilityUtil;
 
 import gregtech.api.gui.GuiTextures;

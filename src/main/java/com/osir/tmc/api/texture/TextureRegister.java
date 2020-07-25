@@ -1,6 +1,4 @@
-package com.osir.tmc.api.render;
-
-import com.github.zi_jing.cuckoolib.util.registry.UnorderedRegistry;
+package com.osir.tmc.api.texture;
 
 import codechicken.lib.texture.TextureUtils;
 import codechicken.lib.texture.TextureUtils.IIconRegister;
@@ -9,8 +7,6 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.ResourceLocation;
 
 public class TextureRegister implements IIconRegister {
-	public static final UnorderedRegistry<TextureRegister> REGISTRY_TEXTURE = new UnorderedRegistry<TextureRegister>();
-
 	protected ResourceLocation location;
 	protected TextureAtlasSprite texture;
 

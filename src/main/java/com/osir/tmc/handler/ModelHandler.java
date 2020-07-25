@@ -1,8 +1,8 @@
 package com.osir.tmc.handler;
 
 import com.osir.tmc.Main;
-import com.osir.tmc.api.render.ICustomModel;
-import com.osir.tmc.api.render.IStateMapperModel;
+import com.osir.tmc.api.model.ICustomModel;
+import com.osir.tmc.api.model.IStateMapperModel;
 import com.osir.tmc.api.render.MetaTileEntityRenderer;
 import com.osir.tmc.api.te.MetaTileEntityRegistry;
 
