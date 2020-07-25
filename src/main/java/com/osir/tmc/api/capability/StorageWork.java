@@ -12,7 +12,9 @@ public class StorageWork implements IStorage<IWorkable> {
 	@Override
 	public NBTBase writeNBT(Capability<IWorkable> capability, IWorkable instance, EnumFacing side) {
 		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setInteger("progress", instance.getWorkProgress());
+		if (instance.getWorkProgress() > 0) {
+			nbt.setInteger("progress", instance.getWorkProgress());
+		}
 		int[] steps = new int[3];
 		AnvilWorkType[] copy = (AnvilWorkType[]) instance.getLastSteps().toArray();
 		for (int i = 0; i < 3; i++) {
@@ -25,7 +27,9 @@ public class StorageWork implements IStorage<IWorkable> {
 	@Override
 	public void readNBT(Capability<IWorkable> capability, IWorkable instance, EnumFacing side, NBTBase base) {
 		NBTTagCompound nbt = (NBTTagCompound) base;
-		instance.setWorkProgress(nbt.getInteger("progress"));
+		if (nbt.hasKey("progress")) {
+			instance.setWorkProgress(nbt.getInteger("progress"));
+		}
 		int[] steps = nbt.getIntArray("lastStep");
 		for (int i = 0; i < 3; i++) {
 			instance.putStep(AnvilWorkType.values()[steps[i]]);

@@ -1,17 +1,28 @@
 package com.osir.tmc.api.te;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
-import com.osir.tmc.CreativeTabList;
+import org.apache.commons.lang3.tuple.Pair;
+
+import com.osir.tmc.ModCreativeTab;
+import com.osir.tmc.api.capability.te.IPaintable;
+import com.osir.tmc.api.render.CubePipeline;
 import com.osir.tmc.api.render.IRenderPipeline;
 
-import codechicken.lib.raytracer.CuboidRayTraceResult;
+import codechicken.lib.render.CCRenderState;
+import codechicken.lib.texture.TextureUtils;
+import codechicken.lib.vec.Cuboid6;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -24,15 +35,24 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class MetaValueTileEntity {
+public abstract class MetaValueTileEntity implements IPaintable {
+	public static final int DEFAULT_PAINT_COLOR = 0xffffff;
+
 	protected MetaTileEntity holder;
 	protected String modid, name;
 	protected Material material;
+	protected EnumFacing frontFace;
+	protected int[] paintedColor;
 
 	public MetaValueTileEntity(String modid, String name, Material material) {
 		this.modid = modid;
 		this.name = name;
 		this.material = material;
+		this.frontFace = EnumFacing.NORTH;
+		this.paintedColor = new int[6];
+		for (int i = 0; i < this.paintedColor.length; i++) {
+			this.paintedColor[i] = DEFAULT_PAINT_COLOR;
+		}
 	}
 
 	public abstract MetaValueTileEntity create();
@@ -53,12 +73,24 @@ public abstract class MetaValueTileEntity {
 		return this.material;
 	}
 
+	public int getHardness() {
+		return 0;
+	}
+
+	public int getHarvestLevel() {
+		return -1;
+	}
+
+	public String getHarvestTool() {
+		return "wrench";
+	}
+
 	public void update() {
 
 	}
 
 	public boolean supportCreativeTab(CreativeTabs tab) {
-		return tab == CreativeTabList.tabEquipment || tab == CreativeTabs.SEARCH;
+		return tab == ModCreativeTab.tabEquipment || tab == CreativeTabs.SEARCH;
 	}
 
 	public void markDirty() {
@@ -67,6 +99,10 @@ public abstract class MetaValueTileEntity {
 
 	public boolean isInvalid() {
 		return this.holder == null || this.holder.isInvalid();
+	}
+
+	public int getId() {
+		return MetaTileEntityRegistry.getId(this);
 	}
 
 	public World getWorld() {
@@ -81,6 +117,41 @@ public abstract class MetaValueTileEntity {
 		return new AxisAlignedBB(0, 0, 0, 1, 1, 1);
 	}
 
+	public boolean hasSpecialDisplayeName(ItemStack stack) {
+		return false;
+	}
+
+	public String getDisplayName(ItemStack stack) {
+		return null;
+	}
+
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand,
+			EnumFacing facing, float hitX, float hitY, float hitZ) {
+		return false;
+	}
+
+	public boolean dropsBlock() {
+		return true;
+	}
+
+	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state,
+			int fortune) {
+		drops.add(new ItemStack(MetaTileEntityRegistry.getBlock(this), 1, this.getId()));
+	}
+
+	public void paint(EnumFacing side, int color) {
+		this.paintedColor[side.getIndex()] = color;
+	}
+
+	public int getPaintedColor(EnumFacing side) {
+		return this.paintedColor[side.getIndex()];
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {
+
+	}
+
 	@SideOnly(Side.CLIENT)
 	public boolean canRender(BlockRenderLayer layer) {
 		return layer == BlockRenderLayer.CUTOUT_MIPPED;
@@ -88,17 +159,51 @@ public abstract class MetaValueTileEntity {
 
 	@SideOnly(Side.CLIENT)
 	public List<IRenderPipeline> getRenderPipeline() {
-		return new ArrayList<IRenderPipeline>();
+		return Arrays.asList(new CubePipeline(this.getPos(), new Cuboid6(0, 0, 0, 1, 1, 1)));
 	}
 
-	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state,
-			int fortune) {
+	@SideOnly(Side.CLIENT)
+	public void onRender(CCRenderState render) {
 
 	}
 
-	public boolean onWrenchClick(EntityPlayer player, EnumHand hand, EnumFacing wrenchSide,
-			CuboidRayTraceResult hitResult) {
-		return false;
+	@SideOnly(Side.CLIENT)
+	public Pair<TextureAtlasSprite, Integer> getParticleTexture(World world, BlockPos pos) {
+		return Pair.of(TextureUtils.getMissingSprite(), 0xffffff);
+	}
+
+	public NBTTagCompound writeItemStackNBT(NBTTagCompound nbt) {
+		return nbt;
+	}
+
+	public void readItemStackNBT(NBTTagCompound nbt) {
+
+	}
+
+	public void writeInitialSyncData(PacketBuffer buf) {
+
+	}
+
+	public void receiveInitialSyncData(PacketBuffer buf) {
+
+	}
+
+	public void writeCustomData(int discriminator, Consumer<PacketBuffer> dataWriter) {
+		if (this.holder != null) {
+			this.holder.writeCustomData(discriminator, dataWriter);
+		}
+	}
+
+	public void receiveCustomData(int discriminator, PacketBuffer buf) {
+
+	}
+
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+		return nbt;
+	}
+
+	public void readFromNBT(NBTTagCompound nbt) {
+
 	}
 
 	public boolean hasCapability(Capability capability, EnumFacing facing) {

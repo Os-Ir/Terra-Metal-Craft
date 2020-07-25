@@ -3,7 +3,7 @@ package com.osir.tmc.world;
 import java.util.List;
 import java.util.Random;
 
-import com.osir.tmc.api.util.registry.WeightedRegistry;
+import com.github.zi_jing.cuckoolib.util.registry.WeightedRegistry;
 import com.osir.tmc.handler.recipe.OrePrefixRecipeHandler;
 
 import gregtech.api.unification.OreDictUnifier;

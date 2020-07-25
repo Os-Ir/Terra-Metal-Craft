@@ -14,11 +14,25 @@ public class MetaBlockItem extends ItemBlock {
 		this.setHasSubtypes(true);
 	}
 
+	public MetaValueTileEntity getMetaTileEntity(ItemStack stack) {
+		return MetaTileEntityRegistry.getMetaTileEntity(stack);
+	}
+
+	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		MetaValueTileEntity meta = MetaTileEntityRegistry.getMetaTileEntity(stack);
+		MetaValueTileEntity meta = this.getMetaTileEntity(stack);
 		if (meta != null) {
 			return "tile." + meta.getModid() + "." + meta.getName();
 		}
 		return "tile.unnamed";
+	}
+
+	@Override
+	public String getItemStackDisplayName(ItemStack stack) {
+		MetaValueTileEntity meta = this.getMetaTileEntity(stack);
+		if (meta != null && meta.hasSpecialDisplayeName(stack)) {
+			return meta.getDisplayName(stack);
+		}
+		return super.getItemStackDisplayName(stack);
 	}
 }

@@ -7,10 +7,15 @@ gui.button.anvil.bend=Bend
 itemGroup.tmc.equipment=Terra Metal Craft-Equipment
 itemGroup.tmc.item=Terra Metal Craft-Item
 
-metaitem.coin.tmc.name=TMC Coin
-metaitem.coin.tmc.tooltip=Commemorative coin for Terra Metal Craft released on 2019/7/21
-metaitem.grinded_flint.name=Grinded Flint
-metaitem.chipped_flint.name=Chipped Flint
+metaitem.tmc.coin.tmc.name=TMC Coin
+metaitem.tmc.grinded_flint.name=Grinded Flint
+metaitem.tmc.chipped_flint.name=Chipped Flint
+metaitem.tmc.tool_engraving.name=Tool Engraving
+
+metaitem.tmc.coin.tmc.info=Commemorative coin for Terra Metal Craft
+metaitem.tmc.coin.tmc.date=Release Date:
+metaitem.tmc.tool_engraving.type=Tool Type:
+metaitem.tmc.tool_engraving.empty=Empty Engraving
 
 item.heatable.color.warming=Warming
 item.heatable.color.hot=Hot
@@ -57,3 +62,4 @@ tile.anvil.iron.name=Iron Anvil
 tile.anvil.steel.name=Steel Anvil
 
 tile.tmc.blower.name=Blower
+tile.tmc.stone_work_table.name=Stone Work Table

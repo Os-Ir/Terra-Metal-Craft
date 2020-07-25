@@ -4,9 +4,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.osir.tmc.CreativeTabList;
+import com.osir.tmc.ModCreativeTab;
 import com.osir.tmc.Main;
-import com.osir.tmc.api.item.DurabilityManager;
 
 import gregtech.api.GregTechAPI;
 import gregtech.api.items.materialitem.MaterialMetaItem;
@@ -23,7 +22,7 @@ public class ModMetaItem extends MaterialMetaItem {
 		super(OrePrefix.valueOf("ingotDouble"), OrePrefix.valueOf("plateDouble"), null, null, null, null, null, null,
 				null, null, null, null, null, null, null, null, OrePrefix.valueOf("oreCobble"), null, null, null, null,
 				null, null, null, null, null, null, null, null, null, null, null);
-		this.setRegistryName(Main.MODID, "meta_item");
+		this.setRegistryName(Main.MODID, "meta_item_material");
 	}
 
 	@Override
@@ -43,7 +42,7 @@ public class ModMetaItem extends MaterialMetaItem {
 				throw new RuntimeException(exception);
 			}
 		}
-		if (tab == CreativeTabList.tabItem || tab == CreativeTabs.SEARCH) {
+		if (tab == ModCreativeTab.tabItem || tab == CreativeTabs.SEARCH) {
 			for (MetaItem<?>.MetaValueItem metaItem : this.metaItems.valueCollection()) {
 				if (!metaItem.isVisible()) {
 					continue;
@@ -55,10 +54,6 @@ public class ModMetaItem extends MaterialMetaItem {
 
 	@Override
 	public void registerSubItems() {
-		MetaItems.coin = this.addItem(0, "coin.tmc");
-		MetaItems.grindedFlint = this.addItem(1, "grinded_flint").addComponents(DurabilityManager.INSTANCE)
-				.setMaxStackSize(1);
-		MetaItems.chippedFlint = this.addItem(2, "chipped_flint").addComponents(DurabilityManager.INSTANCE)
-				.setMaxStackSize(1);
+
 	}
 }

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.osir.tmc.api.capability.CapabilityHeat;
-import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.capability.ILiquidContainer;
+import com.osir.tmc.api.capability.ModCapabilities;
 import com.osir.tmc.api.capability.te.IBlowable;
 import com.osir.tmc.api.gui.SimpleUIHolder;
 import com.osir.tmc.api.gui.widget.PointerWidget;
@@ -111,8 +111,8 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 		}
 		for (int i = 3; i < 6; i++) {
 			ItemStack stack = this.inventory.getStackInSlot(i);
-			if (stack.hasCapability(CapabilityList.HEATABLE, null)) {
-				IHeatable heat = stack.getCapability(CapabilityList.HEATABLE, null);
+			if (stack.hasCapability(ModCapabilities.HEATABLE, null)) {
+				IHeatable heat = stack.getCapability(ModCapabilities.HEATABLE, null);
 				CapabilityUtil.heatExchange(this.cap, heat, RESISTANCE);
 				stack = this.getRecipeResult(stack);
 				this.inventory.setStackInSlot(i, stack);
@@ -125,10 +125,10 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 	}
 
 	public ItemStack getRecipeResult(ItemStack stack) {
-		if (!stack.hasCapability(CapabilityList.HEATABLE, null)) {
+		if (!stack.hasCapability(ModCapabilities.HEATABLE, null)) {
 			return stack;
 		}
-		IHeatable cap = stack.getCapability(CapabilityList.HEATABLE, null);
+		IHeatable cap = stack.getCapability(ModCapabilities.HEATABLE, null);
 		if (cap.getMeltProgress() < 1) {
 			return stack;
 		}
@@ -155,8 +155,8 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 				* (material.getMaterial().getMeltTemp() - 20) * 1.1F);
 		for (int i = 6; i < 9; i++) {
 			ItemStack stack = this.inventory.getStackInSlot(i);
-			if (stack.hasCapability(CapabilityList.LIQUID_CONTAINER, null)) {
-				ILiquidContainer liquid = stack.getCapability(CapabilityList.LIQUID_CONTAINER, null);
+			if (stack.hasCapability(ModCapabilities.LIQUID_CONTAINER, null)) {
+				ILiquidContainer liquid = stack.getCapability(ModCapabilities.LIQUID_CONTAINER, null);
 				int surplus = liquid.addMaterial(melt);
 				if (surplus == 0) {
 					break;
@@ -259,8 +259,9 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 
 	@Override
 	public boolean hasCapability(Capability capability, EnumFacing facing) {
-		return super.hasCapability(capability, facing) || capability == CapabilityList.HEATABLE
-				|| capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == CapabilityList.BLOWABLE;
+		return super.hasCapability(capability, facing) || capability == ModCapabilities.HEATABLE
+				|| capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY
+				|| capability == ModCapabilities.BLOWABLE;
 	}
 
 	@Override
@@ -268,13 +269,13 @@ public class TEOriginalForge extends SyncedTileEntityBase implements ITickable, 
 		if (super.hasCapability(capability, facing)) {
 			return super.getCapability(capability, facing);
 		}
-		if (capability == CapabilityList.HEATABLE) {
+		if (capability == ModCapabilities.HEATABLE) {
 			return (T) this.cap;
 		}
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			return (T) this.inventory;
 		}
-		if (capability == CapabilityList.BLOWABLE) {
+		if (capability == ModCapabilities.BLOWABLE) {
 			return (T) this;
 		}
 		return null;

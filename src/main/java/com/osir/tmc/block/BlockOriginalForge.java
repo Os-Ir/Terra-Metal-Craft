@@ -3,12 +3,12 @@ package com.osir.tmc.block;
 import java.util.List;
 import java.util.Random;
 
-import com.osir.tmc.CreativeTabList;
+import com.github.zi_jing.cuckoolib.util.math.MathUtil;
+import com.osir.tmc.ModCreativeTab;
 import com.osir.tmc.Main;
 import com.osir.tmc.api.gui.SimpleUIHolder;
 import com.osir.tmc.api.gui.factory.CapabilitySyncedUIFactory;
 import com.osir.tmc.api.render.ICustomModel;
-import com.osir.tmc.api.util.MathTool;
 import com.osir.tmc.handler.BlockHandler;
 import com.osir.tmc.handler.ItemHandler;
 import com.osir.tmc.te.TEOriginalForge;
@@ -54,7 +54,7 @@ public class BlockOriginalForge extends BlockContainer implements ICustomModel {
 		this.setHardness(2);
 		this.setSoundType(SoundType.STONE);
 		this.setHarvestLevel("pickaxe", 0);
-		this.setCreativeTab(CreativeTabList.tabEquipment);
+		this.setCreativeTab(ModCreativeTab.tabEquipment);
 		this.setDefaultState(
 				this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(BURN, false));
 		BlockHandler.BLOCK_REGISTRY.register(this);
@@ -65,7 +65,7 @@ public class BlockOriginalForge extends BlockContainer implements ICustomModel {
 	@Override
 	public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {
 		tooltip.add(TextFormatting.BLUE + I18n.format("tile.equipment.rated_power") + " " + TextFormatting.GOLD
-				+ MathTool.format(TEOriginalForge.POWER * 20) + TextFormatting.GREEN + "W");
+				+ MathUtil.format(TEOriginalForge.POWER * 20) + TextFormatting.GREEN + "W");
 	}
 
 	@Override

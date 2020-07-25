@@ -20,12 +20,12 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class CommonProxy {
 	public void preInit(FMLPreInitializationEvent e) {
 		EnumHandler.register();
-		CreativeTabList.register();
+		ModCreativeTab.register();
 		TEHandler.register();
 		CapabilityHandler.register();
 		NetworkHandler.register();
 		OreHandler.register();
-		MetaItems.init();
+		MetaItems.register();
 	}
 
 	public void init(FMLInitializationEvent e) {

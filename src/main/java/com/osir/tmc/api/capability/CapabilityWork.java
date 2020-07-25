@@ -9,6 +9,7 @@ import com.osir.tmc.api.recipe.AnvilWorkType;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 
@@ -32,13 +33,13 @@ public class CapabilityWork implements IWorkable, ICapabilitySerializable<NBTTag
 
 	@Override
 	public void setWorkProgress(int progress) {
-		this.workProgress = Math.min(Math.max(progress, 0), 150);
+		this.workProgress = MathHelper.clamp(progress, 0, 150);
 	}
 
 	@Override
 	public void addWorkProgress(int add) {
 		this.workProgress += add;
-		this.workProgress = Math.min(Math.max(this.workProgress, 0), 150);
+		this.workProgress = MathHelper.clamp(this.workProgress, 0, 150);
 	}
 
 	@Override
@@ -65,7 +66,7 @@ public class CapabilityWork implements IWorkable, ICapabilitySerializable<NBTTag
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		return capability == CapabilityList.WORKABLE;
+		return capability == ModCapabilities.WORKABLE;
 	}
 
 	@Override
@@ -79,7 +80,9 @@ public class CapabilityWork implements IWorkable, ICapabilitySerializable<NBTTag
 	@Override
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setInteger("progress", this.workProgress);
+		if (this.workProgress > 0) {
+			nbt.setInteger("progress", this.workProgress);
+		}
 		int[] steps = new int[3];
 		AnvilWorkType[] copy = this.lastStep.toArray(new AnvilWorkType[0]);
 		for (int i = 0; i < 3; i++) {
@@ -91,7 +94,9 @@ public class CapabilityWork implements IWorkable, ICapabilitySerializable<NBTTag
 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
-		this.workProgress = nbt.getInteger("progress");
+		if (nbt.hasKey("progress")) {
+			this.workProgress = nbt.getInteger("progress");
+		}
 		int[] steps = nbt.getIntArray("lastStep");
 		for (int i = 0; i < 3; i++) {
 			this.putStep(AnvilWorkType.values()[steps[i]]);

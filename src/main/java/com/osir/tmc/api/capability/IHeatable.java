@@ -1,8 +1,8 @@
 package com.osir.tmc.api.capability;
 
+import com.github.zi_jing.cuckoolib.util.math.MathUtil;
 import com.osir.tmc.api.heat.HeatMaterial;
 import com.osir.tmc.api.heat.TempList;
-import com.osir.tmc.api.util.MathTool;
 
 import net.minecraft.client.resources.I18n;
 
@@ -66,7 +66,7 @@ public interface IHeatable {
 					continue;
 				}
 				str = list[i].getColor() + I18n.format("item.heatable.color." + list[i].getId()) + " "
-						+ MathTool.romanNumber(
+						+ MathUtil.romanNumber(
 								(int) ((temp - list[i].getTemp()) / (list[i + 1].getTemp() - list[i].getTemp()) * 5)
 										+ 1);
 				break;

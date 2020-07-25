@@ -1,9 +1,9 @@
 package com.osir.tmc.te;
 
 import com.osir.tmc.api.capability.CapabilityLiquidContainer;
-import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.capability.ILiquidContainer;
+import com.osir.tmc.api.capability.ModCapabilities;
 import com.osir.tmc.api.util.CapabilityUtil;
 
 import net.minecraft.tileentity.TileEntity;
@@ -12,7 +12,7 @@ import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 
 public class TEMould extends TileEntity implements ITickable {
-	public static final int RESISTANCE = 100;
+	public static final int RESISTANCE = 400;
 
 	protected ILiquidContainer liquid;
 
@@ -33,7 +33,7 @@ public class TEMould extends TileEntity implements ITickable {
 
 	@Override
 	public boolean hasCapability(Capability capability, EnumFacing facing) {
-		return super.hasCapability(capability, facing) || capability == CapabilityList.LIQUID_CONTAINER;
+		return super.hasCapability(capability, facing) || capability == ModCapabilities.LIQUID_CONTAINER;
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class TEMould extends TileEntity implements ITickable {
 		if (super.hasCapability(capability, facing)) {
 			return super.getCapability(capability, facing);
 		}
-		if (capability == CapabilityList.LIQUID_CONTAINER) {
+		if (capability == ModCapabilities.LIQUID_CONTAINER) {
 			return (T) this.liquid;
 		}
 		return null;

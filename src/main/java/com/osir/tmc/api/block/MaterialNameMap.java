@@ -47,4 +47,12 @@ public class MaterialNameMap {
 		MAP.put(Material.WOOD, "wood");
 		Main.getLogger().info(MAP.size() + " material names mapped");
 	}
+
+	public static String getMaterialName(Material material) {
+		return MAP.get(material);
+	}
+
+	public static Material getMaterial(String name) {
+		return INVERSED_MAP.get(name);
+	}
 }

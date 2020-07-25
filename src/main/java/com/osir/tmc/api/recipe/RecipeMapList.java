@@ -1,8 +1,8 @@
 package com.osir.tmc.api.recipe;
 
+import com.github.zi_jing.cuckoolib.util.ItemIndex;
+import com.github.zi_jing.cuckoolib.util.function.Validation;
 import com.osir.tmc.api.heat.MaterialStack;
-import com.osir.tmc.api.util.ItemIndex;
-import com.osir.tmc.api.util.function.Validation;
 
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.builders.SimpleRecipeBuilder;

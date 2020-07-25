@@ -10,6 +10,7 @@ import com.osir.tmc.api.te.MetaValueTileEntity;
 
 import codechicken.lib.vec.Cuboid6;
 import net.minecraft.block.material.Material;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -26,8 +27,9 @@ public class MTEBlower extends MetaValueTileEntity {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public List<IRenderPipeline> getRenderPipeline() {
-		return Arrays.asList(new CubePipeline(this.getPos(), new Cuboid6(0.125, 0.25, 0.25, 0.875, 0.75, 0.75)),
-				new CubePipeline(this.getPos(), new Cuboid6(0, 0, 0, 0.125, 1, 1)),
-				new CubePipeline(this.getPos(), new Cuboid6(0.875, 0, 0, 1, 1, 1)));
+		BlockPos pos = this.getPos();
+		return Arrays.asList(new CubePipeline(pos, new Cuboid6(0.125, 0.25, 0.25, 0.875, 0.75, 0.75)),
+				new CubePipeline(pos, new Cuboid6(0, 0, 0, 0.125, 1, 1)),
+				new CubePipeline(pos, new Cuboid6(0.875, 0, 0, 1, 1, 1)));
 	}
 }

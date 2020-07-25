@@ -7,11 +7,12 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import com.github.zi_jing.cuckoolib.util.ItemIndex;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.capability.IWorkable;
+import com.osir.tmc.api.capability.ModCapabilities;
 import com.osir.tmc.api.gui.PlanUIHolder;
 import com.osir.tmc.api.gui.PlanUIProvider;
 import com.osir.tmc.api.gui.SimpleUIHolder;
@@ -27,7 +28,6 @@ import com.osir.tmc.api.recipe.RecipeMapList;
 import com.osir.tmc.api.recipe.ScalableRecipe;
 import com.osir.tmc.api.render.TextureHelper;
 import com.osir.tmc.api.util.CapabilityUtil;
-import com.osir.tmc.api.util.ItemIndex;
 
 import gregtech.api.gui.GuiTextures;
 import gregtech.api.gui.ModularUI;
@@ -117,10 +117,10 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 		}
 		for (int i = 0; i < 8; i++) {
 			ItemStack stack = this.inventory.getStackInSlot(i);
-			if (!stack.hasCapability(CapabilityList.HEATABLE, null)) {
+			if (!stack.hasCapability(ModCapabilities.HEATABLE, null)) {
 				continue;
 			}
-			IHeatable cap = stack.getCapability(CapabilityList.HEATABLE, null);
+			IHeatable cap = stack.getCapability(ModCapabilities.HEATABLE, null);
 			CapabilityUtil.heatExchange(cap, 20, RESISTANCE);
 		}
 		if (this.world != null) {
@@ -129,16 +129,16 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 	}
 
 	public void onWeld(ClickData data) {
-		if (!this.inventory.getStackInSlot(1).hasCapability(CapabilityList.HEATABLE, null)) {
+		if (!this.inventory.getStackInSlot(1).hasCapability(ModCapabilities.HEATABLE, null)) {
 			return;
 		}
-		if (!this.inventory.getStackInSlot(1).getCapability(CapabilityList.HEATABLE, null).isWeldable()) {
+		if (!this.inventory.getStackInSlot(1).getCapability(ModCapabilities.HEATABLE, null).isWeldable()) {
 			return;
 		}
-		if (!this.inventory.getStackInSlot(2).hasCapability(CapabilityList.HEATABLE, null)) {
+		if (!this.inventory.getStackInSlot(2).hasCapability(ModCapabilities.HEATABLE, null)) {
 			return;
 		}
-		if (!this.inventory.getStackInSlot(2).getCapability(CapabilityList.HEATABLE, null).isWeldable()) {
+		if (!this.inventory.getStackInSlot(2).getCapability(ModCapabilities.HEATABLE, null).isWeldable()) {
 			return;
 		}
 		List<Recipe> recipes = RecipeMapList.MAP_ANVIL.getRecipeList().stream()
@@ -174,10 +174,10 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 	}
 
 	public void onTwine(ClickData data) {
-		if (!this.inventory.getStackInSlot(0).hasCapability(CapabilityList.HEATABLE, null)) {
+		if (!this.inventory.getStackInSlot(0).hasCapability(ModCapabilities.HEATABLE, null)) {
 			return;
 		}
-		if (!this.inventory.getStackInSlot(0).getCapability(CapabilityList.HEATABLE, null).isWorkable()) {
+		if (!this.inventory.getStackInSlot(0).getCapability(ModCapabilities.HEATABLE, null).isWorkable()) {
 			return;
 		}
 		List<Recipe> recipes = RecipeMapList.MAP_ANVIL.getRecipeList().stream()
@@ -211,10 +211,10 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 	}
 
 	public void onBend(ClickData data) {
-		if (!this.inventory.getStackInSlot(3).hasCapability(CapabilityList.HEATABLE, null)) {
+		if (!this.inventory.getStackInSlot(3).hasCapability(ModCapabilities.HEATABLE, null)) {
 			return;
 		}
-		if (!this.inventory.getStackInSlot(3).getCapability(CapabilityList.HEATABLE, null).isWorkable()) {
+		if (!this.inventory.getStackInSlot(3).getCapability(ModCapabilities.HEATABLE, null).isWorkable()) {
 			return;
 		}
 		List<Recipe> recipes = RecipeMapList.MAP_ANVIL.getRecipeList().stream()
@@ -344,10 +344,10 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 	public void renderStepBoard(Position pos, int id) {
 		ItemStack stackA = this.inventory.getStackInSlot(1);
 		ItemStack stackB = this.inventory.getStackInSlot(2);
-		boolean flagA = stackA.hasCapability(CapabilityList.WORKABLE, null);
-		boolean flagB = stackB.hasCapability(CapabilityList.WORKABLE, null);
-		IWorkable capA = stackA.getCapability(CapabilityList.WORKABLE, null);
-		IWorkable capB = stackB.getCapability(CapabilityList.WORKABLE, null);
+		boolean flagA = stackA.hasCapability(ModCapabilities.WORKABLE, null);
+		boolean flagB = stackB.hasCapability(ModCapabilities.WORKABLE, null);
+		IWorkable capA = stackA.getCapability(ModCapabilities.WORKABLE, null);
+		IWorkable capB = stackB.getCapability(ModCapabilities.WORKABLE, null);
 		if (!this.validateWorkItem(capA, capB)) {
 			return;
 		}
@@ -447,10 +447,10 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 		int progressA = 0, progressB = 0;
 		ItemStack stackA = this.inventory.getStackInSlot(1);
 		ItemStack stackB = this.inventory.getStackInSlot(2);
-		boolean flagA = stackA.hasCapability(CapabilityList.WORKABLE, null);
-		boolean flagB = stackB.hasCapability(CapabilityList.WORKABLE, null);
-		IWorkable capA = stackA.getCapability(CapabilityList.WORKABLE, null);
-		IWorkable capB = stackB.getCapability(CapabilityList.WORKABLE, null);
+		boolean flagA = stackA.hasCapability(ModCapabilities.WORKABLE, null);
+		boolean flagB = stackB.hasCapability(ModCapabilities.WORKABLE, null);
+		IWorkable capA = stackA.getCapability(ModCapabilities.WORKABLE, null);
+		IWorkable capB = stackB.getCapability(ModCapabilities.WORKABLE, null);
 		if (!this.validateWorkItem(capA, capB)) {
 			return 0;
 		}
@@ -474,16 +474,16 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 	public void onWork(AnvilWorkType type, EntityPlayer player) {
 		ItemStack stackA = this.inventory.getStackInSlot(1);
 		ItemStack stackB = this.inventory.getStackInSlot(2);
-		boolean flagA = stackA.hasCapability(CapabilityList.WORKABLE, null);
-		boolean flagB = stackB.hasCapability(CapabilityList.WORKABLE, null);
-		IWorkable capA = stackA.getCapability(CapabilityList.WORKABLE, null);
-		IWorkable capB = stackB.getCapability(CapabilityList.WORKABLE, null);
+		boolean flagA = stackA.hasCapability(ModCapabilities.WORKABLE, null);
+		boolean flagB = stackB.hasCapability(ModCapabilities.WORKABLE, null);
+		IWorkable capA = stackA.getCapability(ModCapabilities.WORKABLE, null);
+		IWorkable capB = stackB.getCapability(ModCapabilities.WORKABLE, null);
 		if (!this.validateWorkItem(capA, capB)) {
 			return;
 		}
 		int progress = 0;
 		if (flagA) {
-			if (!stackA.getCapability(CapabilityList.HEATABLE, null).isWorkable()) {
+			if (!stackA.getCapability(ModCapabilities.HEATABLE, null).isWorkable()) {
 				return;
 			}
 			if (type != AnvilWorkType.NONE) {
@@ -493,7 +493,7 @@ public class TEAnvil extends SyncedTileEntityBase implements ITickable, SimpleUI
 			progress = capA.getWorkProgress();
 		}
 		if (flagB) {
-			if (!stackB.getCapability(CapabilityList.HEATABLE, null).isWorkable()) {
+			if (!stackB.getCapability(ModCapabilities.HEATABLE, null).isWorkable()) {
 				return;
 			}
 			if (type != AnvilWorkType.NONE) {

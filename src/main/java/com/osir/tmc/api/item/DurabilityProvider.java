@@ -1,14 +1,15 @@
 package com.osir.tmc.api.item;
 
-import gregtech.api.items.metaitem.stats.IItemDurabilityManager;
+import com.github.zi_jing.cuckoolib.metaitem.module.IDurabilityBarProvider;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class DurabilityManager implements IItemDurabilityManager {
-	public static final IItemDurabilityManager INSTANCE = new DurabilityManager();
+public class DurabilityProvider implements IDurabilityBarProvider {
+	public static final IDurabilityBarProvider INSTANCE = new DurabilityProvider();
 
 	@Override
-	public boolean showsDurabilityBar(ItemStack stack) {
+	public boolean showDurabilityBar(ItemStack stack) {
 		if (!stack.hasTagCompound()) {
 			return false;
 		}

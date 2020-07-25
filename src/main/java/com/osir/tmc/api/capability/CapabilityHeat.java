@@ -8,6 +8,7 @@ import com.osir.tmc.api.heat.MaterialStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 
@@ -95,7 +96,7 @@ public class CapabilityHeat implements IHeatable, ICapabilitySerializable<NBTTag
 	@Override
 	public float getMeltProgress() {
 		float meltEnergy = this.getMeltEnergy();
-		return Math.max(Math.min((this.energy - meltEnergy) / meltEnergy * 10, 1), 0);
+		return MathHelper.clamp((this.energy - meltEnergy) / meltEnergy * 10, 0, 1);
 	}
 
 	@Override
@@ -125,7 +126,7 @@ public class CapabilityHeat implements IHeatable, ICapabilitySerializable<NBTTag
 
 	@Override
 	public boolean hasCapability(Capability capability, EnumFacing facing) {
-		return capability == CapabilityList.HEATABLE;
+		return capability == ModCapabilities.HEATABLE;
 	}
 
 	@Override
@@ -139,12 +140,16 @@ public class CapabilityHeat implements IHeatable, ICapabilitySerializable<NBTTag
 	@Override
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setFloat("energy", this.energy);
+		if (this.energy > 0) {
+			nbt.setFloat("energy", this.energy);
+		}
 		return nbt;
 	}
 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
-		this.energy = nbt.getFloat("energy");
+		if (nbt.hasKey("energy")) {
+			this.energy = nbt.getFloat("energy");
+		}
 	}
 }

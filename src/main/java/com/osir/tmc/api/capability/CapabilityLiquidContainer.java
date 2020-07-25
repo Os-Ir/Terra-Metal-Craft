@@ -20,8 +20,8 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 public class CapabilityLiquidContainer implements ILiquidContainer, ICapabilitySerializable<NBTTagCompound> {
 	public static final ResourceLocation KEY = new ResourceLocation(Main.MODID, "liquid_container");
 
-	private int capacity;
-	private List<IHeatable> materials;
+	protected int capacity;
+	protected List<IHeatable> materials;
 
 	public CapabilityLiquidContainer() {
 		this(144);
@@ -49,16 +49,15 @@ public class CapabilityLiquidContainer implements ILiquidContainer, ICapabilityS
 
 	@Override
 	public int addMaterial(IHeatable material) {
-		if (material.getUnit() == 0) {
+		if (material.getUnit() <= 0) {
 			return 0;
 		}
 		int unit = Math.min(this.capacity - this.getUsedCapacity(), material.getUnit());
 		for (int i = 0; i < this.materials.size(); i++) {
 			IHeatable heat = this.materials.get(i);
 			if (heat.getMaterial().equals(material.getMaterial())) {
-				float energy = heat.getEnergy() + material.getEnergy() * unit / material.getUnit();
 				heat.increaseUnit(unit, false);
-				heat.setEnergy(energy);
+				heat.setEnergy(heat.getEnergy() + material.getEnergy() * unit / material.getUnit());
 				if (heat.getUnit() == 0) {
 					this.materials.remove(i);
 				}
@@ -92,7 +91,7 @@ public class CapabilityLiquidContainer implements ILiquidContainer, ICapabilityS
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		return capability == CapabilityList.LIQUID_CONTAINER;
+		return capability == ModCapabilities.LIQUID_CONTAINER;
 	}
 
 	@Override
@@ -107,12 +106,12 @@ public class CapabilityLiquidContainer implements ILiquidContainer, ICapabilityS
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		NBTTagList list = new NBTTagList();
-		IStorage<IHeatable> storage = CapabilityList.HEATABLE.getStorage();
+		IStorage<IHeatable> storage = ModCapabilities.HEATABLE.getStorage();
 		for (IHeatable heat : this.materials) {
 			NBTTagCompound tag = new NBTTagCompound();
 			tag.setInteger("material", HeatMaterialList.REGISTRY_HEATABLE_MATERIAL.getIDForObject(heat.getMaterial()));
 			tag.setInteger("unit", heat.getUnit());
-			tag.setTag("capability", storage.writeNBT(CapabilityList.HEATABLE, heat, null));
+			tag.setTag("capability", storage.writeNBT(ModCapabilities.HEATABLE, heat, null));
 			list.appendTag(tag);
 		}
 		nbt.setTag("material", list);
@@ -123,14 +122,14 @@ public class CapabilityLiquidContainer implements ILiquidContainer, ICapabilityS
 	public void deserializeNBT(NBTTagCompound nbt) {
 		NBTTagList list = nbt.getTagList("material", 10);
 		Iterator<NBTBase> ite = list.iterator();
-		IStorage<IHeatable> storage = CapabilityList.HEATABLE.getStorage();
+		IStorage<IHeatable> storage = ModCapabilities.HEATABLE.getStorage();
 		this.materials.clear();
 		while (ite.hasNext()) {
 			NBTTagCompound tag = (NBTTagCompound) ite.next();
 			HeatMaterial material = HeatMaterialList.REGISTRY_HEATABLE_MATERIAL
 					.getObjectById(tag.getInteger("material"));
 			IHeatable heat = new CapabilityHeat(material, tag.getInteger("unit"));
-			storage.readNBT(CapabilityList.HEATABLE, heat, null, tag.getTag("capability"));
+			storage.readNBT(ModCapabilities.HEATABLE, heat, null, tag.getTag("capability"));
 			this.materials.add(heat);
 		}
 	}

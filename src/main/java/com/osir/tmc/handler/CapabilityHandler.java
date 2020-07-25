@@ -2,7 +2,7 @@ package com.osir.tmc.handler;
 
 import com.osir.tmc.api.capability.CapabilityHeat;
 import com.osir.tmc.api.capability.CapabilityLiquidContainer;
-import com.osir.tmc.api.capability.CapabilityList;
+import com.osir.tmc.api.capability.ModCapabilities;
 import com.osir.tmc.api.capability.CapabilityWork;
 import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.capability.ILiquidContainer;
@@ -25,8 +25,8 @@ public class CapabilityHandler {
 
 		CapabilityUtil.registerEmptyCapability(IBlowable.class);
 
-		ContainerListenerCapability.register(CapabilityHeat.KEY.toString(), CapabilityList.HEATABLE);
-		ContainerListenerCapability.register(CapabilityWork.KEY.toString(), CapabilityList.WORKABLE);
-		ContainerListenerCapability.register(CapabilityLiquidContainer.KEY.toString(), CapabilityList.LIQUID_CONTAINER);
+		ContainerListenerCapability.register(CapabilityHeat.KEY.toString(), ModCapabilities.HEATABLE);
+		ContainerListenerCapability.register(CapabilityWork.KEY.toString(), ModCapabilities.WORKABLE);
+		ContainerListenerCapability.register(CapabilityLiquidContainer.KEY.toString(), ModCapabilities.LIQUID_CONTAINER);
 	}
 }

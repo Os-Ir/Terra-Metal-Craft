@@ -1,6 +1,6 @@
 package com.osir.tmc.api.render;
 
-import com.osir.tmc.api.util.registry.UnorderedRegistry;
+import com.github.zi_jing.cuckoolib.util.registry.UnorderedRegistry;
 
 import codechicken.lib.texture.TextureUtils;
 import codechicken.lib.texture.TextureUtils.IIconRegister;

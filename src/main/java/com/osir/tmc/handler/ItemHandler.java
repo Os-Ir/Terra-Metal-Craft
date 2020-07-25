@@ -1,7 +1,7 @@
 package com.osir.tmc.handler;
 
+import com.github.zi_jing.cuckoolib.util.registry.UnorderedRegistry;
 import com.osir.tmc.Main;
-import com.osir.tmc.api.util.registry.UnorderedRegistry;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent.Register;

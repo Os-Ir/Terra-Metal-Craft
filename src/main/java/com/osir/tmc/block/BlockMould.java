@@ -2,11 +2,11 @@ package com.osir.tmc.block;
 
 import java.util.List;
 
-import com.osir.tmc.CreativeTabList;
+import com.osir.tmc.ModCreativeTab;
 import com.osir.tmc.Main;
-import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.capability.ILiquidContainer;
+import com.osir.tmc.api.capability.ModCapabilities;
 import com.osir.tmc.api.heat.HeatMaterial;
 import com.osir.tmc.api.render.ICustomModel;
 import com.osir.tmc.handler.BlockHandler;
@@ -41,12 +41,12 @@ public class BlockMould extends BlockContainer implements ICustomModel {
 	public static final AxisAlignedBB MOULD_AABB = new AxisAlignedBB(0.125, 0, 0.125, 0.875, 0.25, 0.875);
 
 	public BlockMould() {
-		super(Material.ROCK);
+		super(Material.CLAY);
 		this.setUnlocalizedName("mould");
 		this.setRegistryName(Main.MODID, "mould");
 		this.setHardness(0.5F);
 		this.setSoundType(SoundType.STONE);
-		this.setCreativeTab(CreativeTabList.tabEquipment);
+		this.setCreativeTab(ModCreativeTab.tabEquipment);
 		BlockHandler.BLOCK_REGISTRY.register(this);
 		ItemHandler.ITEM_REGISTRY.register(new ItemMould(this));
 	}
@@ -56,13 +56,13 @@ public class BlockMould extends BlockContainer implements ICustomModel {
 			int fortune) {
 		ItemStack stack = new ItemStack(BlockHandler.MOULD);
 		TileEntity te = world.getTileEntity(pos);
-		if (te.hasCapability(CapabilityList.LIQUID_CONTAINER, null)
-				&& stack.hasCapability(CapabilityList.LIQUID_CONTAINER, null)) {
-			IStorage<ILiquidContainer> storage = CapabilityList.LIQUID_CONTAINER.getStorage();
-			NBTBase nbt = storage.writeNBT(CapabilityList.LIQUID_CONTAINER,
-					te.getCapability(CapabilityList.LIQUID_CONTAINER, null), null);
-			storage.readNBT(CapabilityList.LIQUID_CONTAINER, stack.getCapability(CapabilityList.LIQUID_CONTAINER, null),
-					null, nbt);
+		if (te.hasCapability(ModCapabilities.LIQUID_CONTAINER, null)
+				&& stack.hasCapability(ModCapabilities.LIQUID_CONTAINER, null)) {
+			IStorage<ILiquidContainer> storage = ModCapabilities.LIQUID_CONTAINER.getStorage();
+			NBTBase nbt = storage.writeNBT(ModCapabilities.LIQUID_CONTAINER,
+					te.getCapability(ModCapabilities.LIQUID_CONTAINER, null), null);
+			storage.readNBT(ModCapabilities.LIQUID_CONTAINER,
+					stack.getCapability(ModCapabilities.LIQUID_CONTAINER, null), null, nbt);
 		}
 		drops.add(stack);
 	}
@@ -70,8 +70,8 @@ public class BlockMould extends BlockContainer implements ICustomModel {
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer,
 			ItemStack stack) {
-		if (stack.hasCapability(CapabilityList.LIQUID_CONTAINER, null)) {
-			world.setTileEntity(pos, new TEMould(stack.getCapability(CapabilityList.LIQUID_CONTAINER, null)));
+		if (stack.hasCapability(ModCapabilities.LIQUID_CONTAINER, null)) {
+			world.setTileEntity(pos, new TEMould(stack.getCapability(ModCapabilities.LIQUID_CONTAINER, null)));
 		}
 	}
 
@@ -98,8 +98,8 @@ public class BlockMould extends BlockContainer implements ICustomModel {
 			return true;
 		}
 		TileEntity te = world.getTileEntity(pos);
-		if (te.hasCapability(CapabilityList.LIQUID_CONTAINER, null)) {
-			ILiquidContainer cap = te.getCapability(CapabilityList.LIQUID_CONTAINER, null);
+		if (te.hasCapability(ModCapabilities.LIQUID_CONTAINER, null)) {
+			ILiquidContainer cap = te.getCapability(ModCapabilities.LIQUID_CONTAINER, null);
 			List<IHeatable> list = cap.getMaterial();
 			if (!list.isEmpty()) {
 				IHeatable heat = list.get(0);

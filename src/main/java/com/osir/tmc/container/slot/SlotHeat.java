@@ -1,6 +1,6 @@
 package com.osir.tmc.container.slot;
 
-import com.osir.tmc.api.capability.CapabilityList;
+import com.osir.tmc.api.capability.ModCapabilities;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
@@ -13,6 +13,6 @@ public class SlotHeat extends SlotItemHandler {
 
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-		return stack.hasCapability(CapabilityList.HEATABLE, null) && super.isItemValid(stack);
+		return stack.hasCapability(ModCapabilities.HEATABLE, null) && super.isItemValid(stack);
 	}
 }

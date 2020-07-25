@@ -10,13 +10,17 @@ public class StorageHeat implements IStorage<IHeatable> {
 	@Override
 	public NBTBase writeNBT(Capability<IHeatable> capability, IHeatable instance, EnumFacing side) {
 		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setFloat("energy", instance.getEnergy());
+		if (instance.getEnergy() > 0) {
+			nbt.setFloat("energy", instance.getEnergy());
+		}
 		return nbt;
 	}
 
 	@Override
 	public void readNBT(Capability<IHeatable> capability, IHeatable instance, EnumFacing side, NBTBase base) {
 		NBTTagCompound nbt = (NBTTagCompound) base;
-		instance.setEnergy(nbt.getFloat("energy"));
+		if (nbt.hasKey("energy")) {
+			instance.setEnergy(nbt.getFloat("energy"));
+		}
 	}
 }

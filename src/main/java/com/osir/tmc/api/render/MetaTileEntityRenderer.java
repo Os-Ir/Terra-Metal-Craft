@@ -78,6 +78,7 @@ public class MetaTileEntityRenderer implements ICCBlockRenderer, IItemRenderer {
 					render.render();
 				}
 			}
+			meta.onRender(render);
 		}
 		return true;
 	}
@@ -102,6 +103,7 @@ public class MetaTileEntityRenderer implements ICCBlockRenderer, IItemRenderer {
 				render.render();
 			}
 		}
+		meta.onRender(render);
 		render.draw();
 		GlStateManager.disableBlend();
 	}

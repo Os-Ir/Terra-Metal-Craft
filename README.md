@@ -2,6 +2,7 @@
 A Minecraft mod giving an overview of metal craft in human history like Terra Firma Craft
 ## About Development
 ### Dependencies
+* Cuckoo Lib [1.12.2](https://github.com/zi-jing/CuckooLib)
 * GregTech Community Edition [1.12.2](https://github.com/GregTechCE/GregTech)
 * Code Chicken Lib [1.12.2](https://github.com/TheCBProject/CodeChickenLib/tree/1.12.x)
 ### Reference

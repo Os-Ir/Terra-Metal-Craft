@@ -18,12 +18,12 @@ public class StorageLiquidContainer implements IStorage<ILiquidContainer> {
 	public NBTBase writeNBT(Capability<ILiquidContainer> capability, ILiquidContainer instance, EnumFacing side) {
 		NBTTagCompound nbt = new NBTTagCompound();
 		NBTTagList list = new NBTTagList();
-		IStorage<IHeatable> storage = CapabilityList.HEATABLE.getStorage();
+		IStorage<IHeatable> storage = ModCapabilities.HEATABLE.getStorage();
 		for (IHeatable heat : instance.getMaterial()) {
 			NBTTagCompound tag = new NBTTagCompound();
 			tag.setInteger("material", HeatMaterialList.REGISTRY_HEATABLE_MATERIAL.getIDForObject(heat.getMaterial()));
 			tag.setInteger("unit", heat.getUnit());
-			tag.setTag("capability", storage.writeNBT(CapabilityList.HEATABLE, heat, null));
+			tag.setTag("capability", storage.writeNBT(ModCapabilities.HEATABLE, heat, null));
 			list.appendTag(tag);
 		}
 		nbt.setTag("material", list);
@@ -36,7 +36,7 @@ public class StorageLiquidContainer implements IStorage<ILiquidContainer> {
 		NBTTagCompound nbt = (NBTTagCompound) base;
 		NBTTagList list = nbt.getTagList("material", 10);
 		Iterator<NBTBase> ite = list.iterator();
-		IStorage<IHeatable> storage = CapabilityList.HEATABLE.getStorage();
+		IStorage<IHeatable> storage = ModCapabilities.HEATABLE.getStorage();
 		List<IHeatable> materialList = instance.getMaterial();
 		materialList.clear();
 		while (ite.hasNext()) {
@@ -44,7 +44,7 @@ public class StorageLiquidContainer implements IStorage<ILiquidContainer> {
 			HeatMaterial material = HeatMaterialList.REGISTRY_HEATABLE_MATERIAL
 					.getObjectById(tag.getInteger("material"));
 			IHeatable heat = new CapabilityHeat(material, tag.getInteger("unit"));
-			storage.readNBT(CapabilityList.HEATABLE, heat, null, tag.getTag("capability"));
+			storage.readNBT(ModCapabilities.HEATABLE, heat, null, tag.getTag("capability"));
 			materialList.add(heat);
 		}
 	}

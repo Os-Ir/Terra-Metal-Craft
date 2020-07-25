@@ -4,6 +4,7 @@ import com.osir.tmc.Main;
 import com.osir.tmc.api.te.MetaTileEntity;
 import com.osir.tmc.api.te.MetaTileEntityRegistry;
 import com.osir.tmc.te.MTEBlower;
+import com.osir.tmc.te.MTEStoneWorkTable;
 import com.osir.tmc.te.TEAnvil;
 import com.osir.tmc.te.TEBasin;
 import com.osir.tmc.te.TEMould;
@@ -21,5 +22,6 @@ public class TEHandler {
 		GameRegistry.registerTileEntity(MetaTileEntity.class, new ResourceLocation(Main.MODID, "meta_tile_entity"));
 
 		MetaTileEntityRegistry.register(0, new MTEBlower());
+		MetaTileEntityRegistry.register(1, new MTEStoneWorkTable());
 	}
 }

@@ -2,7 +2,7 @@ package com.osir.tmc.block;
 
 import java.util.List;
 
-import com.osir.tmc.CreativeTabList;
+import com.osir.tmc.ModCreativeTab;
 import com.osir.tmc.Main;
 import com.osir.tmc.api.gui.SimpleUIHolder;
 import com.osir.tmc.api.gui.factory.CapabilitySyncedUIFactory;
@@ -53,7 +53,7 @@ public class BlockAnvil extends BlockContainer implements ICustomModel, IStateMa
 		this.setRegistryName(Main.MODID, "anvil." + material.getAnvilMaterial());
 		this.setHardness(material.getLevel() + 3);
 		this.setHarvestLevel("pickaxe", (material.getLevel() < 2) ? 1 : 2);
-		this.setCreativeTab(CreativeTabList.tabEquipment);
+		this.setCreativeTab(ModCreativeTab.tabEquipment);
 		this.setSoundType(SoundType.ANVIL);
 		BlockHandler.BLOCK_REGISTRY.register(this);
 		ItemHandler.ITEM_REGISTRY

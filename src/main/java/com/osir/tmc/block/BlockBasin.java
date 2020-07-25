@@ -2,7 +2,7 @@ package com.osir.tmc.block;
 
 import java.util.List;
 
-import com.osir.tmc.CreativeTabList;
+import com.osir.tmc.ModCreativeTab;
 import com.osir.tmc.Main;
 import com.osir.tmc.api.render.ICustomModel;
 import com.osir.tmc.handler.BlockHandler;
@@ -47,7 +47,7 @@ public class BlockBasin extends BlockContainer implements ICustomModel {
 		this.setRegistryName(Main.MODID, "basin");
 		this.setHardness(1);
 		this.setSoundType(SoundType.WOOD);
-		this.setCreativeTab(CreativeTabList.tabEquipment);
+		this.setCreativeTab(ModCreativeTab.tabEquipment);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(WATER, false));
 		BlockHandler.BLOCK_REGISTRY.register(this);
 		ItemHandler.ITEM_REGISTRY.register(new ItemBlock(this).setRegistryName(Main.MODID, "basin"));

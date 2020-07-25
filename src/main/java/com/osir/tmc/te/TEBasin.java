@@ -3,9 +3,9 @@ package com.osir.tmc.te;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.capability.ILiquidContainer;
+import com.osir.tmc.api.capability.ModCapabilities;
 import com.osir.tmc.api.recipe.RecipeMapList;
 import com.osir.tmc.block.BlockBasin;
 import com.osir.tmc.handler.BlockHandler;
@@ -36,16 +36,16 @@ public class TEBasin extends SyncedTileEntityBase {
 		if (this.amount < 200) {
 			return ItemStack.EMPTY;
 		}
-		if (stack.hasCapability(CapabilityList.HEATABLE, null)) {
-			IHeatable cap = stack.getCapability(CapabilityList.HEATABLE, null);
+		if (stack.hasCapability(ModCapabilities.HEATABLE, null)) {
+			IHeatable cap = stack.getCapability(ModCapabilities.HEATABLE, null);
 			if (cap.getEnergy() != 0) {
 				cap.setEnergy(0);
 				this.consumeWater();
 			}
 			return ItemStack.EMPTY;
 		}
-		if (stack.hasCapability(CapabilityList.LIQUID_CONTAINER, null)) {
-			ILiquidContainer cap = stack.getCapability(CapabilityList.LIQUID_CONTAINER, null);
+		if (stack.hasCapability(ModCapabilities.LIQUID_CONTAINER, null)) {
+			ILiquidContainer cap = stack.getCapability(ModCapabilities.LIQUID_CONTAINER, null);
 			boolean consume = false;
 			for (IHeatable heat : cap.getMaterial()) {
 				if (heat.getEnergy() != 0) {

@@ -2,14 +2,14 @@ package com.osir.tmc.handler;
 
 import java.util.List;
 
+import com.github.zi_jing.cuckoolib.util.DividedInfoBuilder;
 import com.osir.tmc.Main;
-import com.osir.tmc.api.capability.CapabilityList;
 import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.capability.ILiquidContainer;
 import com.osir.tmc.api.capability.IWorkable;
+import com.osir.tmc.api.capability.ModCapabilities;
 import com.osir.tmc.api.heat.HeatMaterial;
 import com.osir.tmc.api.render.MetaTileEntityRenderer;
-import com.osir.tmc.api.util.DividedInfoBuilder;
 import com.osir.tmc.block.BlockAnvil;
 
 import net.minecraft.block.Block;
@@ -64,10 +64,10 @@ public class EventHandlerClient {
 	@SideOnly(Side.CLIENT)
 	public static void onHeatableItemTooltip(ItemTooltipEvent e) {
 		ItemStack stack = e.getItemStack();
-		if (!stack.hasCapability(CapabilityList.HEATABLE, null)) {
+		if (!stack.hasCapability(ModCapabilities.HEATABLE, null)) {
 			return;
 		}
-		IHeatable cap = stack.getCapability(CapabilityList.HEATABLE, null);
+		IHeatable cap = stack.getCapability(ModCapabilities.HEATABLE, null);
 		List<String> tooltip = e.getToolTip();
 		String str = TextFormatting.WHITE + "" + cap.getTemp() + "\u2103";
 		if (cap.getTemp() != 20) {
@@ -104,10 +104,10 @@ public class EventHandlerClient {
 	@SideOnly(Side.CLIENT)
 	public static void onWorkableItemTooltip(ItemTooltipEvent e) {
 		ItemStack stack = e.getItemStack();
-		if (!stack.hasCapability(CapabilityList.WORKABLE, null)) {
+		if (!stack.hasCapability(ModCapabilities.WORKABLE, null)) {
 			return;
 		}
-		IWorkable cap = stack.getCapability(CapabilityList.WORKABLE, null);
+		IWorkable cap = stack.getCapability(ModCapabilities.WORKABLE, null);
 		List<String> tooltip = e.getToolTip();
 		if (cap.isWorked()) {
 			tooltip.add(I18n.format("item.workable.worked"));
@@ -118,10 +118,10 @@ public class EventHandlerClient {
 	@SideOnly(Side.CLIENT)
 	public static void onLiquidContainerTooltip(ItemTooltipEvent e) {
 		ItemStack stack = e.getItemStack();
-		if (!stack.hasCapability(CapabilityList.LIQUID_CONTAINER, null)) {
+		if (!stack.hasCapability(ModCapabilities.LIQUID_CONTAINER, null)) {
 			return;
 		}
-		ILiquidContainer cap = stack.getCapability(CapabilityList.LIQUID_CONTAINER, null);
+		ILiquidContainer cap = stack.getCapability(ModCapabilities.LIQUID_CONTAINER, null);
 		List<String> tooltip = e.getToolTip();
 		tooltip.add(TextFormatting.BLUE + I18n.format("item.liquidContainer.state.capacity") + " " + TextFormatting.GOLD
 				+ cap.getCapacity() + TextFormatting.GREEN + "L");

@@ -3,7 +3,7 @@ package com.osir.tmc.item;
 import java.util.List;
 
 import com.osir.tmc.Main;
-import com.osir.tmc.api.capability.CapabilityList;
+import com.osir.tmc.api.capability.ModCapabilities;
 import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.capability.ILiquidContainer;
 import com.osir.tmc.api.heat.HeatMaterial;
@@ -28,8 +28,8 @@ public class ItemMould extends ItemBlock {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack mould = player.getHeldItem(hand);
-		if (mould.hasCapability(CapabilityList.LIQUID_CONTAINER, null)) {
-			ILiquidContainer cap = mould.getCapability(CapabilityList.LIQUID_CONTAINER, null);
+		if (mould.hasCapability(ModCapabilities.LIQUID_CONTAINER, null)) {
+			ILiquidContainer cap = mould.getCapability(ModCapabilities.LIQUID_CONTAINER, null);
 			List<IHeatable> list = cap.getMaterial();
 			if (!list.isEmpty()) {
 				IHeatable heat = list.get(0);
