@@ -1,5 +1,6 @@
 package com.osir.tmc.te;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
@@ -57,13 +59,14 @@ public class MTEStoneWorkTable extends MetaValueTileEntity {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public List<IRenderPipeline> getRenderPipeline() {
+	public List<IRenderPipeline> getRenderPipeline(boolean renderItem) {
+		BlockPos pos = renderItem ? BlockPos.ORIGIN : this.getPos();
 		List<IRenderPipeline> list = new ArrayList<IRenderPipeline>();
-		list.add(new CubePipeline(this.getPos(), new Cuboid6(0, 0, 0, 1, 0.875, 1))
-				.addSideTexture(TEXTURE_SIDE.getTexture()).addTexture(EnumFacing.UP, TEXTURE_TOP.getTexture())
+		list.add(new CubePipeline(pos, new Cuboid6(0, 0, 0, 1, 0.875, 1)).addSideTexture(TEXTURE_SIDE.getTexture())
+				.addTexture(EnumFacing.UP, TEXTURE_TOP.getTexture())
 				.addTexture(EnumFacing.DOWN, TEXTURE_TOP.getTexture()));
 		if (!this.engraving.isEmpty()) {
-			list.add(new CubePipeline(this.getPos(), new Cuboid6(0.125, 0.875, 0.125, 0.875, 0.9375, 0.875))
+			list.add(new CubePipeline(pos, new Cuboid6(0.125, 0.875, 0.125, 0.875, 0.9375, 0.875))
 					.addSideTexture(TEXTURE_ENGRAVING_SIDE.getTexture())
 					.addTexture(EnumFacing.UP, TEXTURE_ENGRAVING_TOP.getTexture())
 					.addTexture(EnumFacing.DOWN, TEXTURE_ENGRAVING_TOP.getTexture()));
@@ -95,6 +98,27 @@ public class MTEStoneWorkTable extends MetaValueTileEntity {
 	@Override
 	public MetaValueTileEntity create() {
 		return new MTEStoneWorkTable();
+	}
+
+	@Override
+	public void writeInitialSyncData(PacketBuffer buf) {
+		if (!this.engraving.isEmpty()) {
+			buf.writeBoolean(true);
+			buf.writeItemStack(this.engraving);
+		} else {
+			buf.writeBoolean(false);
+		}
+	}
+
+	@Override
+	public void receiveInitialSyncData(PacketBuffer buf) {
+		if (buf.readBoolean()) {
+			try {
+				this.engraving = buf.readItemStack();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override

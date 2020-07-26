@@ -68,7 +68,8 @@ public class MetaTileEntity extends SyncedTileEntityBase implements ITickable {
 	public void receiveInitialSyncData(PacketBuffer buf) {
 		if (buf.readBoolean()) {
 			this.init(MetaTileEntityRegistry.getMetaTileEntity(buf.readString(Short.MAX_VALUE),
-					MaterialNameMap.getMaterial(buf.readString(Short.MAX_VALUE)), buf.readString(Short.MAX_VALUE)));
+					MaterialNameMap.getMaterial(buf.readString(Short.MAX_VALUE)), buf.readString(Short.MAX_VALUE))
+					.create());
 			this.metaValue.receiveInitialSyncData(buf);
 		}
 	}
@@ -96,8 +97,11 @@ public class MetaTileEntity extends SyncedTileEntityBase implements ITickable {
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		if (nbt.hasKey("modid")) {
-			this.init(MetaTileEntityRegistry.getMetaTileEntity(nbt.getString("modid"),
-					MaterialNameMap.getMaterial(nbt.getString("material")), nbt.getString("name")));
+			this.init(
+					MetaTileEntityRegistry
+							.getMetaTileEntity(nbt.getString("modid"),
+									MaterialNameMap.getMaterial(nbt.getString("material")), nbt.getString("name"))
+							.create());
 			this.metaValue.readFromNBT(nbt);
 		}
 	}

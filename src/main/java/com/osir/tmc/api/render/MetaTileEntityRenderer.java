@@ -18,7 +18,6 @@ import codechicken.lib.render.item.IItemRenderer;
 import codechicken.lib.render.pipeline.IVertexOperation;
 import codechicken.lib.texture.TextureUtils;
 import codechicken.lib.util.TransformUtils;
-import gregtech.api.util.ModCompatibility;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -69,7 +68,7 @@ public class MetaTileEntityRenderer implements ICCBlockRenderer, IItemRenderer {
 			render.reset();
 			render.bind(buffer);
 			render.lightMatrix.locate(world, pos);
-			List<IRenderPipeline> list = meta.getRenderPipeline();
+			List<IRenderPipeline> list = meta.getRenderPipeline(false);
 			IVertexOperation[] ops = new IVertexOperation[] { render.lightMatrix };
 			for (EnumFacing facing : EnumFacing.VALUES) {
 				for (IRenderPipeline pipeline : list) {
@@ -86,7 +85,7 @@ public class MetaTileEntityRenderer implements ICCBlockRenderer, IItemRenderer {
 
 	@Override
 	public void renderItem(ItemStack stack, TransformType transformType) {
-		MetaValueTileEntity meta = MetaTileEntityRegistry.getMetaTileEntity(ModCompatibility.getRealItemStack(stack));
+		MetaValueTileEntity meta = MetaTileEntityRegistry.getMetaTileEntity(stack);
 		if (meta == null) {
 			return;
 		}
@@ -94,7 +93,7 @@ public class MetaTileEntityRenderer implements ICCBlockRenderer, IItemRenderer {
 		CCRenderState render = CCRenderState.instance();
 		render.reset();
 		render.startDrawing(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
-		List<IRenderPipeline> list = meta.getRenderPipeline();
+		List<IRenderPipeline> list = meta.getRenderPipeline(true);
 		IVertexOperation[] ops = new IVertexOperation[0];
 		for (EnumFacing facing : EnumFacing.VALUES) {
 			for (IRenderPipeline pipeline : list) {

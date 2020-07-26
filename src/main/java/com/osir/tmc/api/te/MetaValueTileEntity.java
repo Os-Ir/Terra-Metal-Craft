@@ -154,8 +154,9 @@ public abstract class MetaValueTileEntity implements IPaintable {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public List<IRenderPipeline> getRenderPipeline() {
-		return Arrays.asList(new CubePipeline(this.getPos(), new Cuboid6(0, 0, 0, 1, 1, 1)));
+	public List<IRenderPipeline> getRenderPipeline(boolean renderItem) {
+		BlockPos pos = renderItem ? BlockPos.ORIGIN : this.getPos();
+		return Arrays.asList(new CubePipeline(pos, new Cuboid6(0, 0, 0, 1, 1, 1)));
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -19,6 +19,8 @@ public class MetaItems {
 	public static MetaValueItem coin;
 	public static MetaValueItem grindedFlint;
 	public static MetaValueItem chippedFlint;
+	public static MetaValueItem sharpFlint;
+
 	public static MetaValueItem toolEngraving;
 
 	public static void register() {
@@ -30,7 +32,7 @@ public class MetaItems {
 		});
 		grindedFlint = META_ITEM.addItem(1, "grinded_flint").addModule(DurabilityProvider.INSTANCE);
 		chippedFlint = META_ITEM.addItem(2, "chipped_flint").addModule(DurabilityProvider.INSTANCE);
-		toolEngraving = META_ITEM.addItem(3, "tool_engraving")
+		toolEngraving = META_ITEM.addItem(10, "tool_engraving")
 				.addModule((IItemTooltipProvider) (stack, world, tooltip, flag) -> {
 					NBTTagCompound nbtStack = NBTAdapter.getItemStackCompound(stack);
 					if (nbtStack.hasKey("engraving_type")) {

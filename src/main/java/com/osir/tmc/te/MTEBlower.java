@@ -26,8 +26,8 @@ public class MTEBlower extends MetaValueTileEntity {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public List<IRenderPipeline> getRenderPipeline() {
-		BlockPos pos = this.getPos();
+	public List<IRenderPipeline> getRenderPipeline(boolean renderItem) {
+		BlockPos pos = renderItem ? BlockPos.ORIGIN : this.getPos();
 		return Arrays.asList(new CubePipeline(pos, new Cuboid6(0.125, 0.25, 0.25, 0.875, 0.75, 0.75)),
 				new CubePipeline(pos, new Cuboid6(0, 0, 0, 0.125, 1, 1)),
 				new CubePipeline(pos, new Cuboid6(0.875, 0, 0, 1, 1, 1)));
