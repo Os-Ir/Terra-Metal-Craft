@@ -3,9 +3,9 @@ package com.osir.tmc.item;
 import java.util.List;
 
 import com.osir.tmc.Main;
-import com.osir.tmc.api.capability.ModCapabilities;
 import com.osir.tmc.api.capability.IHeatable;
 import com.osir.tmc.api.capability.ILiquidContainer;
+import com.osir.tmc.api.capability.ModCapabilities;
 import com.osir.tmc.api.heat.HeatMaterial;
 
 import gregtech.api.unification.OreDictUnifier;

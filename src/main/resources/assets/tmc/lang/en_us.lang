@@ -12,6 +12,8 @@ metaitem.tmc.grinded_flint.name=Grinded Flint
 metaitem.tmc.chipped_flint.name=Chipped Flint
 metaitem.tmc.tool_engraving.name=Tool Engraving
 
+metaitem.tmc.tool.knife.name=%s Knife
+
 metaitem.tmc.coin.tmc.info=Commemorative coin for Terra Metal Craft
 metaitem.tmc.coin.tmc.date=Release Date:
 metaitem.tmc.tool_engraving.type=Tool Type:
@@ -50,7 +52,6 @@ tmc.command.debug.deposit.info_2=Ore: [%s]  Weight: [%s]
 tile.equipment.rated_power=Rated Power:
 tile.equipment.basin_1=Right click to add water using container
 tile.equipment.basin_2=Right click to clean/cool the held item
-tile.equipment.anvil=It may be Lily White's
 
 tile.original_forge.name=Original Forge
 tile.mould.name=Mould

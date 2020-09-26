@@ -2,8 +2,8 @@ package com.osir.tmc.block;
 
 import java.util.List;
 
-import com.osir.tmc.ModCreativeTab;
 import com.osir.tmc.Main;
+import com.osir.tmc.ModCreativeTab;
 import com.osir.tmc.api.gui.SimpleUIHolder;
 import com.osir.tmc.api.gui.factory.CapabilitySyncedUIFactory;
 import com.osir.tmc.api.model.ICustomModel;
@@ -20,7 +20,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -67,7 +66,7 @@ public class BlockAnvil extends BlockContainer implements ICustomModel, IStateMa
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {
-		tooltip.add(I18n.format("tile.equipment.anvil"));
+
 	}
 
 	@Override
