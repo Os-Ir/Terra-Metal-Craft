@@ -1,14 +1,12 @@
 package com.osir.tmc;
 
 import com.osir.tmc.api.util.PhysicalUnitLoader;
+import com.osir.tmc.handler.BlockHandler;
 import com.osir.tmc.handler.CapabilityHandler;
 import com.osir.tmc.handler.EnumHandler;
-import com.osir.tmc.handler.GuiHandler;
+import com.osir.tmc.handler.ItemHandler;
 import com.osir.tmc.handler.NetworkHandler;
-import com.osir.tmc.handler.OreHandler;
-import com.osir.tmc.handler.TEHandler;
-import com.osir.tmc.handler.recipe.RecipeHandler;
-import com.osir.tmc.item.MetaItems;
+import com.osir.tmc.handler.RecipeHandler;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IThreadListener;
@@ -21,16 +19,15 @@ public class CommonProxy {
 	public void preInit(FMLPreInitializationEvent e) {
 		EnumHandler.register();
 		ModCreativeTab.register();
-		TEHandler.register();
+		BlockHandler.registerTileEntity();
 		CapabilityHandler.register();
 		NetworkHandler.register();
-		OreHandler.register();
-		MetaItems.register();
+		RecipeHandler.registerOreRecipe();
+		ItemHandler.registerMetaItem();
 	}
 
 	public void init(FMLInitializationEvent e) {
-		new GuiHandler();
-		RecipeHandler.register();
+		RecipeHandler.registerCraftingRecipe();
 		PhysicalUnitLoader.load();
 	}
 

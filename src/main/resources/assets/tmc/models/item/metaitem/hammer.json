@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "tmc:items/metaitem/hammer_0",
+	"layer1": "tmc:items/metaitem/hammer_1"
+  }
+}

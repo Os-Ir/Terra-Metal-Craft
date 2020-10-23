@@ -9,7 +9,7 @@ import com.osir.tmc.api.render.CubePipeline;
 import com.osir.tmc.api.render.IRenderPipeline;
 import com.osir.tmc.api.te.MetaValueTileEntity;
 import com.osir.tmc.api.texture.TextureRegister;
-import com.osir.tmc.item.MetaItems;
+import com.osir.tmc.handler.ItemHandler;
 
 import codechicken.lib.vec.Cuboid6;
 import net.minecraft.block.material.Material;
@@ -79,7 +79,7 @@ public class MTEStoneWorkTable extends MetaValueTileEntity {
 			EnumFacing facing, float hitX, float hitY, float hitZ) {
 		ItemStack heldStack = player.getHeldItem(hand);
 		if (this.engraving.isEmpty()) {
-			if (MetaItems.toolEngraving.isItemEqual(heldStack)) {
+			if (ItemHandler.toolEngraving.isItemEqual(heldStack)) {
 				this.engraving = heldStack.copy();
 				this.engraving.setCount(1);
 				heldStack.shrink(1);

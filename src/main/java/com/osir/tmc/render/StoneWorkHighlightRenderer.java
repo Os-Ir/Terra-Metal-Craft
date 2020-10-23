@@ -3,6 +3,7 @@ package com.osir.tmc.render;
 import org.lwjgl.opengl.GL11;
 
 import com.osir.tmc.Main;
+import com.osir.tmc.handler.ItemHandler;
 
 import codechicken.lib.vec.Vector3;
 import net.minecraft.block.Block;
@@ -46,7 +47,8 @@ public class StoneWorkHighlightRenderer {
 			return;
 		}
 		ItemStack stack = player.getHeldItem(EnumHand.MAIN_HAND);
-		if (stack.getItem() != Items.FLINT) {
+		if (stack.getItem() != Items.FLINT && !ItemHandler.chippedFlint.isItemEqual(stack)
+				&& !ItemHandler.grindedFlint.isItemEqual(stack)) {
 			return;
 		}
 		GlStateManager.enableBlend();

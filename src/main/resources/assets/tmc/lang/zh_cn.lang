@@ -6,6 +6,7 @@ gui.button.anvil.bend=弯曲
 
 itemGroup.tmc.equipment=群峦金属工艺-设备
 itemGroup.tmc.item=群峦金属工艺-物品
+itemGroup.tmc.material=群峦金属工艺-材料
 
 metaitem.tmc.coin.tmc.name=TMC纪念币
 metaitem.tmc.grinded_flint.name=磨制燧石
@@ -13,6 +14,8 @@ metaitem.tmc.chipped_flint.name=打制燧石
 metaitem.tmc.tool_engraving.name=工具模板
 
 metaitem.tmc.tool.knife.name=%s刀
+metaitem.tmc.tool.hammer.name=%s锤
+metaitem.tmc.tool.chisel.name=%s凿子
 
 metaitem.tmc.coin.tmc.info=Terra Metal Craft纪念币
 metaitem.tmc.coin.tmc.date=发行日期:

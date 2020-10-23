@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.github.zi_jing.cuckoolib.util.registry.WeightedRegistry;
-import com.osir.tmc.handler.recipe.OrePrefixRecipeHandler;
+import com.osir.tmc.handler.OrePrefixRecipeHandler;
 
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.material.type.Material;

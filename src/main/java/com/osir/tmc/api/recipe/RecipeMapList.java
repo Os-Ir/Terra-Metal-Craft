@@ -1,12 +1,9 @@
 package com.osir.tmc.api.recipe;
 
-import com.github.zi_jing.cuckoolib.util.ItemIndex;
-import com.github.zi_jing.cuckoolib.util.function.Validation;
 import com.osir.tmc.api.heat.MaterialStack;
 
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.builders.SimpleRecipeBuilder;
-import net.minecraft.item.ItemStack;
 
 public class RecipeMapList {
 	public static final RecipeValueFormat FORMAT_ANVIL = new RecipeValueFormat("type",
@@ -30,10 +27,4 @@ public class RecipeMapList {
 			1, 1, 0, 0, 0, 0, 0, 0, new ScalableRecipeBuilder().addFormat(FORMAT_MATERIAL).EUt(1).duration(1));
 	public static final RecipeMap<SimpleRecipeBuilder> MAP_CLEAN = new RecipeMap<SimpleRecipeBuilder>("clean", 1, 1, 1,
 			1, 0, 0, 0, 0, new SimpleRecipeBuilder().EUt(1).duration(1));
-
-	public static final Validation<ItemIndex, ItemStack> VALI_ITEM = (idx, stack) -> idx.getItem() == stack.getItem();
-	public static final Validation<ItemIndex, ItemStack> VALI_META = (idx,
-			stack) -> idx.getMeta() == stack.getItemDamage();
-	public static final Validation<ItemIndex, ItemStack> VALI_STACK = (idx, stack) -> VALI_ITEM.test(idx, stack)
-			&& VALI_META.test(idx, stack);
 }

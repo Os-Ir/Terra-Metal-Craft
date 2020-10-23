@@ -1,5 +1,7 @@
 package com.osir.tmc.handler;
 
+import com.github.zi_jing.cuckoolib.material.Materials;
+import com.github.zi_jing.cuckoolib.material.SolidShapes;
 import com.osir.tmc.Main;
 import com.osir.tmc.api.capability.CapabilityHeat;
 import com.osir.tmc.api.capability.CapabilityLiquidContainer;
@@ -12,10 +14,7 @@ import com.osir.tmc.api.heat.HeatMaterialList;
 import com.osir.tmc.api.heat.MaterialStack;
 import com.osir.tmc.api.recipe.ScalableRecipe;
 import com.osir.tmc.api.util.CapabilityUtil;
-import com.osir.tmc.handler.recipe.HeatRecipeHandler;
-import com.osir.tmc.handler.recipe.OrePrefixRecipeHandler;
 import com.osir.tmc.item.ItemMould;
-import com.osir.tmc.item.MetaItems;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -63,13 +62,21 @@ public class EventHandler {
 		ItemStack result = ItemStack.EMPTY;
 		if (stack.getItem() == Items.FLINT) {
 			if (vec.x >= 0.25 && vec.x <= 0.75 && vec.z >= 0.25 && vec.z <= 0.75) {
-				result = MetaItems.grindedFlint.getItemStack();
+				result = ItemHandler.grindedFlint.getItemStack();
 			} else {
-				result = MetaItems.chippedFlint.getItemStack();
+				result = ItemHandler.chippedFlint.getItemStack();
 			}
-		} else if (MetaItems.grindedFlint.isItemEqual(stack)) {
+		} else if (ItemHandler.grindedFlint.isItemEqual(stack)) {
 			if (vec.x >= 0.25 && vec.x <= 0.75 && vec.z >= 0.25 && vec.z <= 0.75) {
-//				result = MetaItems.grindedFlint.getItemStack();
+				result = ItemHandler.MATERIAL_ITEM.getItemStack(SolidShapes.KNIFE_HEAD, Materials.FLINT);
+			} else {
+				result = ItemHandler.MATERIAL_ITEM.getItemStack(SolidShapes.CHISEL_HEAD, Materials.FLINT);
+			}
+		} else if (ItemHandler.chippedFlint.isItemEqual(stack)) {
+			if (vec.x >= 0.25 && vec.x <= 0.75 && vec.z >= 0.25 && vec.z <= 0.75) {
+				result = ItemHandler.MATERIAL_ITEM.getItemStack(SolidShapes.CHISEL_HEAD, Materials.FLINT);
+			} else {
+				result = ItemHandler.MATERIAL_ITEM.getItemStack(SolidShapes.HAMMER_HEAD, Materials.FLINT);
 			}
 		}
 		if (!result.isEmpty()) {
@@ -83,7 +90,7 @@ public class EventHandler {
 
 	@SubscribeEvent
 	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-		HeatRecipeHandler.register();
+		RecipeHandler.registerHeatRecipe();
 		OrePrefixRecipeHandler.register();
 	}
 

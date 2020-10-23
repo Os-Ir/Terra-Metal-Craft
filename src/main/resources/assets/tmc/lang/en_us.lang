@@ -6,6 +6,7 @@ gui.button.anvil.bend=Bend
 
 itemGroup.tmc.equipment=Terra Metal Craft-Equipment
 itemGroup.tmc.item=Terra Metal Craft-Item
+itemGroup.tmc.material=Terra Metal Craft-Material
 
 metaitem.tmc.coin.tmc.name=TMC Coin
 metaitem.tmc.grinded_flint.name=Grinded Flint
@@ -13,6 +14,8 @@ metaitem.tmc.chipped_flint.name=Chipped Flint
 metaitem.tmc.tool_engraving.name=Tool Engraving
 
 metaitem.tmc.tool.knife.name=%s Knife
+metaitem.tmc.tool.hammer.name=%s Hammer
+metaitem.tmc.tool.chisel.name=%s Chisel
 
 metaitem.tmc.coin.tmc.info=Commemorative coin for Terra Metal Craft
 metaitem.tmc.coin.tmc.date=Release Date:

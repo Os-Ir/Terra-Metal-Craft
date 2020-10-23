@@ -9,18 +9,24 @@ import com.osir.tmc.api.capability.ILiquidContainer;
 import com.osir.tmc.api.capability.IWorkable;
 import com.osir.tmc.api.capability.ModCapabilities;
 import com.osir.tmc.api.heat.HeatMaterial;
+import com.osir.tmc.api.model.ICustomModel;
+import com.osir.tmc.api.model.IStateMapperModel;
 import com.osir.tmc.api.render.MetaTileEntityRenderer;
+import com.osir.tmc.api.te.MetaTileEntityRegistry;
 import com.osir.tmc.block.BlockAnvil;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -138,5 +144,17 @@ public class EventHandlerClient {
 					+ TextFormatting.YELLOW + heat.getMaterial().getLocalizedName() + TextFormatting.RESET + " ( "
 					+ builder.build() + " )");
 		}
+	}
+
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public static void onModelRegister(ModelRegistryEvent e) {
+		BlockHandler.BLOCK_REGISTRY.stream().filter((block) -> block instanceof ICustomModel)
+				.forEach((block) -> ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block),
+						((ICustomModel) block).getMetaData(e), ((ICustomModel) block).getBlockModel(e)));
+		BlockHandler.BLOCK_REGISTRY.stream().filter((block) -> block instanceof IStateMapperModel).forEach(
+				(block) -> ModelLoader.setCustomStateMapper(block, ((IStateMapperModel) block).getStateMapper(e)));
+		MetaTileEntityRegistry.getBlockList().forEach((block) -> ModelLoader
+				.setCustomMeshDefinition(Item.getItemFromBlock(block), (stack) -> MetaTileEntityRenderer.LOCATION));
 	}
 }

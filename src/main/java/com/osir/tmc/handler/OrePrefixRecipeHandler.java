@@ -1,4 +1,4 @@
-package com.osir.tmc.handler.recipe;
+package com.osir.tmc.handler;
 
 import java.util.function.Predicate;
 

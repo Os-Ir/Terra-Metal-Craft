@@ -2,8 +2,6 @@ package com.osir.tmc.handler;
 
 import java.util.function.Predicate;
 
-import com.osir.tmc.handler.recipe.OrePrefixRecipeHandler;
-
 import gregtech.api.GTValues;
 import gregtech.api.unification.material.MaterialIconType;
 import gregtech.api.unification.material.type.DustMaterial;
